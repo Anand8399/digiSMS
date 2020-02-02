@@ -1,0 +1,171 @@
+﻿@model PresentationLayer.Areas.SysAdmin.Models.EmployeeLeaveApplyVM
+@using Telerik.Web.Mvc.UI;
+@using PresentationLayer.Other;
+@using myRes = PresentationLayer.LocalResource.Resource;
+@{  System.Threading.Thread.CurrentThread.CurrentUICulture = new System.Globalization.CultureInfo(System.Configuration.ConfigurationManager.AppSettings["Culture"].ToString());
+  System.Threading.Thread.CurrentThread.CurrentCulture = System.Threading.Thread.CurrentThread.CurrentUICulture;}
+@{
+    ViewBag.Title = myRes.LeaveApply;
+}
+
+@*<h2>Create</h2>*@
+@section Scripts {
+    @*dataTyp: "html",*@
+    <script type="text/javascript">
+
+        function ddlEmployeeListChange(e) {            
+            var ddlEmployeeId = $("#EmployeeId").data('tDropDownList');
+            $("#BalanceLeaves").val('');
+            if (ddlEmployeeId.value() != '' && e.value != '') {
+                $.ajax({
+                    dataType: "json",
+                    url: '@Url.Action("GetLeaveBalance")',
+                    data: { EmployeeId: ddlEmployeeId.value() },
+                    success: function (leaveBalance) {                        
+                        $("#BalanceLeaves").val(leaveBalance);
+                    }
+                });
+            }
+        }@* End onLoad *@
+
+
+
+            @*var ddlEmployeeList = $('#EmployeeId').data('tDropDownList');
+            var ddlEmployeeId = 0;
+            if (ddlEmployeeList.value() !=  && e.value != '') {
+                $.ajax({
+                    dataType: "json",
+                    url: '@Url.Action("GetLeaveBalance")',
+                    data: { EmployeeId: ddlEmployeeId.value() },
+                    success: function (leaveBalance) {                        
+                        $("#BalanceLeaves").val(leaveBalance);
+                    }
+                });
+
+            }*@
+ 
+    </script>
+    <style>
+            table {
+                width: 100%;
+                /*background-color: gray;*/
+            }
+            /*table tr td{
+            width: 16.66%;
+        }*/
+
+            .tdfirst {
+                text-align: right;
+                width: 13%;
+            }
+
+            .backgrounddiv {
+                background-color: lightgray;
+                border-radius: 10px;
+                margin: 5px;
+                padding: 5px;
+            }
+    </style>
+
+
+}
+@using (Html.BeginForm())
+{
+    @Html.AntiForgeryToken()
+
+    <div class="form-horizontal">
+        <h2>@myRes.LeaveApply</h2>
+        <hr />
+        @Html.ValidationSummary(true)
+
+        <div class="backgrounddiv">
+            <table>
+                <tr>
+                    <td style="text-align:right">
+                        @Html.LabelFor(model => model.EmployeeId)
+                    </td>
+                    <td style="text-align:left">
+                       
+                         @*@Html.Telerik().DropDownListFor(model => model.EmployeeId).HtmlAttributes(new { @style = "width : 300px;" }).BindTo(Model.EmployeeList).Placeholder("Select Employee")*@
+
+                        @Html.Telerik().DropDownListFor(model => model.EmployeeId).BindTo(Model.EmployeeList).Placeholder(myRes.SelectEmployee).ClientEvents(e => e.OnChange("ddlEmployeeListChange"))
+                      
+                         @Html.ValidationMessageFor(model => model.EmployeeId)
+                  
+                    </td>
+                    <td class="tdfirst">@Html.LabelForRequired(model => model.BalanceLeaves)</td>
+                    <td>
+                        @Html.TextBoxFor(model => model.BalanceLeaves, new { @readonly = "readonly" })
+                        @Html.ValidationMessageFor(model => model.BalanceLeaves)
+                    </td>
+                </tr>
+                <tr>
+                    <td class="tdfirst">@Html.LabelForRequired(model => model.LeaveFromDate)</td>
+
+                    <td>
+                        @Html.Telerik().DatePickerFor(model => model.LeaveFromDate).Value(DateTime.Today.Date)
+                        @Html.ValidationMessageFor(model => model.LeaveFromDate)
+                    </td>
+
+                    <td class="tdfirst">@Html.LabelForRequired(model => model.LeaveToDate)</td>
+                    <td>
+                        @Html.Telerik().DatePickerFor(model => model.LeaveToDate).Value(DateTime.Today.Date)
+                        @Html.ValidationMessageFor(model => model.LeaveToDate)
+                    </td>
+                </tr>
+                <tr>
+                    <td class="tdfirst">@Html.LabelForRequired(model => model.LeaveType)</td>
+                    <td>
+                        @Html.Telerik().DropDownListFor(model => model.LeaveType).Items(item =>
+                                {
+                                    item.Add().Text(myRes.AnnualLeave).Value("1");
+                                    item.Add().Text(myRes.SickLeave).Value("2");
+                                }).Placeholder(myRes.Select)
+                        @Html.ValidationMessageFor(model => model.LeaveType)
+                    </td>
+                    
+                </tr>
+
+                <tr>
+
+                    <td class="tdfirst">@Html.LabelForRequired(model => model.Remark)</td>
+                    <td>
+                        @Html.EditorFor(model => model.Remark)
+                        @Html.ValidationMessageFor(model => model.Remark)
+                    </td>
+                </tr>
+
+                <tr><td class="tdfirst"></td><td></td></tr>
+
+               @*<tr>@Html.Label("Text Content", new { id = "labelId" }</tr>*@
+
+
+
+            </table>
+        </div>
+
+        <div class="form-group">
+            <div class="col-md-offset-2 col-md-10">
+                <input type="submit" value=@myRes.Create class="btn btn-success" id="submitButton" onclick="onSubmit" />
+                @Html.ActionLink(myRes.BackToList, "Index", new { }, new { @class = "btn btn-default"})
+            </div>
+        </div>
+
+        <div>
+            @if (TempData["Error"] != null)
+            {
+                <p style="color:red;">
+
+                    @(TempData["Error"] != null ? TempData["Error"].ToString() : "")
+                </p>
+            }
+            @if (TempData["Message"] != null)
+            {
+                <p style="color:green;">
+
+                    @(TempData["Message"] != null ? TempData["Message"].ToString() : "")
+                </p>
+            }
+        </div>
+    </div>
+}

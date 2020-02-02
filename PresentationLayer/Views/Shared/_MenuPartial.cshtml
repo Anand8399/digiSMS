@@ -1,0 +1,88 @@
+﻿@using Telerik.Web.Mvc.UI;
+@using myRes = PresentationLayer.LocalResource.Resource;
+@{  System.Threading.Thread.CurrentThread.CurrentUICulture = new System.Globalization.CultureInfo(System.Configuration.ConfigurationManager.AppSettings["Culture"].ToString());
+  System.Threading.Thread.CurrentThread.CurrentCulture = System.Threading.Thread.CurrentThread.CurrentUICulture;}
+@(Html.Telerik().Menu().Name(myRes.Menu)
+         .Items(items =>
+              {
+                  items.Add()
+                      .Text(myRes.Home).Url(@Url.Action("Index", "Home", new { area = "" }));
+                  items.Add()
+                      .Text(myRes.Admission)
+                      .Url(@Url.Action("Index", "Student", new { area = "SysAdmin" }));
+                  items.Add()
+                      .Text(myRes.FeeTransaction)
+                      .Url(@Url.Action("Index", "StudentTransaction", new { area = "SysAdmin" }));
+                  if (PresentationLayer.Helpers.SessionHelper.Title == "Admin")
+                  {
+                      items.Add()
+                             .Text(myRes.Masters)
+                             .Items(children =>
+                             {
+                                 children.Add().Text(myRes.AcademicYear).Url(@Url.Action("Index", "AcademicYear", new { area = "SysAdmin" }));
+                                 children.Add().Text(myRes.Class).Url(@Url.Action("Index", "Class", new { area = "SysAdmin" }));
+                                 children.Add().Text(myRes.Division).Url(@Url.Action("Index", "Division", new { area = "SysAdmin" }));
+                                 children.Add().Text(myRes.ClassDivision).Url(@Url.Action("Index", "ClassDivision", new { area = "SysAdmin" }));
+                                 children.Add().Text(myRes.ReligionName).Url(@Url.Action("Index", "Religion", new { area = "SysAdmin" }));
+                                 children.Add().Text(myRes.Caste).Url(@Url.Action("Index", "Cast", new { area = "SysAdmin" }));
+                                 children.Add().Text(myRes.ReligionCast).Url(@Url.Action("Index", "ReligionCast", new { area = "SysAdmin" }));
+                                 children.Add().Text(myRes.Country).Url(@Url.Action("Index", "Country", new { area = "SysAdmin" }));
+                                 children.Add().Text(myRes.State).Url(@Url.Action("Index", "State", new { area = "SysAdmin" }));
+                                 children.Add().Text(myRes.DistrictName).Url(@Url.Action("Index", "District", new { area = "SysAdmin" }));
+                                 children.Add().Text(myRes.City).Url(@Url.Action("Index", "City", new { area = "SysAdmin" }));
+
+                                 children.Add().Text(myRes.FeeHead).Url(@Url.Action("Index", "FeeHead", new { area = "SysAdmin" }));
+                                 children.Add().Text(myRes.FeeClassDivision).Url(@Url.Action("Index", "FeeClassDivision", new { area = "SysAdmin" }));
+ 
+                               
+                             });
+                      items.Add()
+                          .Text(myRes.StudentClassChange)
+                          .Url(@Url.Action("Index", "StudentClassChange", new { area = "SysAdmin" }));
+                  }
+                  items.Add()
+                          .Text(myRes.report)
+                          .Items(children =>
+                         {
+                             children.Add().Text(myRes.StudentSearch).Url(@Url.Action("StudentSearch", "Student", new { area = "SysAdmin" }));
+                             children.Add().Text(myRes.StudentLedger).Url(@Url.Action("StudentLedger", "Student", new { area = "SysAdmin" }));
+                             if (PresentationLayer.Helpers.SessionHelper.Title == "Admin")
+                             {
+
+                                 children.Add().Text(myRes.LeavingCertificate).Url(@Url.Action("LeavingCertificate", "Reports", new { area = "SysAdmin" }));
+                                 children.Add().Text(myRes.BonafideCertificate).Url(@Url.Action("BonafideCertificate", "Reports", new { area = "SysAdmin" }));
+                                 children.Add().Text(myRes.NirgamCertificate).Url(@Url.Action("NirgamCertificate", "Reports", new { area = "SysAdmin" }));
+                                 children.Add().Text(myRes.BirthCertificate).Url(@Url.Action("BirthCertificate", "Reports", new { area = "SysAdmin" }));
+                                 children.Add().Text(myRes.LeaveReport).Url(@Url.Action("LeaveReport", "Reports", new { area = "SysAdmin" }));
+				                 children.Add().Text(myRes.AssetReport).Url(@Url.Action("AssetReport", "Reports", new { area = "SysAdmin" }));
+				                 children.Add().Text(myRes.CashBookReport).Url(@Url.Action("CashBookReport", "Reports", new { area = "SysAdmin" }));
+                             }
+                         });
+
+                  items.Add()
+                          .Text(myRes.StudentAttendance).Url(@Url.Action("StudentAttendance", "Student", new { area = "SysAdmin" }));
+
+                  items.Add()
+                           .Text(myRes.Management)
+                           .Items(children =>
+                           {
+                               children.Add().Text(myRes.AssetName).Url(@Url.Action("Index", "Asset", new { area = "SysAdmin" }));
+                               children.Add().Text(myRes.Account).Url(@Url.Action("Index", "Account", new { area = "SysAdmin" }));
+                               children.Add().Text(myRes.Employee).Url(@Url.Action("Index", "Employee", new { area = "SysAdmin" }));
+                               children.Add().Text(myRes.LeaveAssignment).Url(@Url.Action("EmployeeLeaveAssign", "Employee", new { area = "SysAdmin" }));
+                               children.Add().Text(myRes.LeaveApply).Url(@Url.Action("EmployeeLeaveApply", "Employee", new { area = "SysAdmin" }));
+                           });                                    
+                  items.Add()
+                           .Text(myRes.utility)
+                           .Items(children =>
+                           {
+
+                               children.Add().Text(myRes.StudentImport).Url(@Url.Action("StudentImport", "Student", new { area = "SysAdmin" }));
+                               children.Add().Text(myRes.StudentExport).Url(@Url.Action("StudentExport", "Student", new { area = "SysAdmin" }));
+                               children.Add().Text(myRes.SMS).Url(@Url.Action("Index", "SMS", new { area = "SysAdmin" }));
+
+                          });
+                  items.Add()
+                      .Text(myRes.LogOff).Url(@Url.Action("LogOff", "LogIn", new { area = "" }));
+              })
+)

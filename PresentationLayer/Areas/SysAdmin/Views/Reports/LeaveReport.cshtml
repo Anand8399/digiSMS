@@ -1,0 +1,140 @@
+﻿@model PresentationLayer.Areas.SysAdmin.Models.EmployeeLeaveApplyVM
+@using Telerik.Web.Mvc.UI;
+@using PresentationLayer.Other;
+@using myRes = PresentationLayer.LocalResource.Resource;
+@{  System.Threading.Thread.CurrentThread.CurrentUICulture = new System.Globalization.CultureInfo(System.Configuration.ConfigurationManager.AppSettings["Culture"].ToString());
+  System.Threading.Thread.CurrentThread.CurrentCulture = System.Threading.Thread.CurrentThread.CurrentUICulture;}
+@{
+      ViewBag.Title = myRes.LeaveReport;
+}
+
+
+
+@section Scripts {
+    @*dataTyp: "html",*@
+    <script type="text/javascript">
+
+        function ddlEmployeeListChange(e) {
+
+            var ddlEmployeeIdList = $('#EmployeeId').data('tDropDownList');
+            var ddlEmployeeId = 0;
+            if (ddlEmployeeIdList.value() != '') {
+                ddlEmployeeId = ddlEmployeeIdList.value();
+                alert(ddlEmployeeId)
+            }
+
+
+            @*var ddlEmployeeList = $('#EmployeeId').data('tDropDownList');
+            var ddlEmployeeId = 0;
+            if (ddlEmployeeList.value() !=  && e.value != '') {
+                $.ajax({
+                    dataType: "json",
+                    url: '@Url.Action("GetLeaveBalance")',
+                    data: { EmployeeId: ddlEmployeeId.value() },
+                    success: function (leaveBalance) {
+                        $("#BalanceLeaves").val(leaveBalance);
+                    }
+                });
+
+            }*@
+            }
+    </script>
+    <style>
+        table {
+            width: 100%;
+            /*background-color: gray;*/
+        }
+        /*table tr td{
+            width: 16.66%;
+        }*/
+
+        .tdfirst {
+            text-align: right;
+            width: 13%;
+        }
+
+        .backgrounddiv {
+            background-color: lightgray;
+            border-radius: 10px;
+            margin: 5px;
+            padding: 5px;
+        }
+    </style>
+
+
+}
+@using (Html.BeginForm())
+{
+    @Html.AntiForgeryToken()
+
+    <div class="form-horizontal">
+        <h3>@myRes.LeaveReport</h3>
+       
+        <hr />
+        @Html.ValidationSummary(true)
+
+        <div class="backgrounddiv">
+            <table>
+                <tr>
+                    <td style="text-align:right">
+                        @Html.LabelFor(model => model.EmployeeId)
+                    </td>
+                    <td style="text-align:left">
+                        @Html.Telerik().DropDownListFor(model => model.EmployeeId).HtmlAttributes(new { @style = "width : 300px;" }).BindTo(Model.EmployeeList).Placeholder(myRes.SelectEmployee)
+                        @*@Html.Telerik().DropDownListFor(model => model.EmployeeId).BindTo(Model.EmployeeList).Placeholder("Select Employee").ClientEvents(e => e.OnChange("ddlEmployeeListChange"))*@
+                        @Html.ValidationMessageFor(model => model.EmployeeId)
+                    </td>
+                    @*<td class="tdfirst">@Html.LabelForRequired(model => model.BalanceLeaves)</td>
+                    <td>
+                        @Html.TextBoxFor(model => model.BalanceLeaves, new { @readonly = "readonly" })
+                        @Html.ValidationMessageFor(model => model.BalanceLeaves)
+                    </td>*@
+                </tr>
+
+                @*<td class="tdfirst">@Html.LabelForRequired(model => model.LeaveFromDate)</td>
+                <td>
+                    @Html.Telerik().DatePickerFor(model => model.LeaveFromDate).Value(DateTime.Today.Date)
+                    @Html.ValidationMessageFor(model => model.LeaveFromDate)
+                </td>
+
+                <td class="tdfirst">@Html.LabelForRequired(model => model.LeaveToDate)</td>
+                <td>
+                    @Html.Telerik().DatePickerFor(model => model.LeaveToDate).Value(DateTime.Today.Date)
+                    @Html.ValidationMessageFor(model => model.LeaveToDate)
+                </td>
+
+                <tr>
+                    <td class="tdthird">@Html.LabelForRequired(model => model.LeaveType)</td>
+                    <td>
+                        @Html.Telerik().DropDownListFor(model => model.LeaveType).Items(item =>
+                                {
+                                    item.Add().Text("Annual Leave").Value("1");
+                                    item.Add().Text("Sick Leave").Value("2");
+                                }).Placeholder("Select Option")
+                        @Html.ValidationMessageFor(model => model.LeaveType)
+                    </td>
+
+                </tr>
+
+                <tr>
+
+                    <td class="tdthird">@Html.LabelForRequired(model => model.Remark)</td>
+                    <td>
+                        @Html.EditorFor(model => model.Remark)
+                        @Html.ValidationMessageFor(model => model.Remark)
+                    </td>
+                </tr>*@
+
+                <tr><td class="tdfirst"></td><td></td></tr>
+            </table>
+        </div>
+
+        <div class="form-group">
+            <div class="col-md-offset-2 col-md-10">
+                <input type="submit" value=@myRes.Print class="btn btn-success" />
+                @*@Html.ActionLink(myRes.BackToList, "Index", new { }, new { @class = "btn btn-default" })*@
+            </div>
+        </div>
+    </div>
+}
+

@@ -1,0 +1,87 @@
+﻿@model PresentationLayer.Areas.SysAdmin.Models.ReligionVM
+@using PresentationLayer.Other;
+@using myRes=PresentationLayer.LocalResource.Resource;
+@{  System.Threading.Thread.CurrentThread.CurrentUICulture = new System.Globalization.CultureInfo(System.Configuration.ConfigurationManager.AppSettings["Culture"].ToString());
+  System.Threading.Thread.CurrentThread.CurrentCulture = System.Threading.Thread.CurrentThread.CurrentUICulture;}
+@{
+    ViewBag.Title = myRes.Edit;
+}
+<style>
+    table {
+        width: 100%;
+        /*background-color: gray;*/
+    }
+    /*table tr td{
+        width: 16.66%;
+    }*/
+
+    .tdfirst {
+        text-align: right;
+        width: 13%;
+    }
+
+    .tdthird {
+        text-align: right;
+        width: 10%;
+    }
+
+    .tdfive {
+        text-align: right;
+        width: 10%;
+    }
+
+    .backgrounddiv {
+        background-color: lightgray;
+        border-radius: 25px;
+        margin: 5px;
+        padding: 5px;
+    }
+</style>
+
+@using (Html.BeginForm())
+{
+    @Html.AntiForgeryToken()
+
+    <div class="form-horizontal">
+        <h4>@myRes.Edit - @myRes.ReligionName </h4>
+        <hr />
+
+
+        @Html.ValidationSummary(true)
+        @Html.HiddenFor(model => model.ReligionId)
+
+        <div class="backgrounddiv">
+            <table>
+
+                <tr>
+                    <td class="tdfirst">@Html.LabelForRequired(model => model.ReligionName)</td>
+                    <td>
+                        @Html.EditorFor(model => model.ReligionName)
+                        @Html.ValidationMessageFor(model => model.ReligionName)
+                    </td>
+                </tr>
+                <tr>
+                    <td class="tdfirst">@Html.LabelForRequired(model => model.Status)</td>
+                    <td>
+                        @Html.EditorFor(model => model.Status)
+                        @Html.ValidationMessageFor(model => model.Status)
+                    </td>
+                </tr>
+                <tr>
+                    <td class="tdfirst">@Html.LabelForRequired(model => model.Remark)</td>
+                    <td>
+                        @Html.EditorFor(model => model.Remark)
+                        @Html.ValidationMessageFor(model => model.Remark)
+                    </td>
+                </tr>
+            </table>
+        </div>
+
+        <div class="form-group">
+            <div class="col-md-offset-2 col-md-10">
+                <input type="submit" value=@myRes.Update class="btn btn-success" />
+                @Html.ActionLink(myRes.BackToList, "Index", new { }, new { @class = "btn btn-default" })
+            </div>
+        </div>
+    </div>
+}

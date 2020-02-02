@@ -1,0 +1,286 @@
+﻿@model PresentationLayer.Areas.SysAdmin.Models.NirgamCertificateVM
+@using Telerik.Web.Mvc.UI;
+@using myRes = PresentationLayer.LocalResource.Resource;
+@using PresentationLayer.Other;
+@{  System.Threading.Thread.CurrentThread.CurrentUICulture = new System.Globalization.CultureInfo(System.Configuration.ConfigurationManager.AppSettings["Culture"].ToString());
+  System.Threading.Thread.CurrentThread.CurrentCulture = System.Threading.Thread.CurrentThread.CurrentUICulture;}
+@{
+    ViewBag.Title = myRes.BirthCertificate;
+}
+<style>
+    .divGroup {
+        min-width: 768px;
+        display: inline-block;
+    }
+
+    .divLabel {
+        max-width: 280px;
+        text-align: right;
+        margin-top: 0;
+        margin-bottom: 0;
+        float: left;
+    }
+
+    .divControl {
+        max-width: 280px;
+        text-align: left;
+        /*margin-top: 0;
+        margin-bottom: 0;*/
+        /*float: left;*/
+    }
+
+    .tbtable {
+        max-width: 70%;
+        /*background-color: gray;*/
+    }
+    /*table tr td{
+        width: 16.66%;
+    }*/
+
+    .tdfirst {
+        text-align: right;
+        width: 25%;
+    }
+
+    .tdsecond {
+        min-width: 15%;
+    }
+
+    .tdthird {
+        text-align: right;
+        width: 10%;
+    }
+
+    .tdfive {
+        text-align: right;
+        width: 10%;
+    }
+
+    .backgrounddiv {
+        background-color: lightgray;
+        border-radius: 25px;
+        margin: 5px;
+        padding: 5px;
+    }
+</style>
+
+@section Scripts {
+    <script type="text/javascript">
+    $(document).ready(function () {
+        $("#RegisterId").change(function () {
+            debugger;
+            var txtRegisterId = $("#RegisterId");
+            if (txtRegisterId.val().length > 0) {
+                $.ajax({
+                    dataType: "json",
+                    url: '@Url.Action("GetStudentDetailsByRegisterId")',
+                    data: { RegisterId: txtRegisterId.val() },
+                    success: function (studentData) {
+                        debugger;
+  
+                        var ddlClassIdList = $('#ClassId').data('tDropDownList');
+                        var ddlDivisionIdList = $('#DivisionId').data('tDropDownList');
+                        var ddlStudentFullNameWithTitleList = $('#StudentId').data('tDropDownList');
+                                                
+                        ddlDivisionIdList.dataBind(null);
+                        ddlStudentFullNameWithTitleList.dataBind(null);
+                        ddlDivisionIdList.reload();
+                        ddlStudentFullNameWithTitleList.reload();
+
+                        ddlClassIdList.value(studentData.ClassId);
+
+                        if (studentData.ClassId != undefined) {
+                            $.getJSON('@Url.Action("GetDivisionsList", "StudentTransaction")', { ClassId: studentData.ClassId },
+                                  function success(divisionData) {
+                                      ddlDivisionIdList.dataBind(divisionData);
+                                      if (ddlDivisionIdList.data.length > 0) {
+                                          ddlDivisionIdList.value(studentData.DivisionId);
+                                      }
+                                  });// End division
+                        }
+
+                        if (studentData.ClassId != undefined && studentData.DivisionId != undefined) {
+                            $.getJSON('@Url.Action("GetStudentNameList", "StudentTransaction")', { ClassId: studentData.ClassId, DivisionId: studentData.DivisionId },
+                               function success(studentNameData) {
+                                   ddlStudentFullNameWithTitleList.dataBind(studentNameData);
+                                   if (ddlStudentFullNameWithTitleList.data.length > 0) {
+                                       ddlStudentFullNameWithTitleList.value(studentData.StudentId);
+                                   }
+                               });// end student name
+                        }
+                    }
+                });
+            }
+        });
+
+        $("#btnShow").click(function () {
+            debugger;
+            var ddlStudentFullNameWithTitleList = $('#StudentId').data('tDropDownList');
+            var ddlStudentFullNameWithTitleValue = 0;
+
+            if (ddlStudentFullNameWithTitleList.value() == '') {
+                alert("@myRes.Please @myRes.SelectStudentName");
+                return;
+            }
+            if (ddlStudentFullNameWithTitleList.value() != '') {
+                ddlStudentFullNameWithTitleValue = parseInt(ddlStudentFullNameWithTitleList.value());
+            }
+            debugger;
+            $.ajax({
+                type: 'POST',
+                url: '@Url.Action("_GetStudentDetails", "Report")',
+                data: { StudentId: ddlStudentFullNameWithTitleValue },
+                success: function (data) {
+                    $('#result').load(data);
+                }
+            });
+
+
+
+        });
+        $("#grid .t-grid-content").css("overflow-y", "scroll").css("overflow-x", "scroll").scroll(function () {
+            var left = $(this).scrollLeft();
+            var wrap = $("#grid > .t-grid-header-wrap");
+            if (wrap.scrollLeft() != left) wrap.scrollLeft(left);
+        });// end show button click event
+    }); //End document ready function
+
+
+
+
+    function class_onChange() {
+        var ddlClassIdList = $('#ClassId').data('tDropDownList');
+        var ddlDivisionIdList = $('#DivisionId').data('tDropDownList');
+        var ddlClassId = 0;
+        if (ddlClassIdList.value() != '') {
+            ddlClassId = ddlClassIdList.value();
+        }
+        debugger;
+        $.getJSON('@Url.Action("GetDivisionsList", "StudentTransaction")', { ClassId: ddlClassId },
+               function success(data, status, xhr) {
+                   ddlDivisionIdList.dataBind(data);
+                   if (ddlDivisionIdList.data.length > 0) {
+                       ddlDivisionIdList.value("");
+                   }
+               });
+        var ddlDivisionId = 0;
+        if (ddlDivisionIdList.value() != '') {
+            ddlDivisionId = ddlDivisionIdList.value();
+        }
+        var ddlStudentFullNameWithTitleList = $('#StudentId').data('tDropDownList');
+
+        $.getJSON('@Url.Action("GetStudentNameList", "StudentTransaction")', { ClassId: ddlClassId, DivisionId: ddlDivisionId },
+               function success(data, status, xhr) {
+                   ddlStudentFullNameWithTitleList.dataBind(data);
+                   if (ddlStudentFullNameWithTitleList.data.length > 0) {
+                       ddlStudentFullNameWithTitleList.value("");
+                   }
+               })
+    }
+    function division_onChange() {
+        var ddlClassIdList = $('#ClassId').data('tDropDownList');
+        var ddlDivisionIdList = $('#DivisionId').data('tDropDownList');
+        var ddlStudentFullNameWithTitleList = $('#StudentId').data('tDropDownList');
+        var ddlClassId = 0;
+        if (ddlClassIdList.value() != '') {
+            ddlClassId = ddlClassIdList.value();
+        }
+        var ddlDivisionId = 0;
+        if (ddlDivisionIdList.value() != '') {
+            ddlDivisionId = ddlDivisionIdList.value();
+        }
+        $.getJSON('@Url.Action("GetStudentNameList", "StudentTransaction")', { ClassId: ddlClassId, DivisionId: ddlDivisionId },
+            function success(data, status, xhr) {
+                ddlStudentFullNameWithTitleList.dataBind(data);
+                if (ddlStudentFullNameWithTitleList.data.length > 0) {
+                    ddlStudentFullNameWithTitleList.value("");
+                }
+            })
+    }
+
+    function viewreport() {
+        var ddlStudentFullNameWithTitleList = $('#StudentId').data('tDropDownList');
+        if (ddlStudentFullNameWithTitleList.value() == '') {
+            alert("@myRes.Please @myRes.SelectStudentName");
+            return;
+        }
+        var studentId = 0;
+        studentId = parseInt(ddlStudentFullNameWithTitleList.value());
+        if (studentId <= 0) {
+            alert("@myRes.SelectproperStudentId");
+            return;
+        }
+
+        $.getJSON('@Url.Action("GetStudentTCStatus")', { StudentId: studentId },
+            function success(data, status, xhr) {
+                debugger;
+                if (data) {
+                    //alert("Already TC Printed, It is duplicate TC.")
+                    var r = confirm("@myRes.AlreadyTCPrintedDoyouwanttoduplicate");
+                    if (r == false) {
+                        return false;
+                    }
+                }
+            })
+      //  window.open("/Report.aspx");
+    }
+    </script>}
+
+@using (Html.BeginForm())
+{
+    @Html.AntiForgeryToken()
+
+    <div class="backgrounddiv">
+        <h4>@myRes.BirthCertificate </h4>
+        <hr />
+        @Html.ValidationSummary(true)
+
+        <table>
+            <tr>
+                <td class="tdfirst">@Html.LabelForRequired(model => model.RegisterId)</td>
+                <td class="tdsecond">
+                    @Html.TextBoxFor(model => model.RegisterId)
+                    @Html.ValidationMessageFor(model => model.RegisterId)
+                </td>
+
+            <tr>
+                <td class="tdfirst">@Html.LabelForRequired(model => model.ClassId)</td>
+                <td class="tdsecond">
+                    @Html.Telerik().DropDownListFor(model => model.ClassId).BindTo(Model.Classes).Placeholder(myRes.SelectClass).ClientEvents(e => e.OnChange("class_onChange"))
+                    @Html.ValidationMessageFor(model => model.ClassId)
+                </td>
+                <td class="tdthird">@Html.LabelForRequired(model => model.DivisionId)</td>
+                <td>
+                    @Html.Telerik().DropDownListFor(model => model.DivisionId).Placeholder(myRes.SelectDivision).ClientEvents(events => events.OnChange("division_onChange"))
+                    @Html.ValidationMessageFor(model => model.DivisionId)
+                </td>
+            </tr>
+            <tr>
+                <td class="tdfirst">@Html.LabelForRequired(model => model.StudentId)</td>
+                <td colspan="3">
+                    @Html.Telerik().DropDownListFor(model => model.StudentId).HtmlAttributes(new { @style = "width : 300px;" }).Placeholder(myRes.SelectStudentName)
+                    @Html.ValidationMessageFor(model => model.StudentId)
+                </td>
+            </tr>
+            <tr>
+                <td></td>
+                <td>
+                    @*<input type="button" value="Show" id="btnShow" class="btn btn-default" />*@
+
+                    <input type="submit" value=@myRes.Print class="btn btn-danger" />
+
+                </td>
+                <td></td>
+                <td></td>
+            </tr>
+            <tr>
+                <td colspan="6" style="text-align:center">
+                    <div id="result" style="width: 90%; margin: 50px;"></div>
+                </td>
+            </tr>
+
+        </table>
+    </div>
+}
+
+

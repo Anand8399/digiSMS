@@ -1,0 +1,474 @@
+﻿@model PresentationLayer.Areas.SysAdmin.Models.StudentTransactionVM
+@using Telerik.Web.Mvc.UI;
+@using myRes=PresentationLayer.LocalResource.Resource;
+@using PresentationLayer.Other;
+@{  System.Threading.Thread.CurrentThread.CurrentUICulture = new System.Globalization.CultureInfo(System.Configuration.ConfigurationManager.AppSettings["Culture"].ToString());
+  System.Threading.Thread.CurrentThread.CurrentCulture = System.Threading.Thread.CurrentThread.CurrentUICulture;}
+
+@{
+    ViewBag.Title = myRes.Create;
+}
+<style>
+    .divGroup {
+        min-width: 768px;
+        display: inline-block;
+    }
+
+    .divLabel {
+        max-width: 280px;
+        text-align: right;
+        margin-top: 0;
+        margin-bottom: 0;
+        float: left;
+    }
+
+    .divControl {
+        max-width: 280px;
+        text-align: left;
+        /*margin-top: 0;
+        margin-bottom: 0;*/
+        /*float: left;*/
+    }
+
+    table {
+        max-width: 100%;
+        /*background-color: gray;*/
+    }
+    /*table tr td{
+        width: 16.66%;
+    }*/
+
+    .tdfirst {
+        text-align: right;
+        width: 20%;
+    }
+
+    .tdsecond {
+        min-width: 15%;
+    }
+
+    .tdthird {
+        text-align: right;
+        width: 15%;
+    }
+
+    .tdfive {
+        text-align: right;
+        width: 10%;
+    }
+</style>
+@section Scripts {
+    <script type="text/javascript">
+        $(document).ready(function () {
+
+
+            $("#RegisterId").change(function () {
+                var ddlClassIdList = $('#ClassId').data('tDropDownList');
+                
+                var txtRegisterId = $("#RegisterId");
+                if (txtRegisterId.val().length > 0) {
+                    var intRegisterId = parseInt(txtRegisterId.val());
+
+                    $.ajax({
+                        dataType: "json",
+                        url: '@Url.Action("GetStudentDetailsByRegisterId")',
+                        data: { RegisterId: intRegisterId },
+                        success: function (studentData) {
+                            if (studentData != undefined) {
+                                var _ClassId = 0;
+                                var _DivisionId = 0;
+                                var _StudentId = 0;
+                                var _StudentName = 0;
+                                var _ReligionId = 0;
+                                var _CastId = 0;
+
+
+                                if (studentData.ClassId != undefined) {
+                                    _ClassId = studentData.ClassId;
+                                }
+                                if (studentData.DivisionId != undefined) {
+                                    _DivisionId = studentData.DivisionId;
+                                }
+                                if (studentData.StudentId != undefined) {
+                                    _StudentId = studentData.StudentId;
+                                }                                
+                                if (studentData.StudentName != undefined) {
+                                    _StudentName = studentData.StudentName;
+                                }
+                                if (studentData.ReligionId != undefined) {
+                                    _ReligionId = studentData.ReligionId;
+                                }
+                                if (studentData.CastId != undefined) {
+                                    _CastId = studentData.CastId;
+                                }
+
+                                var ddlDivisionIdList = $('#DivisionId').data('tDropDownList');
+                                var ddlStudentFullNameWithTitleList = $('#StudentId').data('tDropDownList');
+
+                                                               
+                                $.getJSON('@Url.Action("GetClassesList", "StudentTransaction")',
+                                   function success(classData, status, xhr) {
+                                       ddlClassIdList.dataBind(classData);
+                                       if (ddlClassIdList.data.length > 0) {
+                                           ddlClassIdList.value(_ClassId);
+                                       }
+                                   });// End class
+
+                                $.getJSON('@Url.Action("GetDivisionsList", "StudentTransaction")', { ClassId: _ClassId },
+                                  function success(divisionData) {
+                                      ddlDivisionIdList.dataBind(divisionData);
+                                      if (ddlDivisionIdList.data.length > 0) {
+                                          ddlDivisionIdList.value(_DivisionId);
+                                      }
+                                  });// End division
+                                
+                                $.getJSON('@Url.Action("GetStudentNameList", "StudentTransaction")', { ClassId: _ClassId, DivisionId: _DivisionId },
+                                   function success(studentNameData) {
+                                       ddlStudentFullNameWithTitleList.dataBind(studentNameData);
+                                       if (ddlStudentFullNameWithTitleList.data.length > 0) {
+                                           ddlStudentFullNameWithTitleList.value(_StudentId);
+                                       }
+                                   });// end student name
+                            }
+
+                        }
+                    });
+                }
+            });
+
+            $("#btnGetStudentName").click(function () {
+                var ddlStudentFullNameWithTitleList = $('#StudentId').data('tDropDownList');
+                var ddlStudentId = 0;
+
+                if (ddlStudentFullNameWithTitleList.value() != '') {
+                    ddlStudentId = ddlStudentFullNameWithTitleList.value();
+                }
+                debugger;
+                if (ddlStudentId > 0) {
+                    //GetStudentTransactionSubDeails'
+                    $('#result').load('@Url.Action("GetStudentTransactionSub", "StudentTransaction")'
+                        , { StudentId: ddlStudentId }
+                        , function (response, status, xhr) {
+
+                            if (status != "success") {
+                                $(container).html('an error has occured');
+                            }
+                        });
+                }
+            });
+
+            $("#RegisterId").keydown(function (e) {
+                // Allow only backspace, delete and tab
+                if (event.keyCode == 46 || event.keyCode == 8 || event.keyCode == 9) {
+                    // let it happen, don't do anything
+                }
+                else {
+                    // Ensure that it is a number and stop the keypress
+                    if (event.keyCode < 48 || event.keyCode > 57) {
+                        event.preventDefault();
+                    }
+                }
+            });// end RegisterId key down event
+
+            //$("form").submit(function () {
+                $("#Create").click(function (event) {
+                
+
+                if ($("#ReceiptTotal").val() == '') {
+                    alert("Please check receipt amount, receipt amount is required.");
+                    return false;
+                }
+
+                if ($("#StudentId").val() == '') {
+                    alert("Please select student.");
+                    return false;
+                }
+
+                var totalOfCr = 0;
+                for (i = 0; i < jQuery("[id=item_Cr]").length; i++) {
+                    var txt = jQuery("[id=item_Cr]")[i];
+                    if (parseFloat(txt.value) == NaN) {
+                        txt.val(0);
+                    } else {
+                        totalOfCr = totalOfCr + parseFloat(txt.value);
+                    }
+                }
+                $("#txtTotalCr").val(totalOfCr);
+                $("#ReceiptTotal").val(totalOfCr);
+                totalOfCr = 0;
+                for (i = 0; i < jQuery("[id=item_Dr]").length; i++) {
+                    var txt = jQuery("[id=item_Dr]")[i];
+                    if (parseFloat(txt.value) == NaN) {
+                        txt.val(0);
+                    } else {
+                        totalOfCr = totalOfCr + parseFloat(txt.value);
+                    }
+                }
+                $("#txtTotalDr").val(totalOfCr);
+
+                if (parseFloat($("#ReceiptTotal").val()) <= 0) {
+                    alert("The received amount should be greater than zero.");
+                    return false;
+                }
+                @*var _this = $(this);
+                var _form = _this.closest("form");
+
+                var validator = $("form").validate(); // obtain validator
+                var anyError = false;
+                _form.find("input").each(function () {
+                    if (!validator.element(this)) { // validate every input element inside this step
+                        anyError = true;
+                    }
+                });
+
+                if (anyError)
+                    errorCount += 1;
+
+                if (errorCount > 0) {
+                    $("#submit").prop('disabled', false);
+                    $("#showProcess").hide();
+                    return false;
+                }
+
+
+                var itemDetails = new Array();
+
+                for (i = 0; i < jQuery("[id=item_Cr]").length; i++) {
+                    var txtCr = jQuery("[id=item_Cr]")[i];
+                    var txtDr = jQuery("[id=item_Dr]")[i];
+                    var txtFeeId = jQuery("[id=item_FeeHeadId]")[i];
+                    itemDetails[i] = new Array();
+                    itemDetails[i][0] = txtFeeId.value;
+                    itemDetails[i][1] = txtCr.value;
+                    itemDetails[i][2] = txtDr.value;
+                };
+
+                $.ajax({
+                    type: 'POST',
+                    url: '@Url.Action("Create","StudentTransaction")',
+                    data: {
+                        viewModel: $("form").serialize(),
+                        feeDetails: itemDetails
+                    },
+                    success: function (data) {
+                        alert("hi");
+                    }
+                });*@
+            }); //end submit/ create click event
+        });
+        $(document).on('click', '#Calculate', function () {
+            var totalOfCr = 0;
+            for (i = 0; i < jQuery("[id=item_Cr]").length; i++) {
+                var txt = jQuery("[id=item_Cr]")[i];
+                if (parseFloat(txt.value) == NaN) {
+                    txt.val(0);
+                } else {
+                    totalOfCr = totalOfCr + parseFloat(txt.value);
+                }
+            }
+            $("#txtTotalCr").val(totalOfCr);
+            $("#ReceiptTotal").val(totalOfCr);
+            totalOfCr = 0;
+            for (i = 0; i < jQuery("[id=item_Dr]").length; i++) {
+                var txt = jQuery("[id=item_Dr]")[i];
+                if (parseFloat(txt.value) == NaN) {
+                    txt.val(0);
+                } else {
+                    totalOfCr = totalOfCr + parseFloat(txt.value);
+                }
+            }
+            $("#txtTotalDr").val(totalOfCr);
+        });
+
+        function academicYear_onChange() {
+            var ddlAcademicYearIdList = $('#AcademicYearId').data('tDropDownList');
+            var ddlClassIdList = $('#ClassId').data('tDropDownList');
+            var ddlDivisionIdList = $('#DivisionId').data('tDropDownList');
+            var ddlAcademicYearId = 0;
+            var ddlClassId = 0;
+            if (ddlAcademicYearIdList.value() != '') {
+                ddlAcademicYearId = ddlAcademicYearIdList.value();
+            }
+            if (ddlClassIdList.value() != '') {
+                ddlClassId = ddlClassIdList.value();
+            }
+            debugger;
+            $.getJSON('@Url.Action("GetClassesList", "StudentTransaction")', { AcademicYearId: ddlAcademicYearId },
+               function success(data, status, xhr) {
+                   ddlClassIdList.dataBind(data);
+                   if (ddlClassIdList.data.length > 0) {
+                       ddlClassIdList.value("");
+                   }
+
+               });
+            ddlDivisionIdList.dataBind(null);
+
+            var ddlDivisionId = 0;
+            if (ddlDivisionIdList.value() != '') {
+                ddlDivisionId = ddlDivisionIdList.value();
+            }
+            var ddlStudentFullNameWithTitleList = $('#StudentId').data('tDropDownList');
+            ddlStudentFullNameWithTitleList.dataBind(null);
+            if (ddlStudentFullNameWithTitleList.data.length > 0) {
+                ddlStudentFullNameWithTitleList.value("");
+            }
+
+        }
+
+
+        function class_onChange() {
+            var ddlClassIdList = $('#ClassId').data('tDropDownList');
+            var ddlDivisionIdList = $('#DivisionId').data('tDropDownList');
+            var ddlClassId = 0;
+            if (ddlClassIdList.value() != '') {
+                ddlClassId = ddlClassIdList.value();
+            }
+
+            $.getJSON('@Url.Action("GetDivisionsList", "StudentTransaction")', { ClassId: ddlClassId },
+                   function success(data, status, xhr) {
+                       ddlDivisionIdList.dataBind(data);
+                       if (ddlDivisionIdList.data.length > 0) {
+                           ddlDivisionIdList.value("");
+                       }
+                   });
+            var ddlDivisionId = 0;
+            if (ddlDivisionIdList.value() != '') {
+                ddlDivisionId = ddlDivisionIdList.value();
+            }
+            var ddlStudentFullNameWithTitleList = $('#StudentId').data('tDropDownList');
+            debugger;
+            $.getJSON('@Url.Action("GetStudentNameList", "StudentTransaction")', { ClassId: ddlClassId, DivisionId: ddlDivisionId },
+                   function success(data, status, xhr) {
+                       ddlStudentFullNameWithTitleList.dataBind(data);
+                       if (ddlStudentFullNameWithTitleList.data.length > 0) {
+                           ddlStudentFullNameWithTitleList.value("");
+                       }
+                   })
+        }
+
+        function division_onChange() {
+            var ddlClassIdList = $('#ClassId').data('tDropDownList');
+            var ddlDivisionIdList = $('#DivisionId').data('tDropDownList');
+            var ddlStudentFullNameWithTitleList = $('#StudentId').data('tDropDownList');
+            var ddlClassId = 0;
+            if (ddlClassIdList.value() != '') {
+                ddlClassId = ddlClassIdList.value();
+            }
+            var ddlDivisionId = 0;
+            if (ddlDivisionIdList.value() != '') {
+                ddlDivisionId = ddlDivisionIdList.value();
+            }
+            debugger;
+            $.getJSON('@Url.Action("GetStudentNameList", "StudentTransaction")', { ClassId: ddlClassId, DivisionId: ddlDivisionId },
+                function success(data, status, xhr) {
+                    ddlStudentFullNameWithTitleList.dataBind(data);
+                    if (ddlStudentFullNameWithTitleList.data.length > 0) {
+                        ddlStudentFullNameWithTitleList.value("");
+                    }
+                })
+        }
+
+        function checkNumeric(element) {
+            debugger;
+            if (element.value == '') {
+                element.value = 0;
+            }
+            else {
+                var elementVal = 0;
+                if (!isNaN(parseFloat(element.value))) {
+                    elementVal = parseFloat(element.value);
+                }
+                element.value = elementVal;
+            }
+        }
+    </script>}
+
+@using (Html.BeginForm())
+{
+    @Html.AntiForgeryToken()
+
+    
+    <div class="form-horizontal">
+        <h4>@myRes.FeeTransaction</h4>
+        <hr />
+        @Html.ValidationSummary(true)
+        <table class="tbtable">
+            <tr>
+                <td class="tdthird">@Html.LabelForRequired(model => model.TransactionDate)</td>
+                <td>
+                    @Html.Telerik().DatePickerFor(model => model.TransactionDate).Value(DateTime.Today.Date)
+                    @Html.ValidationMessageFor(model => model.TransactionDate)
+                </td>
+            </tr>
+            <tr>
+                <td class="tdfirst">@Html.LabelForRequired(model => model.RegisterId)</td>
+                <td class="tdsecond">
+                    @Html.TextBoxFor(model => model.RegisterId, new { @style = "width:150px;", @maxlength = 8  })
+                    @Html.ValidationMessageFor(model => model.RegisterId)
+                </td>
+                <td class="tdthird"></td>
+                <td></td>
+            </tr>
+
+
+            <tr>
+                <td class="tdfirst">@Html.LabelForRequired(model => model.ClassId)</td>
+                <td class="tdsecond">
+                    @Html.Telerik().DropDownListFor(model => model.ClassId).BindTo(Model.Classes).Placeholder(myRes.SelectClass).ClientEvents(e => e.OnChange("class_onChange"))
+                    @Html.ValidationMessageFor(model => model.ClassId)
+                </td>
+                <td class="tdthird">@Html.LabelForRequired(model => model.DivisionId)</td>
+                <td>
+                    @Html.Telerik().DropDownListFor(model => model.DivisionId).DataBinding(binding => binding.Ajax().Select("GetDivisionsList", "Student")).Placeholder(myRes.SelectDivision).ClientEvents(events => events.OnChange("division_onChange"))
+                    @Html.ValidationMessageFor(model => model.DivisionId)
+                </td>
+            </tr>
+            <tr>
+                <td class="tdfirst">@Html.LabelForRequired(model => model.StudentId)</td>
+                <td colspan="3">
+                    @Html.Telerik().DropDownListFor(model => model.StudentId).HtmlAttributes(new { @style = "width : 300px;" }).Placeholder(myRes.SelectStudentName)
+                    @Html.ValidationMessageFor(model => model.StudentId)
+                    <input type="button" id="btnGetStudentName" class="t-button" value=@myRes.Show title="Click on Show button for details" />
+                </td>
+
+            </tr>
+            <tr>
+                <td class="tdfirst">@Html.Label(myRes.FeeStructure)</td>
+                <td colspan="5"><div id="result" style="width:500px;"></div></td>
+            </tr>
+            <tr>
+                <td class="tdfirst">@Html.LabelForRequired(model => model.BankName)</td>
+                <td class="tdsecond">
+                    @Html.EditorFor(model => model.BankName)
+                    @Html.ValidationMessageFor(model => model.BankName)
+                </td>
+                <td class="tdthird">@Html.LabelForRequired(model => model.ChequeNumber)</td>
+                <td>
+                    @Html.EditorFor(model => model.ChequeNumber)
+                    @Html.ValidationMessageFor(model => model.ChequeNumber)
+                </td>
+            </tr>
+
+            <tr>
+                <td class="tdfirst">@Html.LabelForRequired(model => model.ReceiptTotal)</td>
+                <td class="tdsecond">
+                    @Html.TextBoxFor(model => model.ReceiptTotal, new { @readonly = "readonly", @Style = "width:100px;" })
+                    @Html.ValidationMessageFor(model => model.ReceiptTotal)
+                </td>
+                <td class="tdthird">@Html.LabelForRequired(model => model.Remark)</td>
+                <td>
+                    @Html.EditorFor(model => model.Remark)
+                    @Html.ValidationMessageFor(model => model.Remark)
+                </td>
+            </tr>
+            <tr>
+                <td class="tdfirst"></td>
+                <td colspan="3">
+                    <input type="submit" value=@myRes.Create id="Create" class="btn btn-success" />
+                    @Html.ActionLink(myRes.BackToList, "Index", new { }, new { @class = "btn btn-default" })
+                    @*<input type="button" value="Print" id="Create" class="btn btn-default" />*@
+                </td>
+            </tr>
+        </table>
+    </div>
+}

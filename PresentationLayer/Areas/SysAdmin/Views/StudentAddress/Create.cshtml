@@ -1,0 +1,155 @@
+﻿@model PresentationLayer.Areas.SysAdmin.Models.StudentAddressVM
+@using Telerik.Web.Mvc.UI;
+@using myRes=PresentationLayer.LocalResource.Resource;
+@{  System.Threading.Thread.CurrentThread.CurrentUICulture = new System.Globalization.CultureInfo(System.Configuration.ConfigurationManager.AppSettings["Culture"].ToString());
+  System.Threading.Thread.CurrentThread.CurrentCulture = System.Threading.Thread.CurrentThread.CurrentUICulture;}
+@{
+    ViewBag.Title = myRes.Create;
+}
+
+@using (Html.BeginForm()) 
+{
+    @Html.AntiForgeryToken()
+
+    
+    <div class="form-horizontal">
+        <h4>@myRes.CreateStudentAdress</h4>
+        <hr />
+        @Html.ValidationSummary(true)
+
+        <div class="form-group">
+            @Html.LabelFor(model => model.StudentId, new { @class = "control-label col-md-2" })
+            <div class="col-md-10">
+                @Html.TextBoxFor(model => model.StudentId)
+                @Html.ValidationMessageFor(model => model.StudentId)
+            </div>
+        </div>
+
+        <div class="form-group">
+            @Html.LabelFor(model => model.StudentFullNameWithTitle, new { @class = "control-label col-md-2" })
+            <div class="col-md-10">
+                @Html.EditorFor(model => model.StudentFullNameWithTitle)
+                @Html.ValidationMessageFor(model => model.StudentFullNameWithTitle)
+            </div>
+        </div>
+
+        <div class="form-group">
+            @Html.LabelFor(model => model.CurrentAddress, new { @class = "control-label col-md-2" })
+            <div class="col-md-10">
+                @Html.TextAreaFor(model => model.CurrentAddress)
+                @Html.ValidationMessageFor(model => model.CurrentAddress)
+            </div>
+        </div>
+
+        <div class="form-group">
+            @Html.LabelFor(model => model.CurrentCountryId, new { @class = "control-label col-md-2" })
+            <div class="col-md-10">
+                @Html.Telerik().DropDownListFor(model => model.CurrentCountryId).BindTo(Model.Countries).Placeholder(myRes.SelectCountry).CascadeTo("CurrentStateId")
+                @Html.ValidationMessageFor(model => model.CurrentCountryId)
+            </div>
+        </div>
+
+        <div class="form-group">
+            @Html.LabelFor(model => model.CurrentStateId, new { @class = "control-label col-md-2" })
+            <div class="col-md-10">
+                @Html.Telerik().DropDownListFor(model => model.CurrentStateId).DataBinding(binding => binding.Ajax().Select("GetStatesList", "StudentAddress")).Placeholder(myRes.SelectState).CascadeTo("CurrentDistrictId")
+                @Html.ValidationMessageFor(model => model.CurrentStateId)
+            </div>
+        </div>
+
+        <div class="form-group">
+            @Html.LabelFor(model => model.CurrentDistrictId, new { @class = "control-label col-md-2" })
+            <div class="col-md-10">
+                @Html.Telerik().DropDownListFor(model => model.CurrentDistrictId).DataBinding(binding => binding.Ajax().Select("GetDistrictList", "StudentAddress")).Placeholder(myRes.SelectDistrict).CascadeTo("CurrentCityId")
+                @Html.ValidationMessageFor(model => model.CurrentDistrictId)
+            </div>
+        </div>
+
+        <div class="form-group">
+            @Html.LabelFor(model => model.CurrentCityId, new { @class = "control-label col-md-2" })
+            <div class="col-md-10">
+                @Html.Telerik().DropDownListFor(model => model.CurrentCityId).DataBinding(binding => binding.Ajax().Select("GetCitiesList", "StudentAddress")).Placeholder(myRes.SelectCity)
+                @Html.ValidationMessageFor(model => model.CurrentCityId)
+            </div>
+        </div>
+
+        <div class="form-group">
+            @Html.LabelFor(model => model.CurrentPinCode, new { @class = "control-label col-md-2" })
+            <div class="col-md-10">
+                @Html.EditorFor(model => model.CurrentPinCode)
+                @Html.ValidationMessageFor(model => model.CurrentPinCode)
+            </div>
+        </div>
+
+        <div class="form-group">
+            @Html.LabelFor(model => model.PermentAddress, new { @class = "control-label col-md-2" })
+            <div class="col-md-10">
+                @Html.TextAreaFor(model => model.PermentAddress)
+                @Html.ValidationMessageFor(model => model.PermentAddress)
+            </div>
+        </div>
+
+        <div class="form-group">
+            @Html.LabelFor(model => model.PermentCountryId, new { @class = "control-label col-md-2" })
+            <div class="col-md-10">
+                @Html.Telerik().DropDownListFor(model => model.PermentCountryId).BindTo(Model.Countries).Placeholder(myRes.SelectCountry).CascadeTo("PermentStateId")
+                @Html.ValidationMessageFor(model => model.PermentCountryId)
+            </div>
+        </div>
+
+        <div class="form-group">
+            @Html.LabelFor(model => model.PermentStateId, new { @class = "control-label col-md-2" })
+            <div class="col-md-10">
+               @Html.Telerik().DropDownListFor(model => model.PermentStateId).DataBinding(binding => binding.Ajax().Select("GetPermentStatesList", "StudentAddress")).Placeholder(myRes.SelectState).CascadeTo("PermentCityId")
+                @Html.ValidationMessageFor(model => model.PermentStateId)
+            </div>
+        </div>
+
+        <div class="form-group">
+            @Html.LabelFor(model => model.PermentCityId, new { @class = "control-label col-md-2" })
+            <div class="col-md-10">
+                @Html.Telerik().DropDownListFor(model => model.PermentCityId).DataBinding(binding => binding.Ajax().Select("GetDistrictList", "StudentAddress")).Placeholder(myRes.SelectDistrict)
+                @Html.ValidationMessageFor(model => model.PermentCityId)
+            </div>
+        </div>
+
+        <div class="form-group">
+            @Html.LabelFor(model => model.PermentCityId, new { @class = "control-label col-md-2" })
+            <div class="col-md-10">
+                @Html.Telerik().DropDownListFor(model => model.PermentCityId).DataBinding(binding => binding.Ajax().Select("GetPermentCitiesList", "StudentAddress")).Placeholder(myRes.SelectCity)
+                @Html.ValidationMessageFor(model => model.PermentCityId)
+            </div>
+        </div>
+
+        <div class="form-group">
+            @Html.LabelFor(model => model.PermentPinCode, new { @class = "control-label col-md-2" })
+            <div class="col-md-10">
+                @Html.EditorFor(model => model.PermentPinCode)
+                @Html.ValidationMessageFor(model => model.PermentPinCode)
+            </div>
+        </div>
+
+        <div class="form-group">
+            @Html.LabelFor(model => model.Status, new { @class = "control-label col-md-2" })
+            <div class="col-md-10">
+                @Html.EditorFor(model => model.Status)
+                @Html.ValidationMessageFor(model => model.Status)
+            </div>
+        </div>
+
+        <div class="form-group">
+            @Html.LabelFor(model => model.Remark, new { @class = "control-label col-md-2" })
+            <div class="col-md-10">
+                @Html.EditorFor(model => model.Remark)
+                @Html.ValidationMessageFor(model => model.Remark)
+            </div>
+        </div>
+
+        <div class="form-group">
+            <div class="col-md-offset-2 col-md-10">
+                <input type="submit" value=@myRes.Create class="btn btn-default" />
+                @Html.ActionLink(myRes.BackToList, "Index", new { }, new { @class = "btn btn-default" })
+            </div>
+        </div>
+    </div>
+}

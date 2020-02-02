@@ -1,0 +1,78 @@
+﻿@model IEnumerable<PresentationLayer.Areas.SysAdmin.Models.StudentAttendanceVM>
+@using Telerik.Web.Mvc.UI;
+@using myRes=PresentationLayer.LocalResource.Resource;
+@{  System.Threading.Thread.CurrentThread.CurrentUICulture = new System.Globalization.CultureInfo(System.Configuration.ConfigurationManager.AppSettings["Culture"].ToString());
+  System.Threading.Thread.CurrentThread.CurrentCulture = System.Threading.Thread.CurrentThread.CurrentUICulture;}
+@{
+    WebGrid grid = new WebGrid(Model);
+}
+<div>
+    
+    @*@(Html.Telerik().Grid<PresentationLayer.Areas.SysAdmin.Models.StudentVM>(Model.Data)
+        .Name("Grid")
+        .DataKeys(keys => keys.Add(c => c.StudentId))
+        .EnableCustomBinding(true)
+        .Columns(columns =>
+        {
+            columns.Bound(p => p.StudentId).Width(50).Title("Id");
+            columns.Bound(p => p.RegisterId).Width(100).Title("Gen Reg No");
+            columns.Bound(p => p.ClassDivision).Width(120).Title("Class & Division");
+            columns.Bound(p => p.StudentFullNameWithTitle).Width(250);            
+            columns.Bound(p => p.Remark).Width(100);
+        })
+                                .Reorderable(command => command.Columns(true))
+            .Sortable()
+                .Resizable(command => command.Columns(true))
+                                         .Pageable(paging => paging.Style(GridPagerStyles.NextPreviousAndNumeric | GridPagerStyles.PageInput | GridPagerStyles.PageSizeDropDown))
+                              .Scrollable(paging => paging.Height(300))
+                        .Filterable()
+    )*@
+
+    @*@grid.GetHtml(columns: new[] {
+    grid.Column("StudentId"),
+    grid.Column("RegisterId"),
+    grid.Column("ClassDivision"),
+    grid.Column("StudentFullNameWithTitle"),
+    grid.Column("Remark")
+        })*@
+
+    @*http://www.c-sharpcorner.com/article/beginners-guide-to-create-gridview-in-asp-net-mvc/*@
+    <div class="row">
+        <div class="col-md-12">
+            <div class="panel panel-primary list-panel" id="list-panel">
+                <div class="panel-heading list-panel-heading">
+                    <h1 class="panel-title list-panel-title">@myRes.StudentAttendanceList</h1>
+                </div>
+                <div class="panel-body">
+                    <table id="assets-data-table" class="table table-striped table-bordered" style="width:100%">
+                        <thead>
+                            <tr>
+                                <th>@myRes.StudentId</th>
+                                <th>@myRes.RegisterId</th>
+                               @* <th>@myRes.ClassDivision</th>*@
+                                <th>@myRes.StudentFullNameWithTitle</th>
+                                <th>@myRes.AttendanceInDays</th>
+                                <th>@myRes.AbsentRemark</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            @foreach (var asset in Model)
+                            {
+                                <tr>
+                                    <td>@asset.StudentId @Html.Hidden("StudentIds", asset.StudentId) </td>
+                                    <td>@asset.RegisterId</td>
+                                    @*<td>@asset.ClassDivision</td>*@
+                                    <td>@asset.StudentFullNameWithTitle</td>
+                                    <td>@Html.TextBox("txtAttendance", asset.AttendanceInDays, new { @Style = "width:100px;", @onblur = "checkNumeric(this)" })</td>
+                                    <td>@Html.TextBox("txtAbsentRemark", asset.AbsentRemark, new { @Style = "width:300px;" })</td>
+                                </tr>
+                            }
+                        </tbody>
+                    </table>
+                </div>
+            </div>
+        </div>
+    </div>
+
+</div>
+

@@ -1,0 +1,245 @@
+﻿@model PresentationLayer.Areas.SysAdmin.Models.StudentFeeTranscationVM
+@using Telerik.Web.Mvc.UI
+@using myRes=PresentationLayer.LocalResource.Resource;
+@{  System.Threading.Thread.CurrentThread.CurrentUICulture = new System.Globalization.CultureInfo(System.Configuration.ConfigurationManager.AppSettings["Culture"].ToString());
+  System.Threading.Thread.CurrentThread.CurrentCulture = System.Threading.Thread.CurrentThread.CurrentUICulture;}
+@{
+    ViewBag.Title = myRes.StudentFeeTransaction;
+
+}
+
+@section Scripts {
+    <script type="text/javascript">
+    $(document).ready(function () {
+        $('#result').load('@Url.Action("GetStudentTransactionSub", "Student")'
+               , {}
+               , function (response, status, xhr) {
+                   if (status != "success") {
+                       $(container).html('an error has occured');
+                   }
+               });
+
+
+
+        //$("form").submit(function (e) {
+        $("#Create").click(function (event) {
+            //e.stopImmediatePropagation();
+            //event.preventDefault();
+            debugger;
+            if ($("#StudentId").val() == '') {
+                alert("Please enter Student Id");
+                return false;
+            }
+            if ($("#ReceiptTotal").val() == '') {
+                alert("Please check receipt amount, receipt amount is required.");
+                return false;
+            }
+
+            var totalOfCr = 0;
+            for (i = 0; i < jQuery("[id=item_Cr]").length; i++) {
+                var txt = jQuery("[id=item_Cr]")[i];
+                if (parseFloat(txt.value) == NaN) {
+                    txt.val(0);
+                } else {
+                    totalOfCr = totalOfCr + parseFloat(txt.value);
+                }
+            }
+            $("#txtTotalCr").val(totalOfCr);
+            $("#ReceiptTotal").val(totalOfCr);
+            totalOfCr = 0;
+            for (i = 0; i < jQuery("[id=item_Dr]").length; i++) {
+                var txt = jQuery("[id=item_Dr]")[i];
+                if (parseFloat(txt.value) == NaN) {
+                    txt.val(0);
+                } else {
+                    totalOfCr = totalOfCr + parseFloat(txt.value);
+                }
+            }
+            $("#txtTotalDr").val(totalOfCr);
+
+            if (parseFloat($("#ReceiptTotal").val()) <= 0) {
+                alert("The received amount should be greater than zero.");
+                return false;
+            }
+
+            @*$.ajax({
+                    type: 'POST',
+                    url: '@Url.Action("StudentFeeTranscation", "Student")',
+                    data: {
+                        studentFeeTranscationVM: $("form").serialize(),
+                        formCollection: $("form").serialize()
+                    },
+                    success: function (data) {
+                        alert("hi");
+                    }
+                });*@
+
+                @*var _this = $(this);
+                var _form = _this.closest("form");
+
+                var validator = $("form").validate(); // obtain validator
+                var anyError = false;
+                _form.find("input").each(function () {
+                    if (!validator.element(this)) { // validate every input element inside this step
+                        anyError = true;
+                    }
+                });
+
+                if (anyError)
+                    errorCount += 1;
+
+                if (errorCount > 0) {
+                    $("#submit").prop('disabled', false);
+                    $("#showProcess").hide();
+                    return false;
+                }
+
+
+                var itemDetails = new Array();
+
+                for (i = 0; i < jQuery("[id=item_Cr]").length; i++) {
+                    var txtCr = jQuery("[id=item_Cr]")[i];
+                    var txtDr = jQuery("[id=item_Dr]")[i];
+                    var txtFeeId = jQuery("[id=item_FeeHeadId]")[i];
+                    itemDetails[i] = new Array();
+                    itemDetails[i][0] = txtFeeId.value;
+                    itemDetails[i][1] = txtCr.value;
+                    itemDetails[i][2] = txtDr.value;
+                };
+
+                $.ajax({
+                    type: 'POST',
+                    url: '@Url.Action("Create","StudentTransaction")',
+                    data: {
+                        viewModel: $("form").serialize(),
+                        feeDetails: itemDetails
+                    },
+                    success: function (data) {
+                        alert("hi");
+                    }
+                });*@
+        });
+    });
+
+    $(document).on('click', '#Calculate', function () {
+        debugger;
+        var totalOfCr = 0;
+        for (i = 0; i < jQuery("[id=item_Cr]").length; i++) {
+            var txt = jQuery("[id=item_Cr]")[i];
+            if (parseFloat(txt.value) == NaN) {
+                txt.val(0);
+            } else {
+                totalOfCr = totalOfCr + parseFloat(txt.value);
+            }
+        }
+        $("#txtTotalCr").val(totalOfCr);
+        $("#ReceiptTotal").val(totalOfCr);
+        totalOfCr = 0;
+        for (i = 0; i < jQuery("[id=item_Dr]").length; i++) {
+            var txt = jQuery("[id=item_Dr]")[i];
+            if (parseFloat(txt.value) == NaN) {
+                txt.val(0);
+            } else {
+                totalOfCr = totalOfCr + parseFloat(txt.value);
+            }
+        }
+        $("#txtTotalDr").val(totalOfCr);
+    });// end Calculate click event
+
+    function checkNumeric(element) {
+
+        if (element.value == '') {
+            element.value = 0;
+        }
+        else {
+            var elementVal = 0;
+            if (!isNaN(parseFloat(element.value))) {
+                elementVal = parseFloat(element.value);
+            }
+            element.value = elementVal;
+        }
+    }
+    </script>}
+
+@using (Html.BeginForm())
+{
+    @Html.AntiForgeryToken()
+
+    <div class="form-horizontal">
+        <h4>@myRes.StudentFeeTransaction</h4>
+        <hr />
+
+        @Html.ValidationSummary(true)
+
+        <div class="form-group">
+            @Html.LabelFor(model => model.StudentId, new { @class = "control-label col-md-2" })
+            <div class="col-md-10">
+                @Html.TextBoxFor(model => model.StudentId, new { @readonly = "readonly", @style = "width : 80px; background-color:lightgray;" })
+                @Html.TextBoxFor(model => model.StudentFullNameWithTitle, new { @readonly = "readonly", @style = "width : 250px; background-color:lightgray;" })
+                @Html.ValidationMessageFor(model => model.StudentId)
+            </div>
+        </div>
+
+        <div class="form-group">
+            @Html.LabelFor(model => model.TransactionDate, new { @class = "control-label col-md-2" })
+            <div class="col-md-10">
+                @Html.Telerik().DatePickerFor(model => model.TransactionDate).Value(DateTime.Today.Date)
+                @Html.ValidationMessageFor(model => model.TransactionDate)
+            </div>
+        </div>
+
+        <div class="form-group">
+            @Html.Label("Fee Structure", new { @class = "control-label col-md-2" })
+            <div class="col-md-10">
+                <div id="result" style="width:500px;"></div>
+                @*@if (PresentationLayer.Helpers.SessionHelper.StudentId != null)
+                    {
+                        Html.RenderPartial("/SysAdmin/Student/_GetStudentFeeTranscationSub.cshtml", Model.StudentTransactionSubList);
+                    }*@
+            </div>
+        </div>
+
+
+        <div class="form-group">
+            @Html.LabelFor(model => model.BankName, new { @class = "control-label col-md-2" })
+            <div class="col-md-10">
+                @Html.EditorFor(model => model.BankName)
+                @Html.ValidationMessageFor(model => model.BankName)
+            </div>
+        </div>
+
+        <div class="form-group">
+            @Html.LabelFor(model => model.ChequeNumber, new { @class = "control-label col-md-2" })
+            <div class="col-md-10">
+                @Html.EditorFor(model => model.ChequeNumber)
+                @Html.ValidationMessageFor(model => model.ChequeNumber)
+            </div>
+        </div>
+
+        <div class="form-group">
+            @Html.LabelFor(model => model.ReceiptTotal, new { @class = "control-label col-md-2" })
+            <div class="col-md-10">
+                @Html.TextBoxFor(model => model.ReceiptTotal, new { @readonly = "readonly", @Style = "width:100px;" })
+                @Html.ValidationMessageFor(model => model.ReceiptTotal)
+            </div>
+        </div>
+
+        <div class="form-group">
+            @Html.LabelFor(model => model.Remark, new { @class = "control-label col-md-2" })
+            <div class="col-md-10">
+                @Html.EditorFor(model => model.Remark)
+                @Html.ValidationMessageFor(model => model.Remark)
+            </div>
+        </div>
+
+        <div class="form-group">
+            <div class="col-md-offset-2 col-md-10">
+                <input type="submit" value=@myRes.ReceiveAndConfirmAdmission id="Create" class="btn btn-success" />
+                @Html.ActionLink(myRes.ConformAdmissionWithoutFee, "Index", new { }, new { @class = "btn btn-default" })
+                @*<input type="button" value="Print" id="Create" class="btn btn-default" />*@
+            </div>
+        </div>
+    </div>
+}
+
+

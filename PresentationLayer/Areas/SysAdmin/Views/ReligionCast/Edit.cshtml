@@ -1,0 +1,106 @@
+﻿@model PresentationLayer.Areas.SysAdmin.Models.ReligionCastVM
+@using Telerik.Web.Mvc.UI;
+@using PresentationLayer.Other;
+@using myRes=PresentationLayer.LocalResource.Resource;
+@{  System.Threading.Thread.CurrentThread.CurrentUICulture = new System.Globalization.CultureInfo(System.Configuration.ConfigurationManager.AppSettings["Culture"].ToString());
+  System.Threading.Thread.CurrentThread.CurrentCulture = System.Threading.Thread.CurrentThread.CurrentUICulture;}
+@{
+    ViewBag.Title =myRes.Edit;
+}
+
+<style>
+    table {
+        width: 100%;
+        /*background-color: gray;*/
+    }
+    /*table tr td{
+        width: 16.66%;
+    }*/
+
+    .tdfirst {
+        text-align: right;
+        width: 13%;
+    }
+
+    .tdthird {
+        text-align: right;
+        width: 10%;
+    }
+
+    .tdfive {
+        text-align: right;
+        width: 10%;
+    }
+
+    .backgrounddiv {
+        background-color: lightgray;
+        border-radius: 25px;
+        margin: 5px;
+        padding: 5px;
+    }
+</style>
+
+@using (Html.BeginForm())
+{
+    @Html.AntiForgeryToken()
+
+    <div class="form-horizontal">
+        <h4>@myRes.Update -@myRes.ReligionCast</h4>
+        <hr>
+
+
+        @Html.ValidationSummary(true)
+        @Html.HiddenFor(model => model.ReligionCastId)
+        @Html.HiddenFor(model => model.ReligionId)
+        @Html.HiddenFor(model => model.CastId)
+
+
+        <div class="backgrounddiv">
+            <table>
+
+            <tr>
+                <td class="tdfirst">@Html.LabelForRequired(model => model.ReligionId)</td>
+                <td>
+                    @Html.TextBoxFor(model => model.ReligionName, new { disabled = "disabled", @readonly = "readonly" })
+                @Html.ValidationMessageFor(model => model.ReligionId)
+            </td>
+        </tr>
+        <tr>
+            <td class="tdfirst">@Html.LabelForRequired(model => model.CastId)</td>
+            <td>
+                @Html.TextBoxFor(model => model.CastName, new { disabled = "disabled", @readonly = "readonly" })
+            @Html.ValidationMessageFor(model => model.CastId)
+        </td>
+    </tr>
+    <tr>
+        <td class="tdfirst">@Html.LabelForRequired(model => model.ReserveCategory)</td>
+        <td>
+            @Html.TextBoxFor(model => model.ReserveCategory, new {  @readonly = "readonly" })
+        @Html.ValidationMessageFor(model => model.ReserveCategory)
+    </td>
+</tr>
+<tr>
+    <td class="tdfirst">@Html.LabelForRequired(model => model.Status)</td>
+    <td>
+        @Html.EditorFor(model => model.Status)
+    @Html.ValidationMessageFor(model => model.Status)
+</td>
+</tr>
+<tr>
+    <td class="tdfirst">@Html.LabelForRequired(model => model.Remark)</td>
+    <td>
+        @Html.EditorFor(model => model.Remark)
+    @Html.ValidationMessageFor(model => model.Remark)
+</td>
+</tr>
+</table>
+</div>
+
+<div class="form-group">
+    <div class="col-md-offset-2 col-md-10">
+        <input type="submit" value=@myRes.Update class="btn btn-success" />
+        @Html.ActionLink(myRes.BackToList, "Index", new { }, new { @class = "btn btn-default" })
+    </div>
+</div>
+</div>
+}

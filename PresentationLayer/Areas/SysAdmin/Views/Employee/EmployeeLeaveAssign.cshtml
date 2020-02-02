@@ -1,0 +1,186 @@
+﻿@model PresentationLayer.Areas.SysAdmin.Models.EmployeeLeaveAssignVM
+@using Telerik.Web.Mvc.UI;
+@using myRes = PresentationLayer.LocalResource.Resource;
+@{  System.Threading.Thread.CurrentThread.CurrentUICulture = new System.Globalization.CultureInfo(System.Configuration.ConfigurationManager.AppSettings["Culture"].ToString());
+  System.Threading.Thread.CurrentThread.CurrentCulture = System.Threading.Thread.CurrentThread.CurrentUICulture;}
+
+@{
+    ViewBag.Title = myRes.LeaveAssignment;
+}
+
+@section Scripts {
+    @*dataTyp: "html",*@
+    <script type="text/javascript">
+    $(document).ready(function () {
+
+        $("#btnShow").click(function ()
+		{
+
+
+            $('#result').load('@Url.Action("_EmployeeLeaveAssign")'
+                , { }
+                , function (response, status, xhr) {
+                    if (status != "success") {
+                        //$(container).html('an error has occured');
+                    }
+                }
+				);
+
+            $("#btnSubmit").click(function () {
+                debugger;
+
+                if (jQuery("[id=EmployeeIds]") == undefined) {
+                    alert("@myRes.NoRecordsFoundToPresent")
+                    return;
+                }
+                if (jQuery("[id=EmployeeIds]").length == 0) {
+                    alert("@myRes.NoRecordsFoundToPresent")
+                    return;
+                }
+                //alert($("#EmployeeIds").val());
+                //alert($("#txtBalanceLeaves").val());
+                //alert($("#txtNewLeaves").val());
+                //alert($("#txtRemark").val());
+
+                jsonObj = []; 
+                jsonEmployeeIdObj = [];
+                jsonBalanceLeavesObj = [];
+                jsonNewLeavesObj = [];
+                jsonRemarkObj = [];
+                for (i = 0; i < jQuery("[id=EmployeeIds]").length; i++) {
+                    var txtEmployeeId = jQuery("[id=EmployeeIds]")[i].value;
+                    var txtEmployeeBalanceLeaves = jQuery("[id=txtBalanceLeaves]")[i].value;
+                    var txtEmployeeNewLeaves = jQuery("[id=txtNewLeaves]")[i].value;
+                    var txtEmployeeRemark = jQuery("[id=txtRemark]")[i].value;
+                    item = {}
+                    item["EmployeeId"] = txtEmployeeId;
+                    item["BalanceLeaves"] = txtEmployeeBalanceLeaves;
+                    item["NewLeaves"] = txtEmployeeNewLeaves;
+                    item["Remark"] = txtEmployeeRemark;
+
+                    jsonObj.push(item);
+
+                    jsonEmployeeIdObj.push(txtEmployeeId);
+                    jsonBalanceLeavesObj.push(txtEmployeeBalanceLeaves);
+                    jsonNewLeavesObj.push(txtEmployeeNewLeaves);
+                    jsonRemarkObj.push(txtEmployeeRemark);
+                }
+
+
+                debugger;
+
+
+                var form = $(this).serialize();
+                $.ajax({
+                    type: 'POST',
+                    url: '@Url.Action("EmployeeLeaveAssign", "Employee")',
+                        data: {
+                            formCollection: $("form").serialize(),
+                            employees: jsonEmployeeIdObj,
+                            balDays: jsonBalanceLeavesObj,
+                            newDays:jsonNewLeavesObj,
+                            remarks: jsonRemarkObj
+                        },
+                        dataType: "json",
+                        traditional: true,
+                        //contentType: "application/json; charset=utf-8",
+                        success: function (data) {
+                            alert("@myRes.TheMessageHasBeenSent");
+                        }
+                    });
+                alert("@myRes.InformationUpdatated");
+                } );
+            });// end show click event
+
+            $("#grid .t-grid-content").css("overflow-y", "scroll").css("overflow-x", "scroll").scroll(function () {
+                var left = $(this).scrollLeft();
+                var wrap = $("#grid > .t-grid-header-wrap");
+                if (wrap.scrollLeft() != left) wrap.scrollLeft(left);
+            }); // end grid code
+
+            //$('#assets-data-table').DataTable();
+
+        })@* End document ready *@
+
+
+
+
+
+    </script>
+}
+<style>
+    /* table {
+        width: 100%;
+        /*background-color: gray;*/
+    }
+    /* table tr td{
+        width: 16.66%;
+    }
+
+    .tdfirst {
+        text-align: right;
+        width: 13%;
+    }
+
+    .tdthird {
+        text-align: right;
+        width: 10%;
+    }
+
+    .tdfive {
+        text-align: right;
+        width: 10%;
+    }
+    */
+    .backgrounddiv {
+        background-color: lightgray;
+        border-radius: 25px;
+        margin: 5px;
+        padding: 30px;
+    }
+</style>
+@using (Html.BeginForm())
+{
+    @*@Html.AntiForgeryToken()*@
+    <div class="backgrounddiv">
+        <h2>  @myRes.LeaveAssignment</h2>
+        <hr>
+
+        @Html.ValidationSummary(true)
+        <table style="width:70%; padding:0px;">
+            <tr>
+                <td colspan="6" style="text-align:center">
+                    <input type="button" id="btnShow" value=@myRes.Search class="t-button" />
+                    <input type="button" id="btnSubmit" value=@myRes.Submit class="t-button" />
+
+                </td>
+            </tr>
+
+        </table>
+
+        <div>
+            @if (TempData["Error"] != null)
+            {
+                <p style="color:red;">
+
+                    @(TempData["Error"] != null ? TempData["Error"].ToString() : "")
+                </p>
+            }
+            @if (TempData["Message"] != null)
+            {
+                <p style="color:green;">
+
+                    @(TempData["Message"] != null ? TempData["Message"].ToString() : "")
+                </p>
+            }
+        </div>
+
+        <table id="jqGrid"></table>
+        <div style="width: 100%; text-align:center;">
+            <div id="result" style="width: 90%; margin: 50px; text-align:left;"></div>
+        </div>
+
+
+    </div>
+}
+

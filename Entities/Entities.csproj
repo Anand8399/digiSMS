@@ -1,0 +1,157 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Project ToolsVersion="12.0" DefaultTargets="Build" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+  <Import Project="$(MSBuildExtensionsPath)\$(MSBuildToolsVersion)\Microsoft.Common.props" Condition="Exists('$(MSBuildExtensionsPath)\$(MSBuildToolsVersion)\Microsoft.Common.props')" />
+  <PropertyGroup>
+    <Configuration Condition=" '$(Configuration)' == '' ">Debug</Configuration>
+    <Platform Condition=" '$(Platform)' == '' ">AnyCPU</Platform>
+    <ProjectGuid>{9FE05E6D-5C09-4248-942C-AAF87CCDB0F1}</ProjectGuid>
+    <OutputType>Library</OutputType>
+    <AppDesignerFolder>Properties</AppDesignerFolder>
+    <RootNamespace>Entities</RootNamespace>
+    <AssemblyName>Entities</AssemblyName>
+    <TargetFrameworkVersion>v4.5</TargetFrameworkVersion>
+    <FileAlignment>512</FileAlignment>
+  </PropertyGroup>
+  <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Debug|AnyCPU' ">
+    <DebugSymbols>true</DebugSymbols>
+    <DebugType>full</DebugType>
+    <Optimize>false</Optimize>
+    <OutputPath>bin\Debug\</OutputPath>
+    <DefineConstants>DEBUG;TRACE</DefineConstants>
+    <ErrorReport>prompt</ErrorReport>
+    <WarningLevel>4</WarningLevel>
+  </PropertyGroup>
+  <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Release|AnyCPU' ">
+    <DebugType>pdbonly</DebugType>
+    <Optimize>true</Optimize>
+    <OutputPath>bin\Release\</OutputPath>
+    <DefineConstants>TRACE</DefineConstants>
+    <ErrorReport>prompt</ErrorReport>
+    <WarningLevel>4</WarningLevel>
+  </PropertyGroup>
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)' == 'Debug|x86'">
+    <DebugSymbols>true</DebugSymbols>
+    <OutputPath>bin\x86\Debug\</OutputPath>
+    <DefineConstants>DEBUG;TRACE</DefineConstants>
+    <DebugType>full</DebugType>
+    <PlatformTarget>x86</PlatformTarget>
+    <ErrorReport>prompt</ErrorReport>
+    <CodeAnalysisRuleSet>MinimumRecommendedRules.ruleset</CodeAnalysisRuleSet>
+  </PropertyGroup>
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)' == 'Release|x86'">
+    <OutputPath>bin\x86\Release\</OutputPath>
+    <DefineConstants>TRACE</DefineConstants>
+    <Optimize>true</Optimize>
+    <DebugType>pdbonly</DebugType>
+    <PlatformTarget>x86</PlatformTarget>
+    <ErrorReport>prompt</ErrorReport>
+    <CodeAnalysisRuleSet>MinimumRecommendedRules.ruleset</CodeAnalysisRuleSet>
+  </PropertyGroup>
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)' == 'Debug|x64'">
+    <DebugSymbols>true</DebugSymbols>
+    <OutputPath>bin\x64\Debug\</OutputPath>
+    <DefineConstants>DEBUG;TRACE</DefineConstants>
+    <DebugType>full</DebugType>
+    <PlatformTarget>x64</PlatformTarget>
+    <ErrorReport>prompt</ErrorReport>
+    <CodeAnalysisRuleSet>MinimumRecommendedRules.ruleset</CodeAnalysisRuleSet>
+  </PropertyGroup>
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)' == 'Release|x64'">
+    <OutputPath>bin\x64\Release\</OutputPath>
+    <DefineConstants>TRACE</DefineConstants>
+    <Optimize>true</Optimize>
+    <DebugType>pdbonly</DebugType>
+    <PlatformTarget>x64</PlatformTarget>
+    <ErrorReport>prompt</ErrorReport>
+    <CodeAnalysisRuleSet>MinimumRecommendedRules.ruleset</CodeAnalysisRuleSet>
+  </PropertyGroup>
+  <ItemGroup>
+    <Reference Include="ClosedXML">
+      <HintPath>..\packages\ClosedXML.0.86.0\lib\net40\ClosedXML.dll</HintPath>
+    </Reference>
+    <Reference Include="DocumentFormat.OpenXml, Version=2.5.5631.0, Culture=neutral, PublicKeyToken=31bf3856ad364e35, processorArchitecture=MSIL">
+      <Private>True</Private>
+      <HintPath>..\packages\DocumentFormat.OpenXml.2.5\lib\DocumentFormat.OpenXml.dll</HintPath>
+    </Reference>
+    <Reference Include="System" />
+    <Reference Include="System.Core" />
+    <Reference Include="System.Xml.Linq" />
+    <Reference Include="System.Data.DataSetExtensions" />
+    <Reference Include="Microsoft.CSharp" />
+    <Reference Include="System.Data" />
+    <Reference Include="System.Xml" />
+  </ItemGroup>
+  <ItemGroup>
+    <Compile Include="AcademicYear.cs" />
+    <Compile Include="Account.cs" />
+    <Compile Include="Asset.cs" />
+    <Compile Include="Cast.cs" />
+    <Compile Include="City.cs" />
+    <Compile Include="District.cs" />
+    <Compile Include="Class.cs" />
+    <Compile Include="ClassDivision.cs" />
+    <Compile Include="Country.cs" />
+    <Compile Include="Division.cs" />
+    <Compile Include="Employee.cs" />
+    <Compile Include="Export.cs" />
+    <Compile Include="FeeClassDivision.cs" />
+    <Compile Include="FeeHead.cs" />
+    <Compile Include="HomePage.cs" />
+    <Compile Include="Properties\AssemblyInfo.cs" />
+    <Compile Include="Religion.cs" />
+    <Compile Include="ReligionCast.cs" />
+    <Compile Include="Required.cs" />
+    <Compile Include="SchoolDetails.cs" />
+    <Compile Include="Role.cs" />
+    <Compile Include="State.cs" />
+    <Compile Include="Student.cs" />
+    <Compile Include="StudentAddress.cs" />
+    <Compile Include="EmployeeLeaveTransaction.cs" />
+    <Compile Include="StudentAttendance.cs" />
+    <Compile Include="StudentClassChange.cs" />
+    <Compile Include="StudentLedger.cs" />
+    <Compile Include="StudentParent.cs" />
+    <Compile Include="StudentTransaction.cs" />
+    <Compile Include="StudentTransactionSub.cs" />
+    <Compile Include="User.cs" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="obj\Release\DesignTimeResolveAssemblyReferencesInput.cache" />
+    <None Include="obj\x64\Debug\DesignTimeResolveAssemblyReferencesInput.cache" />
+    <None Include="obj\x86\Debug\DesignTimeResolveAssemblyReferencesInput.cache" />
+    <None Include="obj\x86\Debug\Entities.csprojResolveAssemblyReference.cache" />
+    <None Include="packages.config" />
+  </ItemGroup>
+  <ItemGroup>
+    <Content Include="bin\Debug\Entities.dll" />
+    <Content Include="bin\Debug\Entities.pdb" />
+    <Content Include="bin\Release\ClosedXML.dll" />
+    <Content Include="bin\Release\ClosedXML.pdb" />
+    <Content Include="bin\Release\DocumentFormat.OpenXml.dll" />
+    <Content Include="bin\Release\Entities.dll" />
+    <Content Include="bin\Release\Entities.pdb" />
+    <Content Include="bin\x86\Debug\Entities.dll" />
+    <Content Include="bin\x86\Debug\Entities.pdb" />
+    <Content Include="obj\Release\Entities.csproj.FileListAbsolute.txt" />
+    <Content Include="obj\Release\Entities.dll" />
+    <Content Include="obj\Release\Entities.pdb" />
+    <Content Include="obj\x86\Debug\Entities.csproj.FileListAbsolute.txt" />
+    <Content Include="obj\x86\Debug\Entities.dll" />
+    <Content Include="obj\x86\Debug\Entities.pdb" />
+  </ItemGroup>
+  <ItemGroup>
+    <Folder Include="bin\x64\Debug\" />
+    <Folder Include="obj\Debug\" />
+    <Folder Include="obj\Release\TempPE\" />
+    <Folder Include="obj\x64\Debug\TempPE\" />
+    <Folder Include="obj\x86\Debug\TempPE\" />
+  </ItemGroup>
+  <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
+  <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 
+       Other similar extension points exist, see Microsoft.Common.targets.
+  <Target Name="BeforeBuild">
+  </Target>
+  <Target Name="AfterBuild">
+  </Target>
+  -->
+</Project>

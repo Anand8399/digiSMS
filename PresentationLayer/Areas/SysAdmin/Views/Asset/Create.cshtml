@@ -1,0 +1,155 @@
+﻿@model PresentationLayer.Areas.SysAdmin.Models.AssetVM
+@using Telerik.Web.Mvc.UI;
+@using PresentationLayer.Other;
+@using myRes=PresentationLayer.LocalResource.Resource;
+@{  System.Threading.Thread.CurrentThread.CurrentUICulture = new System.Globalization.CultureInfo(System.Configuration.ConfigurationManager.AppSettings["Culture"].ToString());
+  System.Threading.Thread.CurrentThread.CurrentCulture = System.Threading.Thread.CurrentThread.CurrentUICulture;}
+@{
+    ViewBag.Title =myRes.Create;
+}
+
+@*<h2>Create</h2>*@
+<style>
+    table {
+        width: 80%;
+        /*background-color: gray;*/
+    }
+    /*table tr td{
+        width: 16.66%;
+    }*/
+   
+    .tdfirst {
+        text-align: right;
+        width: 13%;
+    }
+
+    .tdthird {
+        text-align: right;
+        width: 10%;
+    }
+
+    .tdfive {
+        text-align: right;
+        width: 10%;
+    }
+
+    .backgrounddiv {
+        background-color: lightgray;
+        border-radius: 25px;
+        margin: 5px;
+        padding: 5px;
+    }
+</style>
+@using (Html.BeginForm())
+{
+    @Html.AntiForgeryToken()
+
+    <div class="form-horizontal">
+        <h4>@myRes.AddAssets</h4>
+        <hr />
+        @Html.ValidationSummary(true)
+
+        <div class="backgrounddiv">
+            <table>
+                <tr>
+
+                    <td class="tdfirst">@Html.LabelForRequired(model => model.TypeofAsset)</td>
+                    <td>
+                 @Html.Telerik().DropDownListFor(model => model.TypeofAsset).Placeholder( myRes.Select +" "+ myRes.TypeofAsset).Items(item =>
+                    {
+                        item.Add().Text(myRes.Furniture).Value(myRes.Furniture);
+                        item.Add().Text(myRes.Books).Value(myRes.Books);
+                        item.Add().Text(myRes.EcectronicDevices).Value(myRes.EcectronicDevices);
+                        item.Add().Text(myRes.Lab).Value(myRes.Lab);
+                        item.Add().Text(myRes.Others).Value(myRes.Others);
+                    })
+                        @Html.ValidationMessageFor(model => model.TypeofAsset)
+                    </td>
+                    <td class="tdfirst">@Html.LabelForRequired(model => model.AssetName)</td>
+                    <td>
+                        @Html.EditorFor(model => model.AssetName)
+                        @Html.ValidationMessageFor(model => model.AssetName)
+                    </td>
+                </tr>
+               <tr>
+                    <td class="tdfirst">@Html.LabelForRequired(model => model.Quantity)</td>
+                    <td>
+                        @Html.EditorFor(model => model.Quantity)
+                        @Html.ValidationMessageFor(model => model.Quantity)
+                    </td>
+               
+                    <td class="tdfirst">@Html.LabelForRequired(model => model.PricePerItem)</td>
+                    <td>
+                        @Html.EditorFor(model => model.PricePerItem)
+                        @Html.ValidationMessageFor(model => model.PricePerItem)
+                    </td>
+               </tr>
+                <tr>
+                    <td class="tdfirst">@Html.LabelForRequired(model => model.PurchaseDate)</td>
+                    <td>
+                        @Html.Telerik().DatePickerFor(model => model.PurchaseDate).Value(DateTime.Today.Date)
+                        @Html.ValidationMessageFor(model => model.PurchaseDate)
+                    </td>
+               
+                    <td class="tdthird">@Html.LabelForRequired(model => model.Condition)</td>
+                    <td>
+                        @Html.Telerik().DropDownListFor(model => model.Condition).Placeholder(myRes.Condition).Items(item =>
+    {
+        item.Add().Text(myRes.Excellent).Value(myRes.Excellent);
+        item.Add().Text(myRes.Good).Value(myRes.Good);
+        item.Add().Text(myRes.Poor).Value(myRes.Poor);
+        item.Add().Text(myRes.Others).Value(myRes.Others);
+    })
+                        @Html.ValidationMessageFor(model => model.TypeofAsset)
+                    </td>
+                </tr>
+
+                <tr>
+                    <td class="tdfirst">@Html.LabelForRequired(model => model.AssesmentYear)</td>
+                    <td>
+                        @Html.Telerik().DatePickerFor(model => model.AssesmentYear).Value(DateTime.Today.Date)
+                        @Html.ValidationMessageFor(model => model.AssesmentYear)
+                    </td>
+                    <td class="tdthird">@Html.LabelForRequired(model => model.Remark)</td>
+                    <td>
+                        @Html.EditorFor(model => model.Remark)
+                        @Html.ValidationMessageFor(model => model.Remark)
+                    </td>
+                </tr>
+                <tr>  
+                    <td class="tdfirst">@Html.LabelForRequired(model => model.Status)</td>
+                    <td>
+                        @Html.EditorFor(model => model.Status)
+                        @Html.ValidationMessageFor(model => model.Status)
+                    </td>
+                </tr>
+                
+                
+               
+                
+                <tr><td class="tdfirst"></td><td></td></tr>
+            </table>
+        </div>
+
+        <div class="form-group">
+            <div class="col-md-offset-2 col-md-10">
+                <input type="submit" value=@myRes.Create class="btn btn-success" />
+                @Html.ActionLink(myRes.BackToList, "Index", new { }, new { @class = "btn btn-default" })
+            </div>
+        </div>
+        <div>
+            @if (TempData["Error"] != null)
+            {
+                <p style="color:red;">
+                    @(TempData["Error"] != null ? TempData["Error"].ToString() : "")
+                </p>
+            }
+            @if (TempData["Message"] != null)
+            {
+                <p style="color:green;">
+                    @(TempData["Message"] != null ? TempData["Message"].ToString() : "")
+                </p>
+            }
+        </div>
+    </div>
+}

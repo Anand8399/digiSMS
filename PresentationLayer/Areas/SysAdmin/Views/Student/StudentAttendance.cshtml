@@ -1,0 +1,283 @@
+﻿@model PresentationLayer.Areas.SysAdmin.Models.StudentAttendanceVM
+@using Telerik.Web.Mvc.UI;
+@using myRes=PresentationLayer.LocalResource.Resource;
+@{  System.Threading.Thread.CurrentThread.CurrentUICulture = new System.Globalization.CultureInfo(System.Configuration.ConfigurationManager.AppSettings["Culture"].ToString());
+  System.Threading.Thread.CurrentThread.CurrentCulture = System.Threading.Thread.CurrentThread.CurrentUICulture;}
+
+@{
+    ViewBag.Title = myRes.StudentAttendance;
+}
+
+@section Scripts {
+    @*dataTyp: "html",*@
+    <script type="text/javascript">
+    $(document).ready(function () {
+
+        $("#btnShow").click(function () {
+
+            var ddlClassId = $('#ClassId').data('tDropDownList');
+            var ddlDivisionId = $('#DivisionId').data('tDropDownList');
+
+            var ddlClassIdValue = 0;
+            var ddlDivisionIdValue = 0;
+
+
+            if (ddlClassId.value() != '') {
+                ddlClassIdValue = ddlClassId.value();
+            }
+            else {
+                alert("@myRes.Please @myRes.SelectClass")
+                return;
+            }
+            if (ddlDivisionId.value() != '') {
+                ddlDivisionIdValue = ddlDivisionId.value();
+            }
+            else {
+                alert("@myRes.PleaseSelectDate")
+                return;
+            }
+
+            var dt = new Date($("#DateOfAttendance").data('tDatePicker').value());
+            if (dt == '') {
+                alert("@myRes.PleaseSelectDate")
+                return;
+            }
+            var month = dt.getMonth() + 1;
+            var day = dt.getDate();
+            var year = dt.getFullYear();
+
+            $('#result').load('@Url.Action("_GetStudentAttendance")'
+                , { ClassId: ddlClassIdValue, DivisionId: ddlDivisionIdValue, DateOfAttendance: month + '/' + day + '/' + year }
+                , function (response, status, xhr) {
+                    if (status != "success") {
+                        //$(container).html('an error has occured');
+                    }
+                });
+
+            $("#btnSubmit").click(function () {
+                debugger;
+                var ddlClassId = $('#ClassId').data('tDropDownList');
+                var ddlDivisionId = $('#DivisionId').data('tDropDownList');
+
+                var ddlClassIdValue = 0;
+                var ddlDivisionIdValue = 0;
+                var selectedStudents = '';
+
+                if (ddlClassId.value() != '') {
+                    ddlClassIdValue = ddlClassId.value();
+                }
+                else {
+                    alert("@myRes.Please @myRes.SelectClass")
+                    return;
+                }
+                if (ddlDivisionId.value() != '') {
+                    ddlDivisionIdValue = ddlDivisionId.value();
+                }
+                else {
+                    alert("@myRes.Please @myRes.SelectDivision")
+                    return;
+                }
+                var dt = new Date($("#DateOfAttendance").data('tDatePicker').value());
+                if (dt == '') {
+                    alert("@myRes.PleaseSelectDate")
+                    return;
+                }
+
+                if (jQuery("[id=StudentIds]") == undefined) {
+                    alert("@myRes.NoRecordsFoundToPresent")
+                    return;
+                }
+                if (jQuery("[id=StudentIds]").length == 0) {
+                    alert("@myRes.NoRecordsFoundToPresent")
+                    return;
+                }
+                //alert($("#StudentIds").val());
+                //alert($("#txtAttendance").val());
+                //alert($("#txtAbsentRemark").val());
+
+                jsonObj = []; // created object of StudentAttendanceSubVM entity
+                jsonStudentIdObj = [];
+                jsonAttendanceObj = [];
+                jsonAbsentRemarkObj = [];
+                for (i = 0; i < jQuery("[id=StudentIds]").length; i++) {
+                    var txtStudentId = jQuery("[id=StudentIds]")[i].value;
+                    var txtStudentAttendance = jQuery("[id=txtAttendance]")[i].value;
+                    var txtStudentAbsentRemark = jQuery("[id=txtAbsentRemark]")[i].value;
+                    item = {}
+                    item["StudentId"] = txtStudentId;
+                    item["Attendance"] = txtStudentAttendance;
+                    item["AbsentRemark"] = txtStudentAbsentRemark;
+
+                    jsonObj.push(item);
+
+                    jsonStudentIdObj.push(txtStudentId);
+                    jsonAttendanceObj.push(txtStudentAttendance);
+                    jsonAbsentRemarkObj.push(txtStudentAbsentRemark);
+                }
+
+                //var dt = new Date($("#DateOfAttendance").data('tDatePicker').value());
+                var month = dt.getMonth() + 1;
+                var day = dt.getDate();
+                var year = dt.getFullYear();
+
+                debugger;
+
+
+                //$("#assignChkBx").val()   jQuery("[id=txtAbsentRemark]").val()
+                var form = $(this).serialize();
+                $.ajax({
+                    type: 'POST',
+                    url: '@Url.Action("StudentAttendance", "Student")',
+                        data: {
+                            formCollection: $("form").serialize(),
+                            //entities: JSON.stringify(jsonObj)
+                            ClassId: ddlClassIdValue,
+                            DivisionId: ddlDivisionIdValue,
+                            dateAttendance: month + '/' + day + '/' + year,
+                            students: jsonStudentIdObj,
+                                days:jsonAttendanceObj,
+                                    remarks: jsonAbsentRemarkObj
+                        },
+                        dataType: "json",
+                        traditional: true,
+                        //contentType: "application/json; charset=utf-8",
+                        success: function (data) {
+                            alert("@myRes.TheMessageHasBeenSent");
+                        }
+                    });
+                alert("@myRes.InformationUpdatated");
+                } );
+            });// end show click event
+
+            $("#grid .t-grid-content").css("overflow-y", "scroll").css("overflow-x", "scroll").scroll(function () {
+                var left = $(this).scrollLeft();
+                var wrap = $("#grid > .t-grid-header-wrap");
+                if (wrap.scrollLeft() != left) wrap.scrollLeft(left);
+            }); // end grid code
+
+            //$('#assets-data-table').DataTable();
+
+        })@* End document ready *@
+
+
+
+
+    function checkNumeric(element) {
+        var dt = new Date($("#DateOfAttendance").data('tDatePicker').value());
+        var month = dt.getMonth();
+        var day = dt.getDate();
+        var year = dt.getFullYear();
+
+        if (element.value == '') {
+            element.value = 0;
+        }
+        else {
+            var elementVal = 0;
+            if (!isNaN(parseFloat(element.value))) {
+                elementVal = parseFloat(element.value);
+            }
+            if (elementVal > getNumberOfDays(year, month)) {
+                elementVal = 0;
+            }
+            element.value = elementVal;
+        }
+    }
+
+    function getNumberOfDays(year, month) {
+        var isLeap = ((year % 4) == 0 && ((year % 100) != 0 || (year % 400) == 0));
+        return [31, (isLeap ? 29 : 28), 31, 30, 31, 30, 31, 31, 30, 31, 30, 31][month];
+    }
+    </script>
+}
+<style>
+    /* table {
+        width: 100%;
+        /*background-color: gray;*/
+    }
+   /* table tr td{
+        width: 16.66%;
+    }
+
+    .tdfirst {
+        text-align: right;
+        width: 13%;
+    }
+
+    .tdthird {
+        text-align: right;
+        width: 10%;
+    }
+
+    .tdfive {
+        text-align: right;
+        width: 10%;
+    }
+    */
+     .backgrounddiv {
+        background-color: lightgray;
+        border-radius: 25px;
+        margin: 5px;
+        padding: 30px;
+    }
+</style>
+@using (Html.BeginForm())
+{
+    @*@Html.AntiForgeryToken()*@
+   <div class="backgrounddiv">
+        <h4> @myRes.StudentAttendance</h4>
+        <hr>
+
+        @Html.ValidationSummary(true)
+        <table style="width:70%; padding:0px;">
+            <tr>
+                
+                <td style="text-align:right">
+                    @Html.LabelFor(model => model.ClassId)
+                </td>
+                <td style="text-align:left">
+                    @Html.Telerik().DropDownListFor(model => model.ClassId).BindTo(Model.Classes).CascadeTo("DivisionId").Placeholder(myRes.SelectClass)
+                     @Html.ValidationMessageFor(model => model.ClassId)
+                </td>
+                <td style="text-align:right">
+                    @Html.LabelFor(model => model.DivisionId)
+                </td>
+                <td style="text-align:left">
+                    @Html.Telerik().DropDownListFor(model => model.DivisionId).DataBinding(binding => binding.Ajax().Select("GetDivisionsList", "Student")).Placeholder(myRes.SelectDivision)
+                    @Html.ValidationMessageFor(model => model.DivisionId)
+                </td>
+            </tr>
+
+            <tr>
+                <td style="text-align:right">
+                    @Html.LabelFor(model => model.DateOfAttendance)
+                </td>
+                <td style="text-align:left">
+                    @Html.Telerik().DatePickerFor(model => model.DateOfAttendance).Format("MMM-yyyy")
+                    @Html.ValidationMessageFor(model => model.DateOfAttendance)
+                </td>
+            </tr>
+            <tr>
+                <td colspan="6" style="text-align:center">
+                    <input type="button" id="btnShow" value=@myRes.Search class="t-button" />
+                    <input type="button" id="btnSubmit" value=@myRes.Submit class="t-button" />
+                    @if (TempData["Error"] != null)
+                    {
+                        <p style="color:red;">
+                            @(TempData["Error"].ToString())
+                        </p>
+                    }
+
+                </td>
+            </tr>
+
+        </table>
+
+        <table id="jqGrid"></table>
+        <div style="width: 100%; text-align:center;">
+            <div id="result" style="width: 90%; margin: 50px; text-align:left;"></div>
+        </div>
+
+
+    </div>
+}
+

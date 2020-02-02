@@ -1,0 +1,27 @@
+﻿@model Telerik.Web.Mvc.GridModel<PresentationLayer.Areas.SysAdmin.Models.StudentVM>
+@using Telerik.Web.Mvc.UI;
+@using myRes=PresentationLayer.LocalResource.Resource;
+<div>
+    @(Html.Telerik().Grid<PresentationLayer.Areas.SysAdmin.Models.StudentVM>(Model.Data)
+        .Name("Grid")
+        .DataKeys(keys => keys.Add(c => c.StudentId))
+        .EnableCustomBinding(true)
+        .Columns(columns =>
+        {
+            columns.Bound(p => p.StudentId).Width(50).Title(myRes.StudentId);
+            columns.Bound(p => p.RegisterId).Width(100).Title(myRes.RegisterId);
+            columns.Bound(p => p.ClassDivision).Width(120).Title(myRes.ClassDivision);            
+            columns.Bound(p => p.StudentFullNameWithTitle).Width(250);
+            columns.Bound(p => p.ReligionCast).Width(120).Title(myRes.ReligionCast);
+            columns.Bound(p => p.DateOfBirth).Format("{0:dd-MM-yyyy}").Width(100);
+            columns.Bound(p => p.Status).Width(80);
+            columns.Bound(p => p.Remark).Width(100);
+        })
+                                .Reorderable(command => command.Columns(true))
+            .Sortable()
+                .Resizable(command => command.Columns(true))
+                         .Pageable(paging => paging.Style(GridPagerStyles.NextPreviousAndNumeric | GridPagerStyles.PageInput | GridPagerStyles.PageSizeDropDown))
+                              .Scrollable(paging => paging.Height(300))
+                        .Filterable()
+    )
+</div>

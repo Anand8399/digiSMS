@@ -1,0 +1,118 @@
+﻿@model PresentationLayer.Areas.SysAdmin.Models.StudentVM
+@using Telerik.Web.Mvc.UI
+@using myRes=PresentationLayer.LocalResource.Resource;
+@{  System.Threading.Thread.CurrentThread.CurrentUICulture = new System.Globalization.CultureInfo(System.Configuration.ConfigurationManager.AppSettings["Culture"].ToString());
+  System.Threading.Thread.CurrentThread.CurrentCulture = System.Threading.Thread.CurrentThread.CurrentUICulture;}
+@{
+    ViewBag.Title =myRes.StudentExport;
+}
+
+@section Scripts {
+    @*dataTyp: "html",*@
+    <script type="text/javascript">
+    $(document).ready(function () {
+
+
+    })@* End document ready *@
+
+
+    </script>
+<style>
+    table {
+        width: 100%;
+        /*background-color: gray;*/
+    }
+    /*table tr td{
+        width: 16.66%;
+    }*/
+
+    .tdfirst {
+        text-align: right;
+        width: 13%;
+    }
+
+    .backgrounddiv {
+        background-color: lightgray;
+        border-radius: 10px;
+        margin: 5px;
+        padding: 5px;
+    }
+</style>
+
+<script  type="text/javascript">
+    var clicks = 0;
+    function SubmitOnce(ExportBtn)
+    {
+        clicks = clicks + 1;
+        if (clicks == 1)
+          return true;
+        else {
+            ExportBtn.disabled = 'true';
+            return false;
+        }
+    }
+    </script>
+
+ 
+    }
+@using (Html.BeginForm("Export2Excel", "Student", new { area = "SysAdmin" }, FormMethod.Post))
+{
+    @Html.AntiForgeryToken()
+    <div class="backgrounddiv">
+        <h4> @myRes.SelectYearToExportStudent</h4>
+        <hr />
+
+        @Html.ValidationSummary(true)
+        @*<div style="text-align:center">
+            @if (ViewBag.Mesasge != null)
+            {
+                <p style="color:red;">
+
+                    @( ViewBag.Message != null ? ViewBag.Message.ToString() : "")
+                </p>
+            }
+        </div>*@
+
+        <table style="width:50%;">
+            @*<tr>
+                
+                <td style="text-align:right">
+                    @Html.LabelFor(model => model.ClassId)
+                </td>
+                <td style="text-align:left">
+                    @Html.Telerik().DropDownListFor(model => model.ClassId).BindTo(Model.Classes).Placeholder(myRes.SelectClass).ClientEvents(events => events.OnChange("ddlClassYearChange"))
+                    @Html.ValidationMessageFor(model => model.ClassId)
+                </td>
+            </tr>*@
+
+
+            <tr>
+
+                <td colspan="4" style="text-align:center">
+
+                    <input type="submit" id="ExportBtn" value="@myRes.StudentExport" class="btn btn-success">
+                   @* disabled="true" onselect="false"  onchange="true" ondrop="false" onload="true"*@
+                    
+                </td>
+
+            </tr>
+            <tr>
+                <td colspan="6" style="text-align:center">
+                    <div id="result" style="width: 90%; margin: 50px;"></div>
+                </td>
+            </tr>
+
+        </table>
+        <div>
+            @if (TempData["Message"] != null)
+            {
+                <p style="color:red;">
+
+                    @(TempData["Message"] != null ? TempData["Message"].ToString() : "")
+                </p>
+            }
+        </div> 
+    </div>
+}
+
+

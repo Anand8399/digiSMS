@@ -1,0 +1,287 @@
+﻿@model PresentationLayer.Areas.SysAdmin.Models.StudentVM
+@using Telerik.Web.Mvc.UI
+@using myRes=PresentationLayer.LocalResource.Resource;
+@{  System.Threading.Thread.CurrentThread.CurrentUICulture = new System.Globalization.CultureInfo(System.Configuration.ConfigurationManager.AppSettings["Culture"].ToString());
+  System.Threading.Thread.CurrentThread.CurrentCulture = System.Threading.Thread.CurrentThread.CurrentUICulture;}
+@{
+    ViewBag.Title = myRes.StudentSearch;
+}
+
+@section Scripts {
+    @*dataTyp: "html",*@
+    <script type="text/javascript">
+        $(document).ready(function () {
+            $("#txtRegisterId").change(function () {
+               
+                var ddlClassIdList = $('#ClassId').data('tDropDownList');
+                var ddlReligionId = $("#ReligionId").data('tDropDownList');
+                ddlClassIdList.select(0);
+                ddlReligionId.dataBind(null);
+                debugger;
+                var txtRegisterId = $("#txtRegisterId");                
+
+                if (txtRegisterId.val().length > 0) {
+                    var intRegisterId = parseInt(txtRegisterId.val());
+                    $.ajax({
+                        dataType: "json",
+                        url: '@Url.Action("GetStudentDetailsByRegisterId")',
+                        data: { RegisterId: intRegisterId },
+                        success: function (studentData) {
+                            if (studentData != undefined) {
+                                var _ClassId = 0;
+                                var _DivisionId = 0;
+                                var _ReligionId = 0;
+                                var _CastId = 0;
+
+                                if (studentData.ClassId != undefined) {
+                                    _ClassId = studentData.ClassId;
+                                }
+                                if (studentData.DivisionId != undefined) {
+                                    _DivisionId = studentData.DivisionId;
+                                }
+                                if (studentData.ReligionId != undefined) {
+                                    _ReligionId = studentData.ReligionId;
+                                }
+                                if (studentData.CastId != undefined) {
+                                    _CastId = studentData.CastId;
+                                }
+
+                                var ddlDivisionIdList = $('#DivisionId').data('tDropDownList');
+                                var ddlCastId = $("#CastId").data('tDropDownList');
+
+
+                                $.getJSON('@Url.Action("GetClassesList", "StudentTransaction")',
+                                   function success(classData, status, xhr) {
+                                       ddlClassIdList.dataBind(classData);
+                                       if (ddlClassIdList.data.length > 0) {
+                                           ddlClassIdList.value(_ClassId);
+                                       }
+                                   });// End class
+                                debugger;
+                                $.getJSON('@Url.Action("GetDivisionsList", "StudentTransaction")', { ClassId: _ClassId },
+                                  function success(divisionData) {
+
+                                      ddlDivisionIdList.dataBind(divisionData);
+                                      if (ddlDivisionIdList.data.length > 0) {
+                                          ddlDivisionIdList.value(_DivisionId);
+                                      }
+                                  });// End division
+
+                                $.getJSON('@Url.Action("GetReligionsList")',
+                                  function success(religionData) {
+                                      ddlReligionId.dataBind(religionData);
+                                      if (ddlReligionId.data.length > 0) {
+                                          ddlReligionId.value(_ReligionId);
+                                      }
+                                  });// End ReligionId
+
+                                $.getJSON('@Url.Action("GetCastsList")', { ReligionId: _ReligionId },
+                                  function success(castData) {
+                                      debugger;
+                                      ddlCastId.dataBind(castData);
+                                      if (ddlCastId.data.length > 0) {
+                                          ddlCastId.value(_CastId);
+                                      }
+                                  });// End ReligionId
+                            }
+                        }
+                    });
+                }
+            }); // end txtRegisterId change event
+
+        $("#txtRegisterId").keydown(function (e) {
+            // Allow: backspace, delete, tab, escape, enter and .
+            if ($.inArray(e.keyCode, [46, 8, 9, 27, 13, 110, 190]) !== -1 ||
+                // Allow: Ctrl+A, Command+A
+                (e.keyCode === 65 && (e.ctrlKey === true || e.metaKey === true)) ||
+                // Allow: home, end, left, right, down, up
+                (e.keyCode >= 35 && e.keyCode <= 40)) {
+                // let it happen, don't do anything
+                return;
+            }
+            // Ensure that it is a number and stop the keypress
+            if ((e.shiftKey || (e.keyCode < 48 || e.keyCode > 57)) && (e.keyCode < 96 || e.keyCode > 105)) {
+                e.preventDefault();
+            }
+        }); // end txtRegisterId keydown event
+
+        $("#btnShow").click(function () {
+            var txtRegId = $('#txtRegisterId');
+            var ddlClassId = $('#ClassId').data('tDropDownList');
+            var ddlDivisionId = $('#DivisionId').data('tDropDownList');
+            var ddlReligionId = $('#ReligionId').data('tDropDownList');
+            var ddlCastId = $('#CastId').data('tDropDownList');
+            var txtRegIdValue = 0;
+            var ddlClassIdValue = 0;
+            var ddlDivisionIdValue = 0;
+            var ddlReligionIdValue = 0;
+            var ddlCastIdValue = 0;
+
+            if (txtRegId.val() != '') {
+                txtRegIdValue = parseInt(txtRegId.val());
+            }
+            if (ddlClassId.value() != '') {
+                ddlClassIdValue = ddlClassId.value();
+            }
+            if (ddlDivisionId.value() != '') {
+                ddlDivisionIdValue = ddlDivisionId.value();
+            }
+            if (ddlReligionId.value() != '') {
+                ddlReligionIdValue = ddlReligionId.value();
+            }
+            if (ddlCastId.value() != '') {
+                ddlCastIdValue = ddlCastId.value();
+            }
+
+            var chk = $("#chkStatus").attr('checked');
+            var bln = false;
+            if (chk == 'checked') {
+                bln = true;
+            }
+
+            //GetStudentTransactionSubDeails'
+            $('#result').load('@Url.Action("_GetStudentDetails", "Student")'
+                , { RegisterId: txtRegIdValue, ClassId: ddlClassIdValue, DivisionId: ddlDivisionIdValue, ReligionId: ddlReligionIdValue, CastId: ddlCastIdValue, Status: bln }
+                , function (response, status, xhr) {
+                    if (status != "success") {
+                        //$(container).html('an error has occured');
+                    }
+                });
+
+        });// end show click event
+
+       
+
+    $("#grid .t-grid-content").css("overflow-y", "scroll").css("overflow-x", "scroll").scroll(function () {
+        var left = $(this).scrollLeft();
+        var wrap = $("#grid > .t-grid-header-wrap");
+        if (wrap.scrollLeft() != left) wrap.scrollLeft(left);
+    }); // end grid code
+
+
+    })@* End document ready *@
+
+        function ddlClassChange(e) {
+
+        var ddlReligionId = $("#ReligionId").data('tDropDownList');
+        var ddlDivisionId = $("#DivisionId").data('tDropDownList');
+        var ddlCastId = $("#CastId").data('tDropDownList');
+        //var txtReserveCategory = $("#ReserveCategory");
+        debugger;
+        if (e.value != '') {
+
+            $.ajax({
+                dataType: "json",
+                url: '@Url.Action("GetReligionsList")',
+                data: {},
+                success: function (divisionData) {
+                    ddlReligionId.dataBind(divisionData);
+                    ddlReligionId.select(0);
+                }
+            });
+        }
+        else {
+            ddlReligionId.dataBind(null);
+            ddlDivisionId.dataBind(null);
+            ddlCastId.dataBind(null);
+            //  txtReserveCategory.val('');
+        }
+    }@*End Change*@
+    </script>
+}
+
+<style>
+    .backgrounddiv {
+        background-color: lightgray;
+        border-radius: 25px;
+        margin: 5px;
+        padding: 30px;
+    }
+</style>
+@using (Html.BeginForm())
+{
+    @Html.AntiForgeryToken()
+
+    
+    <div class="backgrounddiv">
+        <h4>@myRes.StudentSearch</h4>
+        <hr>
+
+
+        @Html.ValidationSummary(true)
+        <table style="width:50%;" class="form-horizontal">
+            <tr>
+                <td style="text-align:right">
+                    @Html.Label("lblRegisterId", myRes.RegisterId)
+                </td>
+                <td style="text-align:left">
+                    @Html.TextBox("txtRegisterId", null, new { @class = "form-control valid", @data_val = "true", @data_val_number = "The field Register Id must be a number.", @style = "width:100px;" })
+                    <span class="field-validation-valid" data-valmsg-for="txtRegisterId" data-valmsg-replace="true"></span>
+
+                </td>
+
+            </tr>
+            <tr>
+                <td style="text-align:right">
+                    @Html.LabelFor(model => model.ClassId)
+                </td>
+                <td style="text-align:left">
+                    @Html.Telerik().DropDownListFor(model => model.ClassId).BindTo(Model.Classes).CascadeTo("DivisionId").ClientEvents(events => events.OnChange("ddlClassChange")).Placeholder(myRes.SelectClass)
+                    @*@Html.Telerik().DropDownListFor(model => model.ClassId).DataBinding(binding => binding.Ajax().Select("GetClassesList", "Student")).CascadeTo("DivisionId").Placeholder("Select Class")*@
+                    @Html.ValidationMessageFor(model => model.ClassId)
+                </td>
+                <td style="text-align:right">
+                    @Html.LabelFor(model => model.DivisionId)
+                </td>
+                <td style="text-align:left">
+                    @Html.Telerik().DropDownListFor(model => model.DivisionId).DataBinding(binding => binding.Ajax().Select("GetDivisionsList", "Student")).Placeholder(myRes.SelectDivision)
+                    @Html.ValidationMessageFor(model => model.DivisionId)
+                </td>
+            </tr>
+            <tr>
+                <td style="text-align:right">
+                    @Html.LabelFor(model => model.ReligionId)
+                </td>
+                <td style="text-align:left">
+                    @Html.Telerik().DropDownListFor(model => model.ReligionId).Placeholder(myRes.SelectReligion).CascadeTo("CastId")
+                    @Html.ValidationMessageFor(model => model.ReligionId)
+                </td>
+                <td style="text-align:right">
+                    @Html.LabelFor(model => model.CastId)
+                </td>
+                <td style="text-align:left">
+                    @Html.Telerik().DropDownListFor(model => model.CastId).DataBinding(binding => binding.Ajax().Select("GetCastsList", "Student")).CascadeTo("CurrentDivisionId").Placeholder(myRes.SelectCaste)
+                    @Html.ValidationMessageFor(model => model.CastId)
+                </td>
+            </tr>
+            <tr>
+                <td style="text-align:right">
+                    @Html.Label(myRes.Status)
+                </td>
+                <td style="text-align:left">
+                    <input type="checkbox" id="chkStatus" name="chkStatus" value="true" />
+                </td>
+                <td colspan="4" style="text-align: center; padding-top: 4em;">
+                    <input type="button" id="btnShow" value="@myRes.Search" class="btn btn-success" />
+                    @*<input type="button" id="btnExport" value="Export" class="t-button" />*@
+                    @*<input type="button" id="btnClear" value="Clear" class="t-button" />*@
+                    @if (ViewBag.Error != null)
+                    {
+                        <p style="color:red;">
+
+                            @(ViewBag.Error != null ? ViewBag.Error.ToString() : "")
+                        </p>
+                    }
+                </td>
+            </tr>
+            <tr>
+                
+                <td colspan="6" style="text-align: center;">
+                    <div id="result" style="width: 90%; margin: 50px;"></div>
+                </td>
+              
+            </tr>
+
+        </table>
+    </div>
+}

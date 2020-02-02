@@ -1,0 +1,151 @@
+﻿@model PresentationLayer.Areas.SysAdmin.Models.ReligionCastVM
+@using Telerik.Web.Mvc.UI;
+@using myRes=PresentationLayer.LocalResource.Resource;
+@using PresentationLayer.Other;
+@{  System.Threading.Thread.CurrentThread.CurrentUICulture = new System.Globalization.CultureInfo(System.Configuration.ConfigurationManager.AppSettings["Culture"].ToString());
+  System.Threading.Thread.CurrentThread.CurrentCulture = System.Threading.Thread.CurrentThread.CurrentUICulture;}
+
+@{
+    ViewBag.Title = myRes.Create;
+}
+<style>
+    table {
+        width: 100%;
+        /*background-color: gray;*/
+    }
+    /*table tr td{
+        width: 16.66%;
+    }*/
+
+    .tdfirst {
+        text-align: right;
+        width: 13%;
+    }
+
+    .tdthird {
+        text-align: right;
+        width: 10%;
+    }
+
+    .tdfive {
+        text-align: right;
+        width: 10%;
+    }
+
+    .backgrounddiv {
+        background-color: lightgray;
+        border-radius: 25px;
+        margin: 5px;
+        padding: 5px;
+    }
+</style>
+
+@section Scripts {
+    @*dataTyp: "html",*@
+    <script type="text/javascript">
+        $(document).ready(function () {
+            //$("#Show").addClass('t-button');
+        })@* End document ready *@
+
+        function ddlAcademicYearChange(e) {
+            var ddlAcademicYear = $(this).data('tDropDownList'); // $(this) is equivalent to $('#ComboBox')
+            $.ajax({
+                dataType: "json",
+                url: '@Url.Action("GetReligionsList")',
+                data: { AcademicYearId: e.value },
+                success: function (classData) {
+                    var ddlClass = $("#ReligionId").data('tDropDownList');
+                    ddlClass.dataBind(classData);
+                    ddlClass.select(0);
+                }
+            });
+            $.ajax({
+                dataType: "json",
+                url: '@Url.Action("GetCastsList")',
+                data: { AcademicYearId: e.value },
+                success: function (divisionData) {
+                    var ddlDivision = $("#CastId").data('tDropDownList');
+                    ddlDivision.dataBind(divisionData);
+                    ddlDivision.select(0);
+                }
+            });
+        }@* End onLoad *@
+    </script>
+}
+@using (Html.BeginForm())
+{
+    @Html.AntiForgeryToken()
+
+    <div class="form-horizontal">
+        <h4>@myRes.Create- @myRes.ReligionCast</h4>
+        <hr />
+
+        @Html.ValidationSummary(true)
+
+        <div class="backgrounddiv">
+            <table>
+
+            <tr>
+                <td class="tdfirst">@Html.LabelForRequired(model => model.ReligionId)</td>
+                <td>
+                    @Html.Telerik().DropDownListFor(model => model.ReligionId).BindTo(Model.Religions).CascadeTo("CastId").Placeholder(myRes.SelectReligion)
+                @Html.ValidationMessageFor(model => model.ReligionId)
+            </td>
+        </tr>
+        <tr>
+            <td class="tdfirst">@Html.LabelForRequired(model => model.CastId)</td>
+            <td>
+                @Html.Telerik().DropDownListFor(model => model.CastId).DataBinding(binding => binding.Ajax().Select("GetCastsList", "ReligionCast")).CascadeTo("ReserveCategory").Placeholder(myRes.SelectCaste)
+            @Html.ValidationMessageFor(model => model.CastId)
+        </td>
+    </tr>
+    <tr>
+        <td class="tdfirst">@Html.LabelForRequired(model => model.ReserveCategory)</td>
+        <td>
+            @Html.Telerik().DropDownListFor(model => model.ReserveCategory).Placeholder(myRes.ReserveCategory).Items(item =>
+           {
+               item.Add().Text(myRes.General).Value(myRes.General);
+               item.Add().Text(myRes.NT1).Value(myRes.NT1);
+               item.Add().Text(myRes.NT2).Value(myRes.NT2);
+               item.Add().Text(myRes.NT3).Value(myRes.NT3);
+               item.Add().Text(myRes.NT4).Value(myRes.NT4);
+               item.Add().Text(myRes.OBC).Value(myRes.OBC);
+               item.Add().Text(myRes.SBC).Value(myRes.SBC);
+               item.Add().Text(myRes.SC).Value(myRes.SC);
+               item.Add().Text(myRes.ST).Value(myRes.ST);
+               item.Add().Text(myRes.VJ).Value(myRes.VJ);
+               item.Add().Text(myRes.VJ1).Value(myRes.VJ1);
+               item.Add().Text(myRes.Na).Value(myRes.Na);
+         
+              
+        
+           })
+        @*NT NT1 NT2 SC ST SBC VJ OBC OBC-NONCRIM GENRAL*@
+        @Html.ValidationMessageFor(model => model.ReserveCategory)
+    </td>
+</tr>
+<tr>
+    <td class="tdfirst">@Html.LabelForRequired(model => model.Status)</td>
+    <td>
+        @Html.EditorFor(model => model.Status)
+    @Html.ValidationMessageFor(model => model.Status)
+</td>
+</tr>
+<tr>
+    <td class="tdfirst">@Html.LabelForRequired(model => model.Remark)</td>
+    <td>
+        @Html.EditorFor(model => model.Remark)
+    @Html.ValidationMessageFor(model => model.Remark)
+</td>
+</tr>
+</table>
+</div>
+
+<div class="form-group">
+    <div class="col-md-offset-2 col-md-10">
+        <input type="submit" value=@myRes.Create class="btn btn-success" />
+        @Html.ActionLink(myRes.BackToList, "Index", new { }, new { @class = "btn btn-default" })
+    </div>
+</div>
+</div>
+}

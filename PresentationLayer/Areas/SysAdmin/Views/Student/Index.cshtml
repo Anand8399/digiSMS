@@ -1,0 +1,57 @@
+﻿@model Telerik.Web.Mvc.GridModel<PresentationLayer.Areas.SysAdmin.Models.StudentVM>
+@using Telerik.Web.Mvc.UI
+@using myRes=PresentationLayer.LocalResource.Resource;
+@{  System.Threading.Thread.CurrentThread.CurrentUICulture = new System.Globalization.CultureInfo(System.Configuration.ConfigurationManager.AppSettings["Culture"].ToString());
+  System.Threading.Thread.CurrentThread.CurrentCulture = System.Threading.Thread.CurrentThread.CurrentUICulture;}
+@{
+    ViewBag.Title = myRes.index;
+}
+
+<h2>@myRes.Student-@myRes.index</h2>
+
+
+@(Html.Telerik().Grid<PresentationLayer.Areas.SysAdmin.Models.StudentVM>(Model.Data)
+        .Name("Grid")
+        .DataKeys(keys => keys.Add(c => c.SrNo))
+                            .ToolBar(commands => commands.Custom().Action("Create", "Student", new { area = "SysAdmin" }).Text(myRes.NewAdmission).ImageHtmlAttributes(new { @class = "t-add" }).ButtonType(GridButtonType.ImageAndText).HtmlAttributes(new { title = "New Admission", id = "Add", @class = "RightAlign" }))
+
+        .DataBinding(dataBinding =>
+            dataBinding.Ajax()
+                                                    .Select("Select", "Student", new { area = "SysAdmin", GridButtonType.Text })
+                                                .Update("Edit", "Student", new { area = "SysAdmin", GridButtonType.Text }))
+        .Columns(columns =>
+        {
+            columns.Command(commands =>
+            {
+                commands.Custom("Edit").Action("Edit", "Student", new { area = "SysAdmin" }).ImageHtmlAttributes(new { @class = "t-edit" }).ButtonType(GridButtonType.Image).HtmlAttributes(new { title = "Edit" });
+            }).Width(50).Title(myRes.Update);
+
+            //columns.Command(commands =>
+            //{
+            //    commands.Custom("Delete").Action("Delete", "Student", new { area = "SysAdmin" }).ImageHtmlAttributes(new { @onclick = "return confirmDelete()", @class = "t-delete" }).ButtonType(GridButtonType.Image).HtmlAttributes(new { title = "Delete", @class = "RightAlign" });
+            //}).Width(50).Title("Delete");
+            columns.Command(commands =>
+            {
+                commands.Custom("Address").Action("Edit", "StudentAddress", new { area = "SysAdmin" }).ImageHtmlAttributes(new { @class = "t-denied" }).ButtonType(GridButtonType.Image).HtmlAttributes(new { title = myRes.Address,myRes.Update});
+            }).Width(60).Title(myRes.Address).HtmlAttributes(new { @style = "align:center" });
+            columns.Command(commands =>
+            {
+                commands.Custom("Parent Details").Action("Edit", "StudentParent", new { area = "SysAdmin" }).ImageHtmlAttributes(new { @class = "t-restore" }).ButtonType(GridButtonType.Image).HtmlAttributes(new { title = myRes.ParentDetails,myRes.Update});
+            }).Width(100).Title(myRes.ParentDetails).HtmlAttributes(new { @class = "CenterAlign" });
+            columns.Bound(p => p.RegisterId).Width(100);
+            columns.Bound(p => p.ClassDivision).Width(100);
+            columns.Bound(p => p.StudentFullNameWithTitle).Width(250);
+            columns.Bound(p => p.ReligionCast).Width(100);
+            columns.Bound(p => p.DateOfBirth).Format("{0:dd-MM-yyyy}").Width(100);
+            columns.Bound(p => p.Status).Width(80);
+            columns.Bound(p => p.TCPrinted).Width(80);
+            columns.Bound(p => p.Remark).Width(100);
+        })
+            .Pageable(paging => paging.Style(GridPagerStyles.NextPreviousAndNumeric | GridPagerStyles.PageInput | GridPagerStyles.PageSizeDropDown))
+                      .Scrollable(paging => paging.Height(300))
+
+                                .Reorderable(command => command.Columns(true))
+            .Sortable()
+                .Filterable()
+                .Resizable(command => command.Columns(true))
+)

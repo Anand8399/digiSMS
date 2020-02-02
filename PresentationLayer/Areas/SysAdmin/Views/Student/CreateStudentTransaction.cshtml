@@ -1,0 +1,42 @@
+﻿@using myRes=PresentationLayer.LocalResource.Resource;
+@model PresentationLayer.Areas.SysAdmin.Models.StudentTransactionVM
+@{  System.Threading.Thread.CurrentThread.CurrentUICulture = new System.Globalization.CultureInfo(System.Configuration.ConfigurationManager.AppSettings["Culture"].ToString());
+  System.Threading.Thread.CurrentThread.CurrentCulture = System.Threading.Thread.CurrentThread.CurrentUICulture;}
+@{
+    ViewBag.Title = "CreateStudentTransaction";
+}
+
+<h2>CreateStudentTransaction</h2>
+@Html.HiddenFor(model => model.AcademicYearId)
+@Html.HiddenFor(model => model.ClassDivisionId)
+@Html.HiddenFor(model => model.ClassId)
+@Html.HiddenFor(model => model.DivisionId)
+@Html.HiddenFor(model => model.ClassDivisionId)
+
+@using (Html.BeginForm())
+{
+    @Html.AntiForgeryToken()
+    <div class="form-horizontal">
+        <h4>@myRes.Update - @myRes.StudentTransaction</h4>
+        <hr />
+
+        @Html.ValidationSummary(true)
+        <div class="form-group">
+            @Html.LabelFor(model => model.StudentId, new { @class = "control-label col-md-2" })
+            <div class="col-md-10">
+                @Html.TextBoxFor(model => model.StudentId, new { @readonly = "readonly", @style = "width : 80px;" })
+                @Html.ValidationMessageFor(model => model.StudentId)
+                @Html.TextBoxFor(model => model.StudentFullNameWithTitle, new { @readonly = "readonly", @style = "width : 250px;" })
+                @Html.ValidationMessageFor(model => model.StudentFullNameWithTitle)
+            </div>
+        </div>
+
+
+        <div class="form-group">
+            <div class="col-md-offset-2 col-md-10">
+                <input type="submit" value=@myRes.Create class="btn btn-default" />
+                @Html.ActionLink(myRes.BackToList, "Index", new { Controller = "Student", Area = "SysAdmin" }, new { @class = "btn btn-default" })
+            </div>
+        </div>
+    </div>
+}

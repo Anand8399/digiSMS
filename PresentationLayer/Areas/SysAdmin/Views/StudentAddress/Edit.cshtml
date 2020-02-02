@@ -1,0 +1,196 @@
+﻿@model PresentationLayer.Areas.SysAdmin.Models.StudentAddressVM
+@using Telerik.Web.Mvc.UI;
+@using myRes=PresentationLayer.LocalResource.Resource;
+@using PresentationLayer.Other;
+@{  System.Threading.Thread.CurrentThread.CurrentUICulture = new System.Globalization.CultureInfo(System.Configuration.ConfigurationManager.AppSettings["Culture"].ToString());
+  System.Threading.Thread.CurrentThread.CurrentCulture = System.Threading.Thread.CurrentThread.CurrentUICulture;}
+@{
+    ViewBag.Title =myRes.Edit;
+}
+<style>
+    table {
+        width: 100%;
+        /*background-color: gray;*/
+    }
+    /*table tr td{
+        width: 16.66%;
+    }*/
+
+    .tdfirst {
+        text-align: right;
+        width: 13%;
+    }
+
+    .tdthird {
+        text-align: right;
+        width: 15%;
+    }
+
+    .tdfive {
+        text-align: right;
+        width: 10%;
+    }
+
+    .backgrounddiv {
+        background-color: lightgray;
+        border-radius: 25px;
+        margin: 5px;
+        padding: 5px;
+    }
+</style>
+
+@section Scripts {
+    @*dataTyp: "html",*@
+    <script type="text/javascript">
+        $(document).ready(function () {
+            $("#CurrentPinCode").keydown(function (e) {
+                // Allow: backspace, delete, tab, escape, enter and .
+                if ($.inArray(e.keyCode, [46, 8, 9, 27, 13, 110, 190]) !== -1 ||
+                    // Allow: Ctrl+A, Command+A
+                    (e.keyCode === 65 && (e.ctrlKey === true || e.metaKey === true)) ||
+                    // Allow: home, end, left, right, down, up
+                    (e.keyCode >= 35 && e.keyCode <= 40)) {
+                    // let it happen, don't do anything
+                    return;
+                }
+                // Ensure that it is a number and stop the keypress
+                if ((e.shiftKey || (e.keyCode < 48 || e.keyCode > 57)) && (e.keyCode < 96 || e.keyCode > 105)) {
+                    e.preventDefault();
+                }
+            });
+            $("#PermentPinCode").keydown(function (e) {
+                // Allow: backspace, delete, tab, escape, enter and .
+                if ($.inArray(e.keyCode, [46, 8, 9, 27, 13, 110, 190]) !== -1 ||
+                    // Allow: Ctrl+A, Command+A
+                    (e.keyCode === 65 && (e.ctrlKey === true || e.metaKey === true)) ||
+                    // Allow: home, end, left, right, down, up
+                    (e.keyCode >= 35 && e.keyCode <= 40)) {
+                    // let it happen, don't do anything
+                    return;
+                }
+                // Ensure that it is a number and stop the keypress
+                if ((e.shiftKey || (e.keyCode < 48 || e.keyCode > 57)) && (e.keyCode < 96 || e.keyCode > 105)) {
+                    e.preventDefault();
+                }
+            });
+        })@* End document ready *@
+
+    </script>
+}
+
+@using (Html.BeginForm())
+{
+    @Html.AntiForgeryToken()
+    
+    <div class="form-horizontal">
+        <h4>@myRes.EditStudentAddress</h4>
+        <hr />
+        @Html.ValidationSummary(true)
+        @*@Html.HiddenFor(model => model.StudentId)*@
+        @Html.HiddenFor(model => model.Status)
+        <div class="backgrounddiv">
+            <table>
+                <tr>
+                    <td class="tdfirst">@Html.LabelForRequired(model => model.StudentId)</td>
+                    <td colspan="3">
+                        @Html.TextBoxFor(model => model.StudentId, new {  @readonly = "readonly", @style = "width : 80px;" })
+                        @Html.ValidationMessageFor(model => model.StudentId)
+                        @Html.TextBoxFor(model => model.StudentFullNameWithTitle, new { disabled = "disabled", @readonly = "readonly", @style = "width : 250px;" })
+                        @Html.ValidationMessageFor(model => model.StudentFullNameWithTitle)
+                    </td>
+                    <td class="tdthird"></td>
+                    <td></td>
+                </tr>
+                <tr>
+                    <td class="tdfirst">@Html.LabelForRequired(model => model.CurrentAddress)</td>
+                    <td>
+                        @Html.TextAreaFor(model => model.CurrentAddress)
+                        @Html.ValidationMessageFor(model => model.CurrentAddress)
+                    </td>
+                    <td class="tdthird">@Html.LabelForRequired(model => model.PermentAddress)</td>
+                    <td>
+                        @Html.TextAreaFor(model => model.PermentAddress)
+                        @Html.ValidationMessageFor(model => model.PermentAddress)
+                    </td>
+                </tr>
+                <tr>
+                    <td class="tdfirst">@Html.LabelForRequired(model => model.CurrentCountryId)</td>
+                    <td>
+                        @Html.Telerik().DropDownListFor(model => model.CurrentCountryId).BindTo(Model.Countries).Placeholder(myRes.SelectCountry).CascadeTo("CurrentStateId")
+                        @Html.ValidationMessageFor(model => model.CurrentCountryId)
+                    </td>
+                    <td class="tdthird">@Html.LabelForRequired(model => model.PermentCountryId)</td>
+                    <td>
+                        @Html.Telerik().DropDownListFor(model => model.PermentCountryId).BindTo(Model.Countries).Placeholder(myRes.SelectCountry).CascadeTo("PermentStateId")
+                        @Html.ValidationMessageFor(model => model.PermentCountryId)
+                    </td>
+                </tr>
+                <tr>
+                    <td class="tdfirst">@Html.LabelForRequired(model => model.CurrentStateId)</td>
+                    <td>
+                        @Html.Telerik().DropDownListFor(model => model.CurrentStateId).DataBinding(binding => binding.Ajax().Select("GetStatesList", "StudentAddress")).Placeholder(myRes.SelectState).CascadeTo("CurrentDistrictId")
+                        @Html.ValidationMessageFor(model => model.CurrentStateId)
+                    </td>
+                    <td class="tdthird">@Html.LabelForRequired(model => model.PermentStateId)</td>
+                    <td>
+                        @Html.Telerik().DropDownListFor(model => model.PermentStateId).DataBinding(binding => binding.Ajax().Select("GetPermentStatesList", "StudentAddress")).Placeholder(myRes.SelectState).CascadeTo("PermentDistrictId")
+                        @Html.ValidationMessageFor(model => model.PermentStateId)
+                    </td>
+                </tr>
+
+                <tr>
+                    <td class="tdfirst">@Html.LabelForRequired(model => model.CurrentDistrictId)</td>
+                    <td>
+                        @Html.Telerik().DropDownListFor(model => model.CurrentDistrictId).DataBinding(binding => binding.Ajax().Select("GetDistrictList", "StudentAddress")).Placeholder(myRes.SelectDistrict).CascadeTo("CurrentCityId")
+                        @Html.ValidationMessageFor(model => model.CurrentDistrictId)
+                    </td>
+                    <td class="tdthird">@Html.LabelForRequired(model => model.PermentDistrictId)</td>
+                    <td>
+                        @Html.Telerik().DropDownListFor(model => model.PermentDistrictId).DataBinding(binding => binding.Ajax().Select("GetPermentDistrictList", "StudentAddress")).Placeholder(myRes.SelectDistrict).CascadeTo("PermentCityId")
+                        @Html.ValidationMessageFor(model => model.PermentDistrictId)
+                    </td>
+                </tr>
+
+                <tr>
+                    <td class="tdfirst">@Html.LabelForRequired(model => model.CurrentCityId)</td>
+                    <td>
+                        @Html.Telerik().DropDownListFor(model => model.CurrentCityId).DataBinding(binding => binding.Ajax().Select("GetCitiesList", "StudentAddress")).Placeholder(myRes.SelectCity)
+                        @Html.ValidationMessageFor(model => model.CurrentCityId)
+                    </td>
+                    <td class="tdthird">@Html.LabelForRequired(model => model.PermentCityId)</td>
+                    <td>
+                        @Html.Telerik().DropDownListFor(model => model.PermentCityId).DataBinding(binding => binding.Ajax().Select("GetPermentCitiesList", "StudentAddress")).Placeholder(myRes.SelectCity)
+                        @Html.ValidationMessageFor(model => model.PermentCityId)
+                    </td>
+                </tr>
+                <tr>
+                    <td class="tdfirst">@Html.LabelForRequired(model => model.CurrentPinCode)</td>
+                    <td>
+                        @Html.TextBoxFor(model => model.CurrentPinCode)
+                        @Html.ValidationMessageFor(model => model.CurrentPinCode)
+                    </td>
+                    <td class="tdthird">@Html.LabelForRequired(model => model.PermentPinCode)</td>
+                    <td>
+                        @Html.TextBoxFor(model => model.PermentPinCode)
+                        @Html.ValidationMessageFor(model => model.PermentPinCode)
+                    </td>
+                </tr>
+                <tr>
+                    <td class="tdfirst">@Html.LabelForRequired(model => model.Remark)</td>
+                    <td colspan="3">
+                        @Html.TextAreaFor(model => model.Remark)
+                        @Html.ValidationMessageFor(model => model.Remark)
+                    </td>
+                </tr>
+
+            </table>
+        </div>
+
+        <div class="form-group">
+            <div class="col-md-offset-2 col-md-10">
+                <input type="submit" value=@myRes.Update class="btn btn-success" />
+                @Html.ActionLink(myRes.BackToList, "Index", new { Controller = "Student", Area = "SysAdmin" }, new { @class = "btn btn-default" })
+            </div>
+        </div>
+    </div>
+}

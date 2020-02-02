@@ -1,0 +1,99 @@
+﻿@model PresentationLayer.Models.HomeChartVM
+@using Telerik.Web.Mvc.UI;
+@using myRes=PresentationLayer.LocalResource.Resource;
+@{  System.Threading.Thread.CurrentThread.CurrentUICulture = new System.Globalization.CultureInfo(System.Configuration.ConfigurationManager.AppSettings["Culture"].ToString());
+  System.Threading.Thread.CurrentThread.CurrentCulture = System.Threading.Thread.CurrentThread.CurrentUICulture;}
+@{
+    ViewBag.Title =myRes.Home;
+    //Layout = "~/Views/Shared/_HomeLayout.cshtml";
+}
+<br />
+<table style="width:80%;">
+    <tr>
+        <td style="border: 1px solid">
+            <div class="demo-section t-content">
+                <h4><b>@myRes.Dashboard</b></h4>
+                <div class="demo-section t-content wide">
+                    @(Html.Telerik().Chart()
+               .Name("chart")
+               .Title(myRes.ClasswiseBoysGirls)
+               .Legend(legend => legend
+               .Position(ChartLegendPosition.Right)
+               )
+               .ChartArea(chartArea => chartArea
+               .Background("transparent")
+               )
+               .SeriesDefaults(seriesDefaults =>
+               seriesDefaults.Bar()
+               )
+               .Series(series =>
+               {
+                   double[] BoyesCount = { Model.CastNT1Count, Model.CastNT3Count };
+                   series.Column(Model.classwiseBoysList).Name(myRes.TotalBoys);
+                   series.Column(Model.classwiseGirlsList).Name(myRes.TotalGirls);
+               })
+               .CategoryAxis(axis => axis
+               .Categories(Model.classList)
+               .MajorGridLines(lines => lines.Visible(false))
+               )
+               .ValueAxis(axis => axis
+               .Numeric().Labels(labels => labels.Format("{0} Head Count."))
+               .Line(line => line.Visible(false))
+               .AxisCrossingValue(-10)
+               )
+               .Tooltip(tooltip => tooltip
+               .Visible(true)
+               .Format("{0}")
+               ).HtmlAttributes(new { @style = "Width : 600px; " })
+                    )
+                </div>
+            </div>
+        </td>
+        <td style="border: 1px solid">
+            <div class="demo-section t-content">
+                <div class="demo-section t-content wide">
+                    @(Html.Telerik().Chart()
+               .Name("chart1")
+               .Title(title => title
+               .Text(myRes.ShareofCastewiseStudent)
+               .Position(ChartTitlePosition.Bottom))
+               .Legend(legend => legend
+               .Visible(true)
+               )
+               .ChartArea(chart => chart
+               .Background("transparent")
+               )
+               .HtmlAttributes(new { style = "Width : 400px;" })
+               .Series(series =>
+               {
+                   series.Pie(new dynamic[] {
+               new {category=myRes.General,value=Model.CastGeneralCount,color="#9de219"},
+               new {category=myRes.NT1,value= Model.CastNT1Count,color="#F0DF22"},
+               new {category=myRes.NT2,value=Model.CastNT2Count,color="#0A96FA"},
+               new {category=myRes.NT3,value=Model.CastNT3Count,color="#E60AFA"},
+               new {category=myRes.NT4,value=Model.CastNT4Count,color="#5A0AFA"},
+               new {category=myRes.OBC,value=Model.CastOBCCount,color="#FA6E0A"},
+               new {category=myRes.SBC,value=Model.CastSBCCount,color="#446E01"},
+               new {category=myRes.SC,value=Model.CastSCCount,color="#0A0AFA"},
+               new {category=myRes.ST,value=Model.CastSTCount,color="#068c35"},
+               new {category=myRes.VJ,value=Model.CastVJCount,color="#004d38"},
+               new {category=myRes.VJ1,value=Model.CastVJ1Count,color="#8A6E0A"},
+              new {category=myRes.Na,value=Model.CastVJ1Count,color="#FFD433"},
+               })
+                   .Labels(labels => labels
+                       //.Template("#= category #: \n #= value#%")
+                   .Background("transparent")
+                   .Visible(true)
+                   )
+                   .StartAngle(150);
+               })
+               .Tooltip(tooltip => tooltip
+               .Visible(true)
+               .Format("{0}%")
+               )
+                    )
+                </div>
+            </div>
+        </td>
+    </tr>
+</table>

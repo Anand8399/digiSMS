@@ -1,0 +1,71 @@
+﻿@using Telerik.Web.Mvc.UI;
+@using myRes = PresentationLayer.LocalResource.Resource;
+
+@{  System.Threading.Thread.CurrentThread.CurrentUICulture = new System.Globalization.CultureInfo(System.Configuration.ConfigurationManager.AppSettings["Culture"].ToString());
+  System.Threading.Thread.CurrentThread.CurrentCulture = System.Threading.Thread.CurrentThread.CurrentUICulture;}
+
+@{
+    ViewBag.Title =myRes.StudentImport;
+}
+<style>
+    table {
+        width: 100%;
+        /*background-color: gray;*/
+    }
+    /*table tr td{
+        width: 16.66%;
+    }*/
+
+    .tdfirst {
+        text-align: right;
+        width: 13%;
+    }
+
+    .tdthird {
+        text-align: right;
+        width: 10%;
+    }
+
+    .tdfive {
+        text-align: right;
+        width: 10%;
+    }
+
+    .backgrounddiv {
+        background-color: lightgray;
+        border-radius: 25px;
+        margin: 5px;
+        padding: 5px;
+    }
+</style>
+<h2>@myRes.StudentImport</h2>
+
+@using (Html.BeginForm("ImportExcel", "Student", FormMethod.Post, new { enctype = "multipart/form-data" }))
+{
+    <div style="border: 1px solid blue; width: 100%;" class="backgrounddiv">
+        <div style="margin:10px;">
+            <span>@myRes.DownloadTemplete</span>
+            @Html.ActionLink("Download", "Download", new { file = "Import_Template.xlsx" })
+        </div>
+    </div>
+    <div style="border:1px solid blue; width:100%;" class="backgrounddiv">
+        <div style="margin:10px;">
+            <span>@myRes.SelectFile</span>
+            <input id="FileUpload" name="FileUpload" type="file" class="t-button">
+            <p style="padding-top: 1em;">
+                <input type="submit" id="Submit" value="अपलोड करा" class="btn btn-success">
+            </p>
+        </div>
+    </div>
+
+
+}
+<div>
+    @if (TempData["Error"] != null)
+    {
+        <p style="color:red;">
+
+            @(TempData["Error"] != null ? TempData["Error"].ToString() : "")
+        </p>
+    }
+</div> 

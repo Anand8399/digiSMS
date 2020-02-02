@@ -1,0 +1,118 @@
+﻿@model PresentationLayer.Areas.SysAdmin.Models.AccountVM
+@using Telerik.Web.Mvc.UI;
+@using myRes = PresentationLayer.LocalResource.Resource;
+@using PresentationLayer.Other;
+@{  System.Threading.Thread.CurrentThread.CurrentUICulture = new System.Globalization.CultureInfo(System.Configuration.ConfigurationManager.AppSettings["Culture"].ToString());
+  System.Threading.Thread.CurrentThread.CurrentCulture = System.Threading.Thread.CurrentThread.CurrentUICulture;}
+@{
+    ViewBag.Title = myRes.CashBook;
+}
+<style>
+    .divGroup {
+        min-width: 768px;
+        display: inline-block;
+    }
+
+    .divLabel {
+        max-width: 280px;
+        text-align: right;
+        margin-top: 0;
+        margin-bottom: 0;
+        float: left;
+    }
+
+    .divControl {
+        max-width: 280px;
+        text-align: left;
+        /*margin-top: 0;
+        margin-bottom: 0;*/
+        /*float: left;*/
+    }
+
+    .tbtable {
+        max-width: 70%;
+        /*background-color: gray;*/
+    }
+    /*table tr td{
+        width: 16.66%;
+    }*/
+
+    .tdfirst {
+        text-align: right;
+        width: 25%;
+    }
+
+    .tdsecond {
+        min-width: 15%;
+    }
+
+    .tdthird {
+        text-align: right;
+        width: 10%;
+    }
+
+    .tdfive {
+        text-align: right;
+        width: 10%;
+    }
+
+    .backgrounddiv {
+        background-color: lightgray;
+        border-radius: 25px;
+        margin: 5px;
+        padding: 5px;
+    }
+</style>
+
+
+@using (Html.BeginForm())
+{
+    @Html.AntiForgeryToken()
+
+    <div class="form-horizontal"></div>
+       <h3>@myRes.CashBook</h3>
+        <hr />
+
+
+        @Html.ValidationSummary(true)
+
+        <div class="backgrounddiv">
+            <table>
+
+                <tr>
+                <tr>
+                    <td class="tdfirst">@Html.LabelForRequired(model => model.FromDate)</td>
+                    <td>
+                        @Html.Telerik().DatePickerFor(model => model.FromDate).Value(DateTime.Today.Date)
+                        @Html.ValidationMessageFor(model => model.FromDate)
+                    </td>
+                
+                    <td class="tdfirst">@Html.LabelForRequired(model => model.ToDate)</td>
+                    <td>
+                        @Html.Telerik().DatePickerFor(model => model.ToDate).Value(DateTime.Today.Date)
+                        @Html.ValidationMessageFor(model => model.ToDate)
+                    </td>
+                   
+                </tr>
+               
+                <tr>
+                    <td></td>
+                    <td></td>
+                    
+                    <td>
+                        <input type="submit" value=@myRes.Print class="btn btn-danger" />
+
+                    </td>
+                    <td></td>
+                    <td></td>
+                </tr>
+                <tr>
+                    <td colspan="6" style="text-align:center">
+                        <div id="result" style="width: 90%; margin: 50px;"></div>
+                    </td>
+                </tr>
+
+            </table>
+    </div>
+}
+

@@ -1,0 +1,122 @@
+﻿@model PresentationLayer.Areas.SysAdmin.Models.StateVM
+@using Telerik.Web.Mvc.UI;
+@using myRes=PresentationLayer.LocalResource.Resource;
+@using PresentationLayer.Other;
+@{  System.Threading.Thread.CurrentThread.CurrentUICulture = new System.Globalization.CultureInfo(System.Configuration.ConfigurationManager.AppSettings["Culture"].ToString());
+  System.Threading.Thread.CurrentThread.CurrentCulture = System.Threading.Thread.CurrentThread.CurrentUICulture;}
+@{
+    ViewBag.Title = myRes.Create;
+}
+
+<style>
+    table {
+        width: 100%;
+        /*background-color: gray;*/
+    }
+    /*table tr td{
+        width: 16.66%;
+    }*/
+
+    .tdfirst {
+        text-align: right;
+        width: 13%;
+    }
+
+    .tdthird {
+        text-align: right;
+        width: 10%;
+    }
+
+    .tdfive {
+        text-align: right;
+        width: 10%;
+    }
+
+    .backgrounddiv {
+        background-color: lightgray;
+        border-radius: 25px;
+        margin: 5px;
+        padding: 5px;
+    }
+</style>
+
+<script src="@Url.Content("~/Scripts/jquery-1.7.1.min.js")" type="text/javascript"></script>
+<script type="text/javascript">
+    $(document).ready(function () {
+        $("#Create").click(function () {
+
+            var _this = $(this);
+            var _form = _this.closest("form");
+
+            var validator = $("form").validate(); // obtain validator
+            var anyError = false;
+            _form.find("input").each(function () {
+                if (!validator.element(this)) { // validate every input element inside this step
+                    anyError = true;
+                }
+            });
+
+            if (anyError)
+                return false; // exit if any error found
+            var dropDownList = $("#CountryId").data("tDropDownList");
+            var selectCountry = dropDownList.text();
+            debugger;
+            if (selectCountry == "Select Country") {
+                alert(states);
+                return false;
+            }
+        });
+    });
+</script>
+@using (Html.BeginForm())
+{
+    @Html.AntiForgeryToken()
+
+    <div class="form-horizontal">
+        <h4>@myRes.Create -@myRes.State</h4>
+        <hr />
+
+        @Html.ValidationSummary(true)
+
+        <div class="backgrounddiv">
+            <table>
+
+                <tr>
+                    <td class="tdfirst">@Html.LabelForRequired(model => model.CountryId)</td>
+                    <td>
+                        @Html.Telerik().DropDownListFor(model => model.CountryId).DataBinding(binding => binding.Ajax().Select("GetCountriesList", "State")).Placeholder(myRes.SelectCountry)
+                        @Html.ValidationMessageFor(model => model.CountryId)
+                    </td>
+                </tr>
+                <tr>
+                    <td class="tdfirst">@Html.LabelForRequired(model => model.StateName)</td>
+                    <td>
+                        @Html.EditorFor(model => model.StateName)
+                        @Html.ValidationMessageFor(model => model.StateName)
+                    </td>
+                </tr>
+                <tr>
+                    <td class="tdfirst">@Html.LabelForRequired(model => model.Status)</td>
+                    <td>
+                        @Html.EditorFor(model => model.Status)
+                        @Html.ValidationMessageFor(model => model.Status)
+                    </td>
+                </tr>
+                <tr>
+                    <td class="tdfirst">@Html.LabelForRequired(model => model.Remark)</td>
+                    <td>
+                        @Html.EditorFor(model => model.Remark)
+                        @Html.ValidationMessageFor(model => model.Remark)
+                    </td>
+                </tr>
+            </table>
+        </div>
+
+        <div class="form-group">
+            <div class="col-md-offset-2 col-md-10">
+                <input type="submit" value=@myRes.Create id="Create" class="btn btn-success" />
+                @Html.ActionLink(myRes.BackToList, "Index", new { }, new { @class = "btn btn-default" })
+            </div>
+        </div>
+    </div>
+}

@@ -1,0 +1,347 @@
+﻿@model PresentationLayer.Areas.SysAdmin.Models.StudentVM
+@using Telerik.Web.Mvc.UI;
+@using myRes = PresentationLayer.LocalResource.Resource;
+
+@using PresentationLayer.Other;
+@{  System.Threading.Thread.CurrentThread.CurrentUICulture = new System.Globalization.CultureInfo(System.Configuration.ConfigurationManager.AppSettings["Culture"].ToString());
+  System.Threading.Thread.CurrentThread.CurrentCulture = System.Threading.Thread.CurrentThread.CurrentUICulture;}
+
+@{
+    ViewBag.Title = myRes.Edit ;
+}
+<style>
+    table {
+        width: 100%;
+        /*background-color: gray;*/
+    }
+    /*table tr td{
+        width: 16.66%;
+    }*/
+
+    .tdfirst {
+        text-align: right;
+        width: 18%;
+    }
+
+    .tdthird {
+        text-align: right;
+        width: 10%;
+    }
+
+    .tdfive {
+        text-align: right;
+        width: 10%;
+    }
+    
+    .tdSixth {
+        position:relative;
+        right:130px;
+        text-align:right;
+        width: 10%;
+       
+    }
+    .tdSeventh {
+        position: relative;
+        right: 70px;
+        text-align: left;
+        width: 10%;
+    }
+    .backgrounddiv {
+        background-color: lightgray;
+        border-radius: 10px;
+        margin: 5px;
+        padding: 5px;
+    }
+</style>
+@*dataTyp: "html",*@
+<script type="text/javascript">
+    $(document).ready(function () {
+    });@* End onLoad *@
+
+    function ddlCastChange(e) {            
+        var ddlReligionId = $("#ReligionId").data('tDropDownList');
+        //var ddlCastId = $(this).data('tDropDownList');
+        $("#ReserveCategory").val('');
+        if (ddlReligionId.value() != '' && e.value != '') {
+            $.ajax({
+                dataType: "json",
+                url: '@Url.Action("GetReserveCategory")',
+                data: { ReligionId: ddlReligionId.value(), CastId: e.value },
+                success: function (reserveCategoryData) {                        
+                    $("#ReserveCategory").val(reserveCategoryData);
+                }
+            });
+        }
+    }@* End onLoad *@
+        
+    </script>
+    
+
+        @using (Html.BeginForm())
+{
+    @Html.AntiForgeryToken()
+
+    <div class="form-horizontal">
+                <h4>@myRes.UpdateStudentDetails</h4>
+                <hr />
+
+        @Html.ValidationSummary(true)
+        @Html.HiddenFor(model => model.SrNo)
+        @Html.HiddenFor(model => model.StudentId)
+        @Html.HiddenFor(model => model.ClassId)
+        @Html.HiddenFor(model => model.DivisionId)
+        @Html.HiddenFor(model => model.ClassDivisionId)
+        @Html.HiddenFor(Model => Model.ReligionCastId)
+        @*@Html.HiddenFor(model => model.ReligionId)
+        @Html.HiddenFor(model => model.CastId)*@
+
+        <div class="backgrounddiv">
+            <table>
+                <tr>
+
+                    <td class="tdthird">@Html.LabelForRequired(model => model.ClassName)</td>
+                    <td>
+                        @Html.TextBoxFor(model => model.ClassName, new { @readonly = "readonly" })
+                        @Html.ValidationMessageFor(model => model.ClassName)
+                    </td>
+                    <td class="tdfive">@Html.LabelForRequired(model => model.DivisionName)</td>
+                    <td>
+                        @Html.TextBoxFor(model => model.DivisionName, new { @readonly = "readonly" })
+                        @Html.ValidationMessageFor(model => model.DivisionName)
+                    </td>
+                </tr>
+                <tr>
+                    <td class="tdfirst">@Html.LabelForRequired(model => model.RegisterId)</td>
+                    <td>
+                        @Html.TextBoxFor(model => model.RegisterId)
+                        @Html.ValidationMessageFor(model => model.RegisterId)
+                    </td>
+                    <td class="tdthird">@Html.LabelForRequired(model => model.Title)</td>
+                    <td>
+                        @Html.Telerik().DropDownListFor(model => model.Title).Items(item =>
+    {
+
+        item.Add().Text(myRes.kumar).Value(myRes.kumar);
+        item.Add().Text(myRes.kumari).Value(myRes.kumari);
+
+
+    }).Placeholder(myRes.SelectTitle)
+                        @Html.ValidationMessageFor(model => model.Title)
+                    </td>
+                    <td></td>
+                    <td></td>
+                </tr>
+                <tr>
+                    <td class="tdfirst">@Html.LabelForRequired(model => model.FirstName)</td>
+                    <td>
+                        @Html.TextBoxFor(model => model.FirstName)
+                        @Html.ValidationMessageFor(model => model.FirstName)
+                    </td>
+                    <td class="tdthird">@Html.LabelForRequired(model => model.MiddleName)</td>
+                    <td>
+                        @Html.TextBoxFor(model => model.MiddleName)
+                        @Html.ValidationMessageFor(model => model.MiddleName)
+                    </td>
+                    <td class="tdfive">@Html.LabelForRequired(model => model.LastName)</td>
+                    <td>
+                        @Html.TextBoxFor(model => model.LastName)
+                        @Html.ValidationMessageFor(model => model.LastName)
+                    </td>
+                </tr>
+                <tr>
+                    <td class="tdfirst">@Html.LabelForRequired(model => model.MotherName)</td>
+                    <td>
+                        @Html.TextBoxFor(model => model.MotherName)
+                        @Html.ValidationMessageFor(model => model.MotherName)
+                    </td>
+                    <td class="tdthird">@Html.LabelForRequired(model => model.Gender)</td>
+                    <td>
+                        @Html.Telerik().DropDownListFor(model => model.Gender).Items(item =>
+    {
+        item.Add().Text(myRes.Male).Value("M");
+        item.Add().Text(myRes.Female).Value("F");
+    }).Placeholder(myRes.SelectGender)
+                        @Html.ValidationMessageFor(model => model.Gender)
+                    </td>
+                    <td class="tdfive">@Html.LabelForRequired(model => model.Nationality)</td>
+                    <td>
+                        @Html.Telerik().DropDownListFor(model => model.Nationality).Items(item =>
+    {
+        item.Add().Text(myRes.Indian).Value(myRes.Indian);
+    }).Placeholder(myRes.Nationality).SelectedIndex(1)
+                        @Html.ValidationMessageFor(model => model.Nationality)
+                    </td>
+                </tr>
+                <tr>
+
+                            <td class="tdfirst">@Html.LabelForRequired(model => model.ReligionId)</td>
+                            <td>
+        @Html.Telerik().DropDownListFor(model => model.ReligionId).BindTo(this.Model.Religions).CascadeTo("CastId").Placeholder(myRes.SelectReligion)
+        @Html.ValidationMessageFor(model => model.ReligionId)
+                            </td>
+                            <td class="tdthird">@Html.LabelForRequired(model => model.CastId)</td>
+                            <td>
+        @Html.Telerik().DropDownListFor(model => model.CastId).DataBinding(binding => binding.Ajax().Select("GetCastsList", "Student")).Placeholder(myRes.SelectCaste).ClientEvents(events => events.OnChange("ddlCastChange"))
+
+        @Html.ValidationMessageFor(model => model.CastId)
+                            </td>
+                            <td class="tdfive">@Html.LabelForRequired(model => model.ReserveCategory)</td>
+                            <td>
+        @Html.TextBoxFor(model => model.ReserveCategory, new { @readonly = "readonly" })
+        @Html.ValidationMessageFor(model => model.CastId)
+                            </td>
+                        </tr>
+                        <tr>
+                            <td class="tdfirst">@Html.LabelForRequired(model => model.DateOfBirth)</td>
+                            <td>
+        @Html.Telerik().DatePickerFor(model => model.DateOfBirth)
+        @Html.ValidationMessageFor(model => model.DateOfBirth)
+                            </td>
+                            <td class="tdthird">@Html.LabelForRequired(model => model.PlaceOfBirth)</td>
+                            <td>
+        @Html.TextBoxFor(model => model.PlaceOfBirth)
+        @Html.ValidationMessageFor(model => model.PlaceOfBirth)
+                            </td>
+                            <td class="tdfive">@Html.LabelForRequired(model => model.AdharcardNo)</td>
+                            <td>
+        @Html.TextBoxFor(model => model.AdharcardNo)
+        @Html.ValidationMessageFor(model => model.AdharcardNo)
+                            </td>
+                        </tr>
+                     <tr>
+                    <td class="tdfirst">@Html.LabelForRequired(model => model.DateOfAdmission)</td>
+                    <td>
+                        @Html.Telerik().DatePickerFor(model => model.DateOfAdmission)
+                        @Html.ValidationMessageFor(model => model.DateOfAdmission)
+                    </td>
+                    <td class="tdfirst">@Html.LabelForRequired(model => model.MotherTounge)</td>
+                    <td>
+                        @Html.TextBoxFor(model => model.MotherTounge)
+                        @Html.ValidationMessageFor(model => model.MotherTounge)
+                    </td>
+
+                    <td class="tdfirst">@Html.LabelForRequired(model => model.UStudentId)</td>
+                    <td>
+                        @Html.TextBoxFor(model => model.UStudentId)
+                        @Html.ValidationMessageFor(model => model.UStudentId)
+                    </td>
+
+                    <td></td>
+                    <td></td>
+                </tr>
+                    </table>
+                </div>
+
+        <div class="backgrounddiv">
+            <h4>@myRes.PreviousSchoolDetails:</h4>
+            <table>
+                <tr>
+
+                    <td></td>
+                    <td></td>
+                </tr>
+                <tr>
+                    <td class="tdfirst">@Html.LabelForRequired(model => model.LastSchoolAttended)</td>
+                    <td>
+                        @Html.TextAreaFor(model => model.LastSchoolAttended)
+                        @Html.ValidationMessageFor(model => model.LastSchoolAttended)
+                    </td>
+                    <td class="tdthird">@Html.LabelForRequired(model => model.Progress)</td>
+                    <td>
+                        @Html.EditorFor(model => model.Progress)
+                        @Html.ValidationMessageFor(model => model.Progress)
+                    </td>
+                    <td class="tdfive">@Html.LabelForRequired(model => model.Conduct)</td>
+                    <td>
+                        @Html.EditorFor(model => model.Conduct)
+                        @Html.ValidationMessageFor(model => model.Conduct)
+                    </td>
+                </tr>
+                <tr>
+                    <td class="tdfirst">@Html.LabelForRequired(model => model.PrevSchoolDateofLiving)</td>
+                    <td>
+                        @Html.Telerik().DatePickerFor(model => model.PrevSchoolDateofLiving)
+                        @Html.ValidationMessageFor(model => model.PrevSchoolDateofLiving)
+                    </td>
+                  
+                    <td class="tdthird">@Html.LabelForRequired(model => model.LastSchoolClass)</td>
+                    <td>
+                        @Html.EditorFor(model => model.LastSchoolClass)
+                        @Html.ValidationMessageFor(model => model.LastSchoolClass)
+                    </td>
+                    <td class="tdfive" >@Html.LabelForRequired(model => model.LastSchoolTCNo)</td>
+                    <td>
+                        @Html.EditorFor(model => model.LastSchoolTCNo)
+                        @Html.ValidationMessageFor(model => model.LastSchoolTCNo)
+                    </td>
+                </tr>
+            
+
+            </table>
+            <span></span>
+
+        </div>
+        <span style="font-size:5px;"><br /></span>
+        
+        <div class="backgrounddiv">
+            <h4>@myRes.LeavingCertificateDetails :</h4>
+            <table>
+
+                <tr>
+
+                    <td class="tdfirst">@Html.LabelForRequired(model => model.ClassInWhichStudingAndSinceWhen)</td>
+                    <td>
+                        @Html.EditorFor(model => model.ClassInWhichStudingAndSinceWhen)
+                        @Html.ValidationMessageFor(model => model.ClassInWhichStudingAndSinceWhen)
+                    </td>
+                    <td class="tdthird">@Html.LabelForRequired(model => model.ReasonForLeavingSchool)</td>
+                    <td>
+                        @Html.EditorFor(model => model.ReasonForLeavingSchool)
+                        @Html.ValidationMessageFor(model => model.ReasonForLeavingSchool)
+                    </td>
+                    <td class="tdfive">@Html.LabelForRequired(model => model.RemarkOnTC)</td>
+                    <td>
+                        @Html.EditorFor(model => model.RemarkOnTC)
+                        @Html.ValidationMessageFor(model => model.RemarkOnTC)
+                    </td>
+                </tr>
+                <tr>
+                    <td class="tdfirst">@Html.LabelForRequired(model => model.Status)</td>
+                    <td>
+                        @Html.EditorFor(model => model.Status)
+                        @Html.ValidationMessageFor(model => model.Status)
+                    </td>
+                 <tr>
+                    <td class="tdfirst">@Html.LabelForRequired(model => model.Remark)</td>
+                    <td>
+                        @Html.EditorFor(model => model.Remark)
+                        @Html.ValidationMessageFor(model => model.Remark)
+                    </td>
+                    <td class="tdfirst">@Html.LabelForRequired(model => model.DateOfLeavingSchool)</td>
+                    <td>
+                        @Html.Telerik().DatePickerFor(model => model.DateOfLeavingSchool)
+                        @Html.ValidationMessageFor(model => model.DateOfLeavingSchool)
+                    </td>
+                   
+                    <td></td>
+                    <td></td>
+                    <td></td>
+                </tr>
+            </table>
+        </div>
+    <span style="font-size:5px;"><br /></span>
+    <table>
+        <tr>
+            <td class="tdfirst"></td>
+            <td>
+                <input type="submit" value=@myRes.Update class="btn btn-success" />
+                @Html.ActionLink(myRes.BackToList, "Index", new { Controller = "Student", Area = "SysAdmin" }, new { @class = "btn btn-default" })
+            </td>
+            <td class="tdthird"></td>
+            <td></td>
+            <td class="tdfive"></td>
+            <td></td>
+        </tr>
+    </table>
+</div>
+}

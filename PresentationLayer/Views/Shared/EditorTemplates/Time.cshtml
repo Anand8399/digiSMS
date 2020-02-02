@@ -1,0 +1,8 @@
+@model DateTime
+
+@(Html.Telerik().TimePicker()
+        .Name(ViewData.TemplateInfo.GetFullHtmlFieldName(string.Empty))
+        .Format("hh:mm:ss tt")
+        .HtmlAttributes(new { id = ViewData.TemplateInfo.GetFullHtmlFieldName(string.Empty) + "_wrapper" })
+        .Value(Model > DateTime.MinValue? Model : DateTime.Today)
+)

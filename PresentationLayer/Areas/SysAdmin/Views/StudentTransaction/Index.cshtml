@@ -1,0 +1,40 @@
+﻿@model Telerik.Web.Mvc.GridModel<PresentationLayer.Areas.SysAdmin.Models.StudentTransactionVM>
+@using Telerik.Web.Mvc.UI
+@using myRes=PresentationLayer.LocalResource.Resource;
+@{  System.Threading.Thread.CurrentThread.CurrentUICulture = new System.Globalization.CultureInfo(System.Configuration.ConfigurationManager.AppSettings["Culture"].ToString());
+  System.Threading.Thread.CurrentThread.CurrentCulture = System.Threading.Thread.CurrentThread.CurrentUICulture;}
+
+@{
+    ViewBag.Title =myRes.index;
+}
+
+
+<h2>@myRes.FeeTransaction</h2>
+
+@(Html.Telerik().Grid<PresentationLayer.Areas.SysAdmin.Models.StudentTransactionVM>(Model.Data)
+        .Name("Grid")
+        .DataKeys(keys => keys.Add(c => c.StudentTransactionId))
+                    .ToolBar(commands => commands.Custom().Action("Create", "StudentTransaction", new { area = "SysAdmin" }).ImageHtmlAttributes(new { @class = "t-add" }).ButtonType(GridButtonType.Image).HtmlAttributes(new { title = "Add", id = "Add", @class = "RightAlign" }))
+
+        .DataBinding(dataBinding =>
+            dataBinding.Ajax()
+                                                    .Select("Select", "StudentTransaction", new { area = "SysAdmin", GridButtonType.Text })
+                                                .Update("Edit", "StudentTransaction", new { area = "SysAdmin", GridButtonType.Text }))
+        .Columns(columns =>
+        {
+            columns.Bound(p => p.ClassName);
+            columns.Bound(p => p.DivisionName);
+            columns.Bound(p=> p.TransactionDate).Format("{0:dd-MM-yyyy}");
+            columns.Bound(p => p.StudentFullNameWithTitle);
+            columns.Bound(p => p.ReceiptNo);
+            columns.Bound(p => p.ReceiptTotal);
+            columns.Bound(p => p.Status);
+            columns.Bound(p => p.Remark);
+        })
+            .Pageable(paging => paging.Style(GridPagerStyles.NextPreviousAndNumeric | GridPagerStyles.PageInput | GridPagerStyles.PageSizeDropDown))
+                      .Scrollable(paging => paging.Height(300))
+                                .Reorderable(command => command.Columns(true))
+            .Sortable()
+                .Filterable()
+                .Resizable(command => command.Columns(true))
+)

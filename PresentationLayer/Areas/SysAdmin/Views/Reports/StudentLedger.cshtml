@@ -1,0 +1,33 @@
+﻿@model Telerik.Web.Mvc.GridModel<PresentationLayer.Areas.SysAdmin.Models.StudentLedgerVM>
+@using Telerik.Web.Mvc.UI
+@using myRes=PresentationLayer.LocalResource.Resource;
+@{
+    ViewBag.Title = myRes.StudentLedger;
+}
+<h2>@myRes.StudentLedger</h2>
+
+@(Html.Telerik().Grid<PresentationLayer.Areas.SysAdmin.Models.StudentLedgerVM>(Model.Data)
+        .Name("Grid")
+        .Columns(columns =>
+        {
+            columns.Bound(p => p.AcademicYear);
+            columns.Bound(p => p.StudentFullNameWithTitle).Hidden(true);
+            columns.Bound(p => p.TransactionDate).Format("{0:dd-MM-yyyy}");
+            columns.Bound(p => p.FeeHeadName);
+            columns.Bound(p => p.Cr);
+            columns.Bound(p => p.Dr);
+            columns.Bound(p => p.HeadBalance);
+            columns.Bound(p => p.Balance);
+            columns.Bound(p => p.ReceiptNo);
+            columns.Bound(p => p.BankName).Hidden(true);
+            columns.Bound(p => p.ChequeNumber).Hidden(true);
+            columns.Bound(p => p.Status).Hidden(true);
+            columns.Bound(p => p.Remark).Hidden(true);
+        })
+            .Pageable(paging => paging.Style(GridPagerStyles.NextPreviousAndNumeric | GridPagerStyles.PageInput | GridPagerStyles.PageSizeDropDown))
+                      .Scrollable(paging => paging.Height(300))
+                                .Reorderable(command => command.Columns(true))
+                .Filterable()
+                .Resizable(command => command.Columns(true))
+                    .Groupable(settings => settings.Groups(groups => groups.Add(o => o.StudentFullNameWithTitle )).Visible(true))
+)

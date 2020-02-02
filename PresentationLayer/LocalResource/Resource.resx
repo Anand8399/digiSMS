@@ -1,0 +1,1225 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<root>
+  <!-- 
+    Microsoft ResX Schema 
+    
+    Version 2.0
+    
+    The primary goals of this format is to allow a simple XML format 
+    that is mostly human readable. The generation and parsing of the 
+    various data types are done through the TypeConverter classes 
+    associated with the data types.
+    
+    Example:
+    
+    ... ado.net/XML headers & schema ...
+    <resheader name="resmimetype">text/microsoft-resx</resheader>
+    <resheader name="version">2.0</resheader>
+    <resheader name="reader">System.Resources.ResXResourceReader, System.Windows.Forms, ...</resheader>
+    <resheader name="writer">System.Resources.ResXResourceWriter, System.Windows.Forms, ...</resheader>
+    <data name="Name1"><value>this is my long string</value><comment>this is a comment</comment></data>
+    <data name="Color1" type="System.Drawing.Color, System.Drawing">Blue</data>
+    <data name="Bitmap1" mimetype="application/x-microsoft.net.object.binary.base64">
+        <value>[base64 mime encoded serialized .NET Framework object]</value>
+    </data>
+    <data name="Icon1" type="System.Drawing.Icon, System.Drawing" mimetype="application/x-microsoft.net.object.bytearray.base64">
+        <value>[base64 mime encoded string representing a byte array form of the .NET Framework object]</value>
+        <comment>This is a comment</comment>
+    </data>
+                
+    There are any number of "resheader" rows that contain simple 
+    name/value pairs.
+    
+    Each data row contains a name, and value. The row also contains a 
+    type or mimetype. Type corresponds to a .NET class that support 
+    text/value conversion through the TypeConverter architecture. 
+    Classes that don't support this are serialized and stored with the 
+    mimetype set.
+    
+    The mimetype is used for serialized objects, and tells the 
+    ResXResourceReader how to depersist the object. This is currently not 
+    extensible. For a given mimetype the value must be set accordingly:
+    
+    Note - application/x-microsoft.net.object.binary.base64 is the format 
+    that the ResXResourceWriter will generate, however the reader can 
+    read any of the formats listed below.
+    
+    mimetype: application/x-microsoft.net.object.binary.base64
+    value   : The object must be serialized with 
+            : System.Runtime.Serialization.Formatters.Binary.BinaryFormatter
+            : and then encoded with base64 encoding.
+    
+    mimetype: application/x-microsoft.net.object.soap.base64
+    value   : The object must be serialized with 
+            : System.Runtime.Serialization.Formatters.Soap.SoapFormatter
+            : and then encoded with base64 encoding.
+
+    mimetype: application/x-microsoft.net.object.bytearray.base64
+    value   : The object must be serialized into a byte array 
+            : using a System.ComponentModel.TypeConverter
+            : and then encoded with base64 encoding.
+    -->
+  <xsd:schema id="root" xmlns="" xmlns:xsd="http://www.w3.org/2001/XMLSchema" xmlns:msdata="urn:schemas-microsoft-com:xml-msdata">
+    <xsd:import namespace="http://www.w3.org/XML/1998/namespace" />
+    <xsd:element name="root" msdata:IsDataSet="true">
+      <xsd:complexType>
+        <xsd:choice maxOccurs="unbounded">
+          <xsd:element name="metadata">
+            <xsd:complexType>
+              <xsd:sequence>
+                <xsd:element name="value" type="xsd:string" minOccurs="0" />
+              </xsd:sequence>
+              <xsd:attribute name="name" use="required" type="xsd:string" />
+              <xsd:attribute name="type" type="xsd:string" />
+              <xsd:attribute name="mimetype" type="xsd:string" />
+              <xsd:attribute ref="xml:space" />
+            </xsd:complexType>
+          </xsd:element>
+          <xsd:element name="assembly">
+            <xsd:complexType>
+              <xsd:attribute name="alias" type="xsd:string" />
+              <xsd:attribute name="name" type="xsd:string" />
+            </xsd:complexType>
+          </xsd:element>
+          <xsd:element name="data">
+            <xsd:complexType>
+              <xsd:sequence>
+                <xsd:element name="value" type="xsd:string" minOccurs="0" msdata:Ordinal="1" />
+                <xsd:element name="comment" type="xsd:string" minOccurs="0" msdata:Ordinal="2" />
+              </xsd:sequence>
+              <xsd:attribute name="name" type="xsd:string" use="required" msdata:Ordinal="1" />
+              <xsd:attribute name="type" type="xsd:string" msdata:Ordinal="3" />
+              <xsd:attribute name="mimetype" type="xsd:string" msdata:Ordinal="4" />
+              <xsd:attribute ref="xml:space" />
+            </xsd:complexType>
+          </xsd:element>
+          <xsd:element name="resheader">
+            <xsd:complexType>
+              <xsd:sequence>
+                <xsd:element name="value" type="xsd:string" minOccurs="0" msdata:Ordinal="1" />
+              </xsd:sequence>
+              <xsd:attribute name="name" type="xsd:string" use="required" />
+            </xsd:complexType>
+          </xsd:element>
+        </xsd:choice>
+      </xsd:complexType>
+    </xsd:element>
+  </xsd:schema>
+  <resheader name="resmimetype">
+    <value>text/microsoft-resx</value>
+  </resheader>
+  <resheader name="version">
+    <value>2.0</value>
+  </resheader>
+  <resheader name="reader">
+    <value>System.Resources.ResXResourceReader, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
+  </resheader>
+  <resheader name="writer">
+    <value>System.Resources.ResXResourceWriter, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
+  </resheader>
+  <data name="AbsentRemark" xml:space="preserve">
+    <value />
+  </data>
+  <data name="AcademicYear" xml:space="preserve">
+    <value />
+  </data>
+  <data name="AcademicYearId" xml:space="preserve">
+    <value />
+  </data>
+  <data name="AcademicYearName" xml:space="preserve">
+    <value />
+  </data>
+  <data name="AdharcardNo" xml:space="preserve">
+    <value />
+  </data>
+  <data name="AmountInMonthly" xml:space="preserve">
+    <value />
+  </data>
+  <data name="AmountInYearly" xml:space="preserve">
+    <value />
+  </data>
+  <data name="AssetName" xml:space="preserve">
+    <value />
+  </data>
+  <data name="AttendanceInDays" xml:space="preserve">
+    <value />
+  </data>
+  <data name="Balance" xml:space="preserve">
+    <value />
+  </data>
+  <data name="BankName" xml:space="preserve">
+    <value />
+  </data>
+  <data name="Caste" xml:space="preserve">
+    <value />
+  </data>
+  <data name="CastId" xml:space="preserve">
+    <value />
+  </data>
+  <data name="CheckedValues" xml:space="preserve">
+    <value />
+  </data>
+  <data name="ChequeNumber" xml:space="preserve">
+    <value />
+  </data>
+  <data name="City" xml:space="preserve">
+    <value />
+  </data>
+  <data name="ClassDivisionId" xml:space="preserve">
+    <value />
+  </data>
+  <data name="Class" xml:space="preserve">
+    <value />
+  </data>
+  <data name="ClassInWhichStudingAndSinceWhen" xml:space="preserve">
+    <value />
+  </data>
+  <data name="ClassName" xml:space="preserve">
+    <value />
+  </data>
+  <data name="Conduct" xml:space="preserve">
+    <value />
+  </data>
+  <data name="Country" xml:space="preserve">
+    <value />
+  </data>
+  <data name="CountryName" xml:space="preserve">
+    <value />
+  </data>
+  <data name="Cr" xml:space="preserve">
+    <value />
+  </data>
+  <data name="CreatedBy" xml:space="preserve">
+    <value />
+  </data>
+  <data name="CreatedDate" xml:space="preserve">
+    <value />
+  </data>
+  <data name="Credit" xml:space="preserve">
+    <value />
+  </data>
+  <data name="CurrentAcademicYearId" xml:space="preserve">
+    <value />
+  </data>
+  <data name="CurrentAddress" xml:space="preserve">
+    <value />
+  </data>
+  <data name="CurrentCityId" xml:space="preserve">
+    <value />
+  </data>
+  <data name="CurrentCityName" xml:space="preserve">
+    <value />
+  </data>
+  <data name="CurrentClassDivisionId" xml:space="preserve">
+    <value />
+  </data>
+  <data name="CurrentClassId" xml:space="preserve">
+    <value />
+  </data>
+  <data name="CurrentCountryId" xml:space="preserve">
+    <value />
+  </data>
+  <data name="CurrentCountryName" xml:space="preserve">
+    <value />
+  </data>
+  <data name="CurrentDistrictId" xml:space="preserve">
+    <value />
+  </data>
+  <data name="CurrentDistrictName" xml:space="preserve">
+    <value />
+  </data>
+  <data name="CurrentDivisionId" xml:space="preserve">
+    <value />
+  </data>
+  <data name="CurrentPinCode" xml:space="preserve">
+    <value />
+  </data>
+  <data name="CurrentStateId" xml:space="preserve">
+    <value />
+  </data>
+  <data name="CurrentStateName" xml:space="preserve">
+    <value />
+  </data>
+  <data name="DateOfAdmission" xml:space="preserve">
+    <value />
+  </data>
+  <data name="DateOfAttendance" xml:space="preserve">
+    <value />
+  </data>
+  <data name="DateOfBirth" xml:space="preserve">
+    <value />
+  </data>
+  <data name="Debit" xml:space="preserve">
+    <value />
+  </data>
+  <data name="DistrictId" xml:space="preserve">
+    <value />
+  </data>
+  <data name="DistrictName" xml:space="preserve">
+    <value />
+  </data>
+  <data name="Division" xml:space="preserve">
+    <value />
+  </data>
+  <data name="DivisionName" xml:space="preserve">
+    <value />
+  </data>
+  <data name="Dr" xml:space="preserve">
+    <value />
+  </data>
+  <data name="EndDate" xml:space="preserve">
+    <value />
+  </data>
+  <data name="FeeClassDivisionId" xml:space="preserve">
+    <value />
+  </data>
+  <data name="FeeHeadId" xml:space="preserve">
+    <value />
+  </data>
+  <data name="FeeHeadName" xml:space="preserve">
+    <value />
+  </data>
+  <data name="FirstName" xml:space="preserve">
+    <value />
+  </data>
+  <data name="Gender" xml:space="preserve">
+    <value />
+  </data>
+  <data name="HeadBalance" xml:space="preserve">
+    <value />
+  </data>
+  <data name="LastName" xml:space="preserve">
+    <value />
+  </data>
+  <data name="LastSchoolAttended" xml:space="preserve">
+    <value />
+  </data>
+  <data name="LastSchoolClass" xml:space="preserve">
+    <value />
+  </data>
+  <data name="LastSchoolTCNo" xml:space="preserve">
+    <value />
+  </data>
+  <data name="Quantity" xml:space="preserve">
+    <value />
+  </data>
+  <data name="MiddleName" xml:space="preserve">
+    <value />
+  </data>
+  <data name="ModifiedBy" xml:space="preserve">
+    <value />
+  </data>
+  <data name="ModifiedDate" xml:space="preserve">
+    <value />
+  </data>
+  <data name="MotherName" xml:space="preserve">
+    <value />
+  </data>
+  <data name="MotherTounge" xml:space="preserve">
+    <value />
+  </data>
+  <data name="Name" xml:space="preserve">
+    <value />
+  </data>
+  <data name="Nationality" xml:space="preserve">
+    <value />
+  </data>
+  <data name="PeriodInMonthly" xml:space="preserve">
+    <value />
+  </data>
+  <data name="PermentAddress" xml:space="preserve">
+    <value />
+  </data>
+  <data name="PermentCityId" xml:space="preserve">
+    <value />
+  </data>
+  <data name="PermentCityName" xml:space="preserve">
+    <value />
+  </data>
+  <data name="PermentCountryId" xml:space="preserve">
+    <value />
+  </data>
+  <data name="PermentCountryName" xml:space="preserve">
+    <value />
+  </data>
+  <data name="PermentDistrictId" xml:space="preserve">
+    <value />
+  </data>
+  <data name="PermentDistrictName" xml:space="preserve">
+    <value />
+  </data>
+  <data name="PermentPinCode" xml:space="preserve">
+    <value />
+  </data>
+  <data name="PermentStateId" xml:space="preserve">
+    <value />
+  </data>
+  <data name="PermentStateName" xml:space="preserve">
+    <value />
+  </data>
+  <data name="PlaceOfBirth" xml:space="preserve">
+    <value />
+  </data>
+  <data name="PreviousAcademicYearId" xml:space="preserve">
+    <value />
+  </data>
+  <data name="PreviousClassDivisionId" xml:space="preserve">
+    <value />
+  </data>
+  <data name="PreviousClassId" xml:space="preserve">
+    <value />
+  </data>
+  <data name="PreviousDivisionId" xml:space="preserve">
+    <value />
+  </data>
+  <data name="PrevSchoolDateofLiving" xml:space="preserve">
+    <value />
+  </data>
+  <data name="Progress" xml:space="preserve">
+    <value />
+  </data>
+  <data name="ReasonForLeavingSchool" xml:space="preserve">
+    <value />
+  </data>
+  <data name="ReceiptNo" xml:space="preserve">
+    <value />
+  </data>
+  <data name="ReceiptTotal" xml:space="preserve">
+    <value />
+  </data>
+  <data name="RegisterId" xml:space="preserve">
+    <value />
+  </data>
+  <data name="ReligionCastId" xml:space="preserve">
+    <value />
+  </data>
+  <data name="ReligionId" xml:space="preserve">
+    <value />
+  </data>
+  <data name="ReligionName" xml:space="preserve">
+    <value />
+  </data>
+  <data name="Remark" xml:space="preserve">
+    <value />
+  </data>
+  <data name="RemarkOnTC" xml:space="preserve">
+    <value />
+  </data>
+  <data name="ReserveCategory" xml:space="preserve">
+    <value />
+  </data>
+  <data name="SrNo" xml:space="preserve">
+    <value />
+  </data>
+  <data name="StartDate" xml:space="preserve">
+    <value />
+  </data>
+  <data name="StateId" xml:space="preserve">
+    <value />
+  </data>
+  <data name="State" xml:space="preserve">
+    <value />
+  </data>
+  <data name="Status" xml:space="preserve">
+    <value />
+  </data>
+  <data name="StudentFullNameWithTitle" xml:space="preserve">
+    <value />
+  </data>
+  <data name="StudentId" xml:space="preserve">
+    <value />
+  </data>
+  <data name="StudentLedgerId" xml:space="preserve">
+    <value />
+  </data>
+  <data name="StudentTransactionId" xml:space="preserve">
+    <value />
+  </data>
+  <data name="StudentTransactionSubId" xml:space="preserve">
+    <value />
+  </data>
+  <data name="TCPrinted" xml:space="preserve">
+    <value />
+  </data>
+  <data name="Title" xml:space="preserve">
+    <value />
+  </data>
+  <data name="Total" xml:space="preserve">
+    <value />
+  </data>
+  <data name="TransactionDate" xml:space="preserve">
+    <value />
+  </data>
+  <data name="TypeofAsset" xml:space="preserve">
+    <value />
+  </data>
+  <data name="AccountNo" xml:space="preserve">
+    <value />
+  </data>
+  <data name="Attendance" xml:space="preserve">
+    <value />
+  </data>
+  <data name="Branch" xml:space="preserve">
+    <value />
+  </data>
+  <data name="CastName" xml:space="preserve">
+    <value />
+  </data>
+  <data name="ClassId" xml:space="preserve">
+    <value />
+  </data>
+  <data name="CompanyAddress" xml:space="preserve">
+    <value />
+  </data>
+  <data name="CompanyContactNo" xml:space="preserve">
+    <value />
+  </data>
+  <data name="CompanyName" xml:space="preserve">
+    <value />
+  </data>
+  <data name="DivisionId" xml:space="preserve">
+    <value />
+  </data>
+  <data name="FeeHead" xml:space="preserve">
+    <value />
+  </data>
+  <data name="IFSCCode" xml:space="preserve">
+    <value />
+  </data>
+  <data name="MobileNumber" xml:space="preserve">
+    <value />
+  </data>
+  <data name="Occupation" xml:space="preserve">
+    <value />
+  </data>
+  <data name="StateName" xml:space="preserve">
+    <value />
+  </data>
+  <data name="AadharCardNo" xml:space="preserve">
+    <value />
+  </data>
+  <data name="AdmissionClass" xml:space="preserve">
+    <value />
+  </data>
+  <data name="BankAccountHolderName" xml:space="preserve">
+    <value />
+  </data>
+  <data name="BirthDate" xml:space="preserve">
+    <value />
+  </data>
+  <data name="Edit" xml:space="preserve">
+    <value />
+  </data>
+  <data name="ParentsContact" xml:space="preserve">
+    <value />
+  </data>
+  <data name="StudentName" xml:space="preserve">
+    <value />
+  </data>
+  <data name="Subcaste" xml:space="preserve">
+    <value />
+  </data>
+  <data name="ClassDivision" xml:space="preserve">
+    <value />
+  </data>
+  <data name="ReligionCast" xml:space="preserve">
+    <value />
+  </data>
+  <data name="ContactNumber" xml:space="preserve">
+    <value />
+  </data>
+  <data name="DateOfLeavingSchool" xml:space="preserve">
+    <value />
+  </data>
+  <data name="Month" xml:space="preserve">
+    <value />
+  </data>
+  <data name="NextAcademicYearId" xml:space="preserve">
+    <value />
+  </data>
+  <data name="NextClassId" xml:space="preserve">
+    <value />
+  </data>
+  <data name="NextDivisionId" xml:space="preserve">
+    <value />
+  </data>
+  <data name="UStudentId" xml:space="preserve">
+    <value />
+  </data>
+  <data name="ConfirmNewPassword" xml:space="preserve">
+    <value />
+  </data>
+  <data name="NewPassword" xml:space="preserve">
+    <value />
+  </data>
+  <data name="OldPassword" xml:space="preserve">
+    <value />
+  </data>
+  <data name="Password" xml:space="preserve">
+    <value />
+  </data>
+  <data name="RememberMe" xml:space="preserve">
+    <value />
+  </data>
+  <data name="RoleId" xml:space="preserve">
+    <value />
+  </data>
+  <data name="UserId" xml:space="preserve">
+    <value />
+  </data>
+  <data name="UserName" xml:space="preserve">
+    <value />
+  </data>
+  <data name="TCNo" xml:space="preserve">
+    <value />
+  </data>
+  <data name="Admission" xml:space="preserve">
+    <value />
+  </data>
+  <data name="FeeTransaction" xml:space="preserve">
+    <value />
+  </data>
+  <data name="Home" xml:space="preserve">
+    <value />
+  </data>
+  <data name="Masters" xml:space="preserve">
+    <value />
+  </data>
+  <data name="Menu" xml:space="preserve">
+    <value />
+    <comment>Menu Bar Entries</comment>
+  </data>
+  <data name="BonafideCertificate" xml:space="preserve">
+    <value />
+  </data>
+  <data name="ChangePassword" xml:space="preserve">
+    <value />
+  </data>
+  <data name="ConformationBox_Delete" xml:space="preserve">
+    <value />
+  </data>
+  <data name="Create" xml:space="preserve">
+    <value />
+  </data>
+  <data name="Details" xml:space="preserve">
+    <value />
+  </data>
+  <data name="error" xml:space="preserve">
+    <value />
+  </data>
+  <data name="ErrorBox_Requset" xml:space="preserve">
+    <value />
+  </data>
+  <data name="FeeClassDivision" xml:space="preserve">
+    <value />
+  </data>
+  <data name="GlossyWorks" xml:space="preserve">
+    <value />
+  </data>
+  <data name="LeavingCertificate" xml:space="preserve">
+    <value />
+  </data>
+  <data name="LogOff" xml:space="preserve">
+    <value />
+  </data>
+  <data name="NirgamCertificate" xml:space="preserve">
+    <value />
+  </data>
+  <data name="Poweredby" xml:space="preserve">
+    <value />
+  </data>
+  <data name="report" xml:space="preserve">
+    <value />
+  </data>
+  <data name="Selectuserid" xml:space="preserve">
+    <value />
+  </data>
+  <data name="SMS" xml:space="preserve">
+    <value />
+  </data>
+  <data name="StudentAttendance" xml:space="preserve">
+    <value />
+  </data>
+  <data name="StudentClassChange" xml:space="preserve">
+    <value />
+  </data>
+  <data name="StudentExport" xml:space="preserve">
+    <value />
+  </data>
+  <data name="StudentImport" xml:space="preserve">
+    <value />
+  </data>
+  <data name="StudentLedger" xml:space="preserve">
+    <value />
+  </data>
+  <data name="StudentSearch" xml:space="preserve">
+    <value />
+  </data>
+  <data name="utility" xml:space="preserve">
+    <value />
+  </data>
+  <data name="About" xml:space="preserve">
+    <value />
+  </data>
+  <data name="Account" xml:space="preserve">
+    <value />
+  </data>
+  <data name="Address" xml:space="preserve">
+    <value />
+  </data>
+  <data name="AreYouSureYouWishToContinue" xml:space="preserve">
+    <value />
+  </data>
+  <data name="AssociateYour" xml:space="preserve">
+    <value />
+  </data>
+  <data name="AssociationForm" xml:space="preserve">
+    <value />
+  </data>
+  <data name="BackToList" xml:space="preserve">
+    <value />
+  </data>
+  <data name="BacktoLogin" xml:space="preserve">
+    <value />
+  </data>
+  <data name="Business" xml:space="preserve">
+    <value />
+  </data>
+  <data name="ClassAndDivisionChange" xml:space="preserve">
+    <value />
+  </data>
+  <data name="ClassChange" xml:space="preserve">
+    <value />
+  </data>
+  <data name="ClasswiseBoysGirls" xml:space="preserve">
+    <value />
+  </data>
+  <data name="ConformAdmissionWithoutFee" xml:space="preserve">
+    <value />
+  </data>
+  <data name="Contact" xml:space="preserve">
+    <value />
+  </data>
+  <data name="Createanewaccount" xml:space="preserve">
+    <value />
+  </data>
+  <data name="CreateStudentAdress" xml:space="preserve">
+    <value />
+  </data>
+  <data name="Dashboard" xml:space="preserve">
+    <value />
+  </data>
+  <data name="DetailsStudentAddress" xml:space="preserve">
+    <value />
+  </data>
+  <data name="DownloadTemplete" xml:space="preserve">
+    <value />
+  </data>
+  <data name="EditStudentAddress" xml:space="preserve">
+    <value />
+  </data>
+  <data name="FeeStructure" xml:space="preserve">
+    <value />
+  </data>
+  <data name="Female" xml:space="preserve">
+    <value />
+  </data>
+  <data name="General" xml:space="preserve">
+    <value />
+  </data>
+  <data name="index" xml:space="preserve">
+    <value />
+  </data>
+  <data name="Indian" xml:space="preserve">
+    <value />
+  </data>
+  <data name="InformationUpdatated" xml:space="preserve">
+    <value />
+  </data>
+  <data name="Login" xml:space="preserve">
+    <value />
+  </data>
+  <data name="LoginFailure" xml:space="preserve">
+    <value />
+  </data>
+  <data name="Male" xml:space="preserve">
+    <value />
+  </data>
+  <data name="ManageAccount" xml:space="preserve">
+    <value />
+  </data>
+  <data name="Marketing" xml:space="preserve">
+    <value />
+  </data>
+  <data name="Master" xml:space="preserve">
+    <value />
+  </data>
+  <data name="Miss" xml:space="preserve">
+    <value />
+  </data>
+  <data name="Mister" xml:space="preserve">
+    <value />
+  </data>
+  <data name="Mr" xml:space="preserve">
+    <value />
+  </data>
+  <data name="Mrs" xml:space="preserve">
+    <value />
+  </data>
+  <data name="Ms" xml:space="preserve">
+    <value />
+  </data>
+  <data name="Mx" xml:space="preserve">
+    <value />
+  </data>
+  <data name="NoRecordsFoundToPresent" xml:space="preserve">
+    <value />
+  </data>
+  <data name="NT1" xml:space="preserve">
+    <value />
+  </data>
+  <data name="NT2" xml:space="preserve">
+    <value />
+  </data>
+  <data name="NT3" xml:space="preserve">
+    <value />
+  </data>
+  <data name="NT4" xml:space="preserve">
+    <value />
+  </data>
+  <data name="OBC" xml:space="preserve">
+    <value />
+  </data>
+  <data name="ParentDetails" xml:space="preserve">
+    <value />
+  </data>
+  <data name="Please" xml:space="preserve">
+    <value />
+  </data>
+  <data name="Pleaseselectatleastoneconditiontodisplayinformation" xml:space="preserve">
+    <value />
+  </data>
+  <data name="PleaseSelectDate" xml:space="preserve">
+    <value />
+  </data>
+  <data name="ReceiveAndConfirmAdmission" xml:space="preserve">
+    <value />
+  </data>
+  <data name="Register" xml:space="preserve">
+    <value />
+  </data>
+  <data name="SBC" xml:space="preserve">
+    <value />
+  </data>
+  <data name="SC" xml:space="preserve">
+    <value />
+  </data>
+  <data name="Search" xml:space="preserve">
+    <value />
+  </data>
+  <data name="SelectAcademicYear" xml:space="preserve">
+    <value />
+  </data>
+  <data name="SelectCaste" xml:space="preserve">
+    <value />
+  </data>
+  <data name="SelectCity" xml:space="preserve">
+    <value />
+  </data>
+  <data name="SelectClass" xml:space="preserve">
+    <value />
+  </data>
+  <data name="SelectCountry" xml:space="preserve">
+    <value />
+  </data>
+  <data name="SelectCurrentAcademicYear" xml:space="preserve">
+    <value />
+  </data>
+  <data name="SelectCurrentClass" xml:space="preserve">
+    <value />
+  </data>
+  <data name="SelectCurrentDivision" xml:space="preserve">
+    <value />
+  </data>
+  <data name="SelectDistrict" xml:space="preserve">
+    <value />
+  </data>
+  <data name="SelectDivision" xml:space="preserve">
+    <value />
+  </data>
+  <data name="SelectFile" xml:space="preserve">
+    <value />
+  </data>
+  <data name="SelectGender" xml:space="preserve">
+    <value />
+  </data>
+  <data name="SelectNextAcademicYear" xml:space="preserve">
+    <value />
+  </data>
+  <data name="SelectNextClass" xml:space="preserve">
+    <value />
+  </data>
+  <data name="SelectNextDivision" xml:space="preserve">
+    <value />
+  </data>
+  <data name="SelectOccupation" xml:space="preserve">
+    <value />
+  </data>
+  <data name="SelectReligion" xml:space="preserve">
+    <value />
+  </data>
+  <data name="SelectState" xml:space="preserve">
+    <value />
+  </data>
+  <data name="SelectStudentName" xml:space="preserve">
+    <value />
+  </data>
+  <data name="SelectTitle" xml:space="preserve">
+    <value />
+  </data>
+  <data name="SelectYearToExportStudent" xml:space="preserve">
+    <value />
+  </data>
+  <data name="Service" xml:space="preserve">
+    <value />
+  </data>
+  <data name="ShareofCastewiseStudent" xml:space="preserve">
+    <value />
+  </data>
+  <data name="Show" xml:space="preserve">
+    <value />
+  </data>
+  <data name="ST" xml:space="preserve">
+    <value />
+  </data>
+  <data name="Student" xml:space="preserve">
+    <value />
+  </data>
+  <data name="StudentFeeTransaction" xml:space="preserve">
+    <value />
+  </data>
+  <data name="Submit" xml:space="preserve">
+    <value />
+  </data>
+  <data name="Support" xml:space="preserve">
+    <value />
+  </data>
+  <data name="TheMessageHasBeenSent" xml:space="preserve">
+    <value />
+  </data>
+  <data name="TotalBoys" xml:space="preserve">
+    <value />
+  </data>
+  <data name="TotalGirls" xml:space="preserve">
+    <value />
+  </data>
+  <data name="UnsuccessfulLoginWithService" xml:space="preserve">
+    <value />
+  </data>
+  <data name="Update" xml:space="preserve">
+    <value />
+  </data>
+  <data name="UpdateParentDetails" xml:space="preserve">
+    <value />
+  </data>
+  <data name="UseALocalAccountToLogIn" xml:space="preserve">
+    <value />
+  </data>
+  <data name="Usethisareatoprovideadditionalinformation" xml:space="preserve">
+    <value />
+  </data>
+  <data name="VJ" xml:space="preserve">
+    <value />
+  </data>
+  <data name="VJ1" xml:space="preserve">
+    <value />
+  </data>
+  <data name="YouAreWorkingForThisAction" xml:space="preserve">
+    <value />
+  </data>
+  <data name="AlreadyTCPrintedDoyouwanttoduplicate" xml:space="preserve">
+    <value />
+  </data>
+  <data name="CancelAdmission" xml:space="preserve">
+    <value />
+  </data>
+  <data name="ConfirmAdmissionAndNext" xml:space="preserve">
+    <value />
+  </data>
+  <data name="EnterTheMessage" xml:space="preserve">
+    <value />
+  </data>
+  <data name="FeeClassandDivisionWise" xml:space="preserve">
+    <value />
+  </data>
+  <data name="LeavingCertificateDetails" xml:space="preserve">
+    <value />
+  </data>
+  <data name="Preview" xml:space="preserve">
+    <value />
+  </data>
+  <data name="PreviousSchoolDetails" xml:space="preserve">
+    <value />
+  </data>
+  <data name="Print" xml:space="preserve">
+    <value />
+  </data>
+  <data name="SelectproperStudentId" xml:space="preserve">
+    <value />
+  </data>
+  <data name="SelectTheAppropriateStudentID" xml:space="preserve">
+    <value />
+  </data>
+  <data name="SendSMS" xml:space="preserve">
+    <value />
+  </data>
+  <data name="StudentAttendanceList" xml:space="preserve">
+    <value />
+  </data>
+  <data name="StudentTransaction" xml:space="preserve">
+    <value />
+  </data>
+  <data name="UpdateStudentDetails" xml:space="preserve">
+    <value />
+  </data>
+  <data name="AcademicYearDetails" xml:space="preserve">
+    <value />
+  </data>
+  <data name="AddAssets" xml:space="preserve">
+    <value />
+  </data>
+  <data name="Select" xml:space="preserve">
+    <value />
+  </data>
+  <data name="SelectQuantity" xml:space="preserve">
+    <value />
+  </data>
+  <data name="Invalidusernameorpassword" xml:space="preserve">
+    <value />
+  </data>
+  <data name="Licensecopynotfound" xml:space="preserve">
+    <value />
+  </data>
+  <data name="Licensedatehaspassed" xml:space="preserve">
+    <value />
+  </data>
+  <data name="Passwordchangedsuccessfully" xml:space="preserve">
+    <value />
+  </data>
+  <data name="Thelicensecopyisnotvalid" xml:space="preserve">
+    <value />
+  </data>
+  <data name="TheProvidedUserNameOrPasswordIsIncorrect" xml:space="preserve">
+    <value />
+  </data>
+  <data name="TheUserDoesNotExistOrTheProvidedUsernameOrPasswordIsIncorrect" xml:space="preserve">
+    <value />
+  </data>
+  <data name="Yourapplicationdescriptionpage" xml:space="preserve">
+    <value />
+  </data>
+  <data name="Yourcontactpage" xml:space="preserve">
+    <value />
+  </data>
+  <data name="NewAdmission" xml:space="preserve">
+    <value />
+  </data>
+  <data name="Studenttransferfrompreviousclass" xml:space="preserve">
+    <value />
+  </data>
+  <data name="Calculate" xml:space="preserve">
+    <value />
+  </data>
+  <data name="kumar" xml:space="preserve">
+    <value />
+  </data>
+  <data name="kumari" xml:space="preserve">
+    <value />
+  </data>
+  <data name="Word" xml:space="preserve">
+    <value />
+  </data>
+  <data name="BirthCertificate" xml:space="preserve">
+    <value />
+  </data>
+  <data name="Date" xml:space="preserve">
+    <value />
+  </data>
+  <data name="Place" xml:space="preserve">
+    <value />
+  </data>
+  <data name="Words" xml:space="preserve">
+    <value />
+  </data>
+  <data name="AssesmentYear" xml:space="preserve">
+    <value />
+  </data>
+  <data name="Condition" xml:space="preserve">
+    <value />
+  </data>
+  <data name="DesofAsset" xml:space="preserve">
+    <value />
+  </data>
+  <data name="PricePer" xml:space="preserve">
+    <value />
+  </data>
+  <data name="PurchaseDate" xml:space="preserve">
+    <value />
+  </data>
+  <data name="PricePerItem" xml:space="preserve">
+    <value />
+  </data>
+  <data name="Amount" xml:space="preserve">
+    <value />
+  </data>
+  <data name="ParticularName" xml:space="preserve">
+    <value />
+  </data>
+  <data name="TransactionType" xml:space="preserve">
+    <value />
+  </data>
+  <data name="Books" xml:space="preserve">
+    <value />
+  </data>
+  <data name="EcectronicDevices" xml:space="preserve">
+    <value />
+  </data>
+  <data name="Excellent" xml:space="preserve">
+    <value />
+  </data>
+  <data name="Furniture" xml:space="preserve">
+    <value />
+  </data>
+  <data name="Good" xml:space="preserve">
+    <value />
+  </data>
+  <data name="Lab" xml:space="preserve">
+    <value />
+  </data>
+  <data name="Others" xml:space="preserve">
+    <value />
+  </data>
+  <data name="Poor" xml:space="preserve">
+    <value />
+  </data>
+  <data name="Catagory" xml:space="preserve">
+    <value />
+  </data>
+  <data name="Clerk" xml:space="preserve">
+    <value />
+  </data>
+  <data name="Employee" xml:space="preserve">
+    <value />
+  </data>
+  <data name="HeadMaster" xml:space="preserve">
+    <value />
+  </data>
+  <data name="TeachingStaff" xml:space="preserve">
+    <value />
+  </data>
+  <data name="EmployeeCode" xml:space="preserve">
+    <value />
+  </data>
+  <data name="ContactNo" xml:space="preserve">
+    <value />
+  </data>
+  <data name="DOB" xml:space="preserve">
+    <value />
+  </data>
+  <data name="JoiningDate" xml:space="preserve">
+    <value />
+  </data>
+  <data name="ChqDDNumber" xml:space="preserve">
+    <value />
+  </data>
+  <data name="CustomerName" xml:space="preserve">
+    <value />
+  </data>
+  <data name="NarrationDetails" xml:space="preserve">
+    <value />
+  </data>
+  <data name="PaymentMode" xml:space="preserve">
+    <value />
+  </data>
+  <data name="Cash" xml:space="preserve">
+    <value />
+  </data>
+  <data name="Cheque" xml:space="preserve">
+    <value />
+  </data>
+  <data name="DD" xml:space="preserve">
+    <value />
+  </data>
+  <data name="Na" xml:space="preserve">
+    <value />
+  </data>
+  <data name="LeaveReport" xml:space="preserve">
+    <value />
+  </data>
+  <data name="AssetDetails" xml:space="preserve">
+    <value />
+  </data>
+  <data name="BalanceLeaves" xml:space="preserve">
+    <value />
+  </data>
+  <data name="CashBook" xml:space="preserve">
+    <value />
+  </data>
+  <data name="EmployeeFullNName" xml:space="preserve">
+    <value />
+  </data>
+  <data name="EmployeeId" xml:space="preserve">
+    <value />
+  </data>
+  <data name="FromDate" xml:space="preserve">
+    <value />
+  </data>
+  <data name="LeaveFromDate" xml:space="preserve">
+    <value />
+  </data>
+  <data name="LeaveToDate" xml:space="preserve">
+    <value />
+  </data>
+  <data name="LeaveType" xml:space="preserve">
+    <value />
+  </data>
+  <data name="Reason" xml:space="preserve">
+    <value />
+  </data>
+  <data name="ToDate" xml:space="preserve">
+    <value />
+  </data>
+  <data name="AssetReport" xml:space="preserve">
+    <value />
+  </data>
+  <data name="CashBookReport" xml:space="preserve">
+    <value />
+  </data>
+  <data name="LeaveApply" xml:space="preserve">
+    <value />
+  </data>
+  <data name="LeaveAssignment" xml:space="preserve">
+    <value />
+  </data>
+  <data name="Management" xml:space="preserve">
+    <value />
+  </data>
+  <data name="LeaveBalance" xml:space="preserve">
+    <value />
+  </data>
+  <data name="AnnualLeave" xml:space="preserve">
+    <value />
+  </data>
+  <data name="SickLeave" xml:space="preserve">
+    <value />
+  </data>
+  <data name="SelectEmployee" xml:space="preserve">
+    <value />
+  </data>
+  <data name="AddNewLeaves" xml:space="preserve">
+    <value />
+  </data>
+  <data name="indays" xml:space="preserve">
+    <value />
+  </data>
+</root>

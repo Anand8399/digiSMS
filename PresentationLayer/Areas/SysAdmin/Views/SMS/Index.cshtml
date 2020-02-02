@@ -1,0 +1,297 @@
+﻿@model PresentationLayer.Areas.SysAdmin.Models.StudentVM
+@using Telerik.Web.Mvc.UI
+@using myRes=PresentationLayer.LocalResource.Resource;
+@{  System.Threading.Thread.CurrentThread.CurrentUICulture = new System.Globalization.CultureInfo(System.Configuration.ConfigurationManager.AppSettings["Culture"].ToString());
+  System.Threading.Thread.CurrentThread.CurrentCulture = System.Threading.Thread.CurrentThread.CurrentUICulture;}
+@{
+    ViewBag.Title = myRes.SendSMS;
+}
+
+
+@section Scripts {
+    @*dataTyp: "html",*@
+    <script type="text/javascript">
+        $(document).ready(function () {
+
+            $("#btnShow").click(function () {
+
+                var ddlClassId = $('#ClassId').data('tDropDownList');
+                var ddlDivisionId = $('#DivisionId').data('tDropDownList');
+                var ddlReligionId = $('#ReligionId').data('tDropDownList');
+                var ddlCastId = $('#CastId').data('tDropDownList');
+                var ddlClassIdValue = 0;
+                var ddlDivisionIdValue = 0;
+                var ddlReligionIdValue = 0;
+                var ddlCastIdValue = 0;
+
+                if (ddlClassId.value() != '') {
+                    ddlClassIdValue = ddlClassId.value();
+                }
+                else {
+                    alert("@myRes.Please  @myRes.SelectClass")
+                    return;
+                }
+                if (ddlDivisionId.value() != '') {
+                    ddlDivisionIdValue = ddlDivisionId.value();
+                }
+                else {
+                    alert("@myRes.Please @myRes.SelectDivision")
+                    return;
+                }
+                if (ddlReligionId.value() != '') {
+                    ddlReligionIdValue = ddlReligionId.value();
+                }
+                else {
+                    alert("@myRes.Please @myRes.SelectReligion")
+                    return;
+                }
+                if (ddlCastId.value() != '') {
+                    ddlCastIdValue = ddlCastId.value();
+                }
+                else {
+                    alert("@myRes.Please@myRes.SelectCaste")
+                    return;
+                }
+
+                $('#result').load('@Url.Action("_GetStudentDetails")'
+                    , {ClassId: ddlClassIdValue, DivisionId: ddlDivisionIdValue, ReligionId: ddlReligionIdValue, CastId: ddlCastIdValue, Status: true }
+                    , function (response, status, xhr) {
+                        debugger;
+                        if (status != "success") {
+                            //$(container).html('an error has occured');
+                        }
+                    });
+
+            });// end show click event
+
+            $("#grid .t-grid-content").css("overflow-y", "scroll").css("overflow-x", "scroll").scroll(function () {
+                var left = $(this).scrollLeft();
+                var wrap = $("#grid > .t-grid-header-wrap");
+                if (wrap.scrollLeft() != left) wrap.scrollLeft(left);
+            }); // end grid code
+
+            $("#btnSendSMS").click(function () {
+
+                var ddlClassId = $('#ClassId').data('tDropDownList');
+                var ddlDivisionId = $('#DivisionId').data('tDropDownList');
+                var ddlReligionId = $('#ReligionId').data('tDropDownList');
+                var ddlCastId = $('#CastId').data('tDropDownList');
+                var ddlAcademicYearIdValue = 0;
+                var ddlClassIdValue = 0;
+                var ddlDivisionIdValue = 0;
+                var ddlReligionIdValue = 0;
+                var ddlCastIdValue = 0;
+                var selectedStudents = '';
+
+                if (ddlClassId.value() != '') {
+                    ddlClassIdValue = ddlClassId.value();
+                }
+                else {
+                    alert("@myRes.Please  @myRes.SelectClass")
+                    return;
+                }
+                if (ddlDivisionId.value() != '') {
+                    ddlDivisionIdValue = ddlDivisionId.value();
+                }
+                else {
+                    alert("@myRes.Please @myRes.SelectDivision")
+                    return;
+                }
+                if (ddlReligionId.value() != '') {
+                    ddlReligionIdValue = ddlReligionId.value();
+                }
+                else {
+                    alert("@myRes.Please @myRes.SelectReligion")
+                    return;
+                }
+                if (ddlCastId.value() != '') {
+                    ddlCastIdValue = ddlCastId.value();
+                }
+                else {
+                    alert("@myRes.Please@myRes.SelectCaste")
+                    return;
+                }
+                debugger;
+                if ($("#Remark").val() != '') {
+                    remark = $("#Remark").val();
+                }
+                else {
+                    alert("@myRes.EnterTheMessage")
+                    return;
+                }
+                var chks = $("#assignChkBx");
+                if (chks == null) {
+                    alert("@myRes.SelectStudentName")
+                    return;
+                }
+                if (chks.length == 0) {
+                    alert("@myRes.SelectStudentName")
+                    return;
+                }
+                $("input[id=assignChkBx]:checked").each(function () {
+                    selectedStudents += $(this).val() + ',';
+                });
+                if (selectedStudents == null) {
+                    alert("@myRes.SelectStudentName")
+                    return;
+                }
+                if (selectedStudents.length == 0) {
+                    alert("@myRes.SelectStudentName")
+                    return;
+                }
+                //$("#assignChkBx").val()
+                var form = $(this).serialize();
+                $.ajax({
+                    type: 'POST',
+                    url: '@Url.Action(myRes.index, myRes.SMS)',
+                    data: {
+                        formCollection: $("form").serialize(),
+                        message: $("#Remark").val(),
+                        assignChkBx: selectedStudents
+                    },
+                    success: function (data) {
+                        alert("@myRes.TheMessageHasBeenSent");
+                    }
+                });
+            });
+        })@* End document ready *@
+
+        function ddlClassChange(e) {
+
+            var ddlReligionId = $("#ReligionId").data('tDropDownList');
+            var ddlDivisionId = $("#DivisionId").data('tDropDownList');
+            var ddlCastId = $("#CastId").data('tDropDownList');
+            //var txtReserveCategory = $("#ReserveCategory");
+            debugger;
+            if (e.value != '') {
+
+                $.ajax({
+                    dataType: "json",
+                    url: '@Url.Action("GetReligionsList", "Student")',
+                    data: { AcademicYearId: e.value },
+                    success: function (divisionData) {
+                        ddlReligionId.dataBind(divisionData);
+                        ddlReligionId.select(0);
+                    }
+                });
+            }
+            else {
+
+                ddlReligionId.dataBind(null);
+                ddlDivisionId.dataBind(null);
+                ddlCastId.dataBind(null);
+                //  txtReserveCategory.val('');
+            }
+        }@*End Change*@
+
+        toggleSelection = function () {
+            var chk = document.getElementById('allBox').checked;
+            $(".box").prop("checked", chk);
+
+        }
+    </script>
+}
+<style>
+    table {
+        width: 100%;
+        /*background-color: gray;*/
+    }
+    /*table tr td{
+        width: 16.66%;
+    }*/
+
+    .tdfirst {
+        text-align: right;
+        width: 13%;
+    }
+
+    .tdthird {
+        text-align: right;
+        width: 10%;
+    }
+
+    .tdfive {
+        text-align: right;
+        width: 10%;
+    }
+
+    .backgrounddiv {
+        background-color: lightgray;
+        border-radius: 25px;
+        margin: 5px;
+        padding: 30px;
+    }
+</style>
+@using (Html.BeginForm())
+{
+    @*@Html.AntiForgeryToken()*@
+    <div class="form-horizontal">
+        <h4>@myRes.SendSMS</h4>
+
+        <hr>
+        @Html.ValidationSummary(true)
+        <table style="width:50%; padding:0px;">
+
+            <tr>
+                <td style="text-align:right">
+                    @Html.LabelFor(model => model.ClassId)
+                </td>
+                <td style="text-align:left">
+                    @Html.Telerik().DropDownListFor(model => model.ClassId).BindTo(Model.Classes).ClientEvents(events => events.OnChange("ddlClassChange")).CascadeTo("DivisionId").Placeholder(myRes.SelectClass)
+                    @Html.ValidationMessageFor(model => model.ClassId)
+                </td>
+                <td style="text-align:right">
+                    @Html.LabelFor(model => model.DivisionId)
+                </td>
+                <td style="text-align:left">
+                    @Html.Telerik().DropDownListFor(model => model.DivisionId).DataBinding(binding => binding.Ajax().Select("GetDivisionsList", "Student")).Placeholder(myRes.SelectDivision)
+                    @Html.ValidationMessageFor(model => model.DivisionId)
+                </td>
+            </tr>
+            <tr>
+                <td style="text-align:right">
+                    @Html.LabelFor(model => model.ReligionId)
+                </td>
+                <td style="text-align:left">
+                    @*@Html.Telerik().DropDownListFor(model => model.ReligionId).BindTo(Model.Religions).Placeholder("Select Religion ").CascadeTo("CastId")*@
+                    @Html.Telerik().DropDownListFor(model => model.ReligionId).Placeholder(myRes.SelectReligion).CascadeTo("CastId")
+                    @Html.ValidationMessageFor(model => model.ReligionId)
+                </td>
+                <td style="text-align:right">
+                    @Html.LabelFor(model => model.CastId)
+                </td>
+                <td style="text-align:left">
+                    @Html.Telerik().DropDownListFor(model => model.CastId).DataBinding(binding => binding.Ajax().Select("GetCastsList", "Student")).CascadeTo("CurrentDivisionId").Placeholder(myRes.SelectCaste)
+                    @Html.ValidationMessageFor(model => model.CastId)
+                </td>
+            </tr>
+            <tr>
+                <td style="text-align:right"></td>
+                <td style="text-align:left"></td>
+                <td colspan="4" style="text-align:center">
+                    <input type="button" id="btnShow" value=@myRes.Search class="t-button" />
+                    @if (TempData["Error"] != null)
+                    {
+                        <p style="color:red;">
+                            @(TempData["Error"].ToString())
+                        </p>
+                    }
+                </td>
+            </tr>
+            <tr>
+                <td style="text-align:right">@myRes.SMS<span style="font:2px; color:red;">*</span></td>
+                <td style="text-align:left">@Html.TextAreaFor(model => model.Remark)</td>
+                <td colspan="4" style="text-align:center">
+                    <input type="button" id="btnSendSMS" value=@myRes.SendSMS class="t-button" />
+                    @*<input type="submit" id="btnSendSMS" value="-Send-" class="t-button" />*@
+                </td>
+            </tr>
+        </table>
+        <div style="width: 100%; text-align:center;">
+            <div id="result" style="width: 90%; margin: 50px; text-align:left;"></div>
+        </div>
+
+
+    </div>
+}
+

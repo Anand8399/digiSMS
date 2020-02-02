@@ -1,0 +1,37 @@
+﻿@model Telerik.Web.Mvc.GridModel<PresentationLayer.Areas.SysAdmin.Models.StudentLedgerVM>
+@using Telerik.Web.Mvc.UI;
+@using myRes=PresentationLayer.LocalResource.Resource;
+@{  System.Threading.Thread.CurrentThread.CurrentUICulture = new System.Globalization.CultureInfo(System.Configuration.ConfigurationManager.AppSettings["Culture"].ToString());
+  System.Threading.Thread.CurrentThread.CurrentCulture = System.Threading.Thread.CurrentThread.CurrentUICulture;}
+<div>
+        @(Html.Telerik().Grid<PresentationLayer.Areas.SysAdmin.Models.StudentLedgerVM>(Model.Data)
+        .Name("Grid")
+        .DataKeys(keys => keys.Add(c => c.StudentId))
+        .EnableCustomBinding(true)
+        .Columns(columns =>
+        {
+            //columns.Bound(p => p.StudentLedgerId).Width(50).Hidden(true);
+            //columns.Bound(p => p.AcademicYearId).Width(100).Hidden(true);
+
+            //columns.Bound(p => p.StudentId).Hidden(true);
+            columns.Bound(p => p.StudentFullNameWithTitle).Width(150).Title(myRes.StudentFullNameWithTitle);
+            
+            columns.Bound(p => p.TransactionDate).Format("{0:dd-MM-yyyy}").Width(100).Title(myRes.TransactionDate);
+            //columns.Bound(p => p.FeeHeadId).Width(80).Hidden(true);
+            columns.Bound(p => p.FeeHeadName).Width(80).Title(myRes.FeeHeadName);
+            columns.Bound(p => p.Cr).Width(100).Title(myRes.Cr);
+            columns.Bound(p => p.Dr).Width(100).Title(myRes.Dr);
+            columns.Bound(p => p.HeadBalance).Width(80).Title(myRes.HeadBalance);
+            columns.Bound(p => p.Balance).Width(100).Title(myRes.Balance);
+            columns.Bound(p => p.BankName).Width(80).Title(myRes.BankName);
+            columns.Bound(p => p.ChequeNumber).Width(100).Title(myRes.ChequeNumber);
+            //columns.Bound(p => p.Status).Width(80).Hidden(true);
+            //columns.Bound(p => p.Remark).Width(100).Hidden(true);
+        }).Reorderable(command => command.Columns(true))
+            .Sortable()
+                .Resizable(command => command.Columns(true))
+                         .Pageable(paging => paging.Style(GridPagerStyles.NextPreviousAndNumeric | GridPagerStyles.PageInput | GridPagerStyles.PageSizeDropDown))
+                              .Scrollable(paging => paging.Height(300))
+                        .Filterable()
+    )
+</div>

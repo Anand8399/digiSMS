@@ -1,0 +1,162 @@
+﻿@model PresentationLayer.Areas.SysAdmin.Models.StudentClassChangeVM
+@using Telerik.Web.Mvc.UI;
+@using myRes=PresentationLayer.LocalResource.Resource;
+@{  System.Threading.Thread.CurrentThread.CurrentUICulture = new System.Globalization.CultureInfo(System.Configuration.ConfigurationManager.AppSettings["Culture"].ToString());
+  System.Threading.Thread.CurrentThread.CurrentCulture = System.Threading.Thread.CurrentThread.CurrentUICulture;}
+@{
+    ViewBag.Title =myRes.index;
+}
+@section Scripts {
+    @*dataTyp: "html",*@
+    <script type="text/javascript">
+        $(document).ready(function () {
+            $("#btnShow").click(function () {
+                
+                var previousClassId = $('#PreviousClassId').data('tDropDownList');
+                var previousDivisionId = $('#PreviousDivisionId').data('tDropDownList');
+
+                var ddlPreviousClassId = 0;
+                var ddlPreviousDivisionId = 0;
+
+                if (previousClassId.value() == '') {
+                    alert("@myRes.SelectCurrentClass");
+                    return false;                    
+                }
+                if (previousDivisionId.value() == '') {
+                    alert("@myRes.SelectCurrentDivision");
+                    return false;                    
+                }
+                ddlPreviousClassId = previousClassId.value();
+                ddlPreviousDivisionId = previousDivisionId.value();
+
+
+                debugger;
+
+                $('#result').load('@Url.Action("_GetStudentDetails", "StudentClassChange")'
+                    , { ClassId: ddlPreviousClassId, DivisionId: ddlPreviousDivisionId }
+                    , function (response, status, xhr) {
+                        if (status != "success") {
+                            $(container).html('an error has occured');
+                        }
+                    });
+
+            });
+            $("#grid .t-grid-content").css("overflow-y", "scroll").css("overflow-x", "scroll").scroll(function () {
+                var left = $(this).scrollLeft();
+                var wrap = $("#grid > .t-grid-header-wrap");
+                if (wrap.scrollLeft() != left) wrap.scrollLeft(left);
+            });
+          
+        })
+
+        toggleSelection = function () {
+            var chk = document.getElementById('allBox').checked;
+            $(".box").prop("checked", chk);
+            debugger;
+            $("#NoOfSelectedRecords").val(chk.length);
+        }
+
+        function doSubmit() {
+
+            var previousClassId = $('#PreviousClassId').data('tDropDownList');
+            var previousDivisionId = $('#PreviousDivisionId').data('tDropDownList');
+
+            var currentClassId = $('#CurrentClassId').data('tDropDownList');
+            var currentDivisionId = $('#CurrentDivisionId').data('tDropDownList');
+
+
+            var ddlPreviousClassId = 0;
+            var ddlPreviousDivisionId = 0;
+
+            var ddlCurrentClassId = 0;
+            var ddlCurrentDivisionId = 0;
+            debugger;
+
+
+            if (previousClassId.value() != '') {
+                alert("@myRes.SelectCurrentClass");
+                return false;
+            }
+            if (previousDivisionId.value() != '') {
+                alert("@myRes.SelectCurrentDivision");
+                return false;
+            }
+
+
+            if (currentClassId.value() != '') {
+                alert("@myRes.SelectNextClass");
+                return false;
+            }
+            if (currentDivisionId.value() != '') {
+                alert("@myRes.SelectNextDivision");
+                return false;
+            }
+
+            if (window.confirm("@myRes.YouAreWorkingForThisAction")) {
+                return true;
+            }
+            else return false;
+        }
+    </script>
+}
+@using (Html.BeginForm())
+{
+    @Html.AntiForgeryToken()
+
+    
+    <div class="form-horizontal">
+        <h4>@myRes.ClassAndDivisionChange</h4>
+        <hr />
+
+        @Html.ValidationSummary(true)
+        <table style="width:100%; column-span:10;">
+            <tr>
+
+                <td style="text-align:right">
+                    @Html.LabelFor(model => model.PreviousClassId)
+                </td>
+                <td style="text-align:left">
+                    @Html.Telerik().DropDownListFor(model => model.PreviousClassId).BindTo(Model.Classes).CascadeTo("PreviousDivisionId").Placeholder(myRes.SelectClass)
+                    @Html.ValidationMessageFor(model => model.PreviousClassId)
+                </td>
+                <td style="text-align:right">
+                    @Html.LabelFor(model => model.PreviousDivisionId)
+                </td>
+                <td style="text-align:left">
+                    @Html.Telerik().DropDownListFor(model => model.PreviousDivisionId).DataBinding(binding => binding.Ajax().Select("GetDivisionsList", "StudentClassChange")).Placeholder(myRes.SelectDivision)
+                    @Html.ValidationMessageFor(model => model.PreviousDivisionId)
+                </td>
+            </tr>
+            <tr>
+
+                <td style="text-align:right">
+                    @Html.LabelFor(model => model.CurrentClassId)
+                </td>
+                <td style="text-align:left">
+                    @Html.Telerik().DropDownListFor(model => model.CurrentClassId).BindTo(Model.Classes).CascadeTo("CurrentDivisionId").Placeholder(myRes.SelectClass)
+                    @Html.ValidationMessageFor(model => model.CurrentClassId)
+                </td>
+                <td style="text-align:right">
+                    @Html.LabelFor(model => model.CurrentDivisionId)
+                </td>
+                <td style="text-align:left">
+                    @Html.Telerik().DropDownListFor(model => model.CurrentDivisionId).DataBinding(binding => binding.Ajax().Select("GetCurrentDivisionsList", "StudentClassChange")).Placeholder(myRes.SelectDivision)
+                    @Html.ValidationMessageFor(model => model.CurrentDivisionId)
+                </td>
+            </tr>
+            <tr>
+                <td colspan="6" style="text-align:center">
+                    @*@Html.TextBoxFor(model=> model.NoOfSelectedRecords)
+    @Html.ValidationMessageFor(model => model.NoOfSelectedRecords)*@
+                    <input type="button" id="btnShow" value=@myRes.Show class="btn btn-success" />
+                    <input type="submit" id="btnClassChange" value="@myRes.ClassChange" class="t-button" onclick="return confirm("@myRes.AreYouSureYouWishToContinue")" />
+                </td>
+            </tr>
+            <tr>
+                <td colspan="6" style="text-align:center">
+                    <div id="result" style="width: 90%; margin: 50px;"></div>
+                </td></tr>
+            
+        </table>
+    </div>
+}

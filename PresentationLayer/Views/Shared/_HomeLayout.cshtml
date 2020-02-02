@@ -1,0 +1,102 @@
+﻿@using Telerik.Web.Mvc.UI;
+@using PresentationLayer.Helpers;
+@using myRes=PresentationLayer.LocalResource.Resource;
+<html>
+<head>
+    <meta charset="utf-8" />
+    <meta http-equiv="Cache-control" content="NO-CACHE">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <link rel="icon" href="@Url.Content("~/favicon.ico")">
+    <title>@myRes.SMS| @ViewBag.Title</title>
+    @Styles.Render("~/Content/css")
+    @Scripts.Render("~/bundles/modernizr")
+    @Scripts.Render("~/bundles/jquery")
+    @Scripts.Render("~/bundles/bootstrap")
+        @( Html.Telerik().StyleSheetRegistrar()
+               .DefaultGroup(group => group
+                                                          .Add("2013.2.611/telerik.common.css")
+                                                          .Add("2013.2.611/telerik.vista.css")
+                                                          .Add("2013.2.611/telerik.rtl.css")
+                                          .Combined(true)
+                                          .Compress(true)))
+    @RenderSection("scripts", required: false)
+
+    @if (!string.IsNullOrEmpty(Convert.ToString(TempData["AlertMessage"])))
+    {
+        <script type="text/javascript">
+
+            showAlertDialog = function () {
+                BootstrapDialog.show({
+                    message: TempData["AlertMessage"]
+                });
+                @*AlertDialog.ShowWindow({
+                    message: "@Convert.ToString(TempData["AlertMessage"])",
+                    icon: MessageBoxDialogs.InfoIcon
+                });*@
+            }
+        </script>
+    }
+    else
+    {
+        <script type="text/javascript">
+            showAlertDialog = function () {
+                return true;
+            }
+        </script>
+    }
+    <style>
+        #blackBar {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 60px;
+            background-color: black;
+        }
+    </style>
+</head>
+
+<body onload="showAlertDialog();" style="background-image: url('../Images/School-for-Peace-logo-no-words.png'); background-repeat:no-repeat; background-position:top;">
+    <div class="t-widget t-header" style="width:100%;">
+        <div style="width:50%; float:left;">
+            <img src="~/Images/School-for-Peace-logo-no-words.png" style="width:50px;" />
+            <center><h6>।। न हि ज्ञानेन सदृशं पवित्रमिह विद्यते ।।</h6></center>
+<h2>श्री अनंतपाळ नूतन विद्यालय,</h2>
+<h4> शिरूर अनंतपाळ,लातूर.</h4>
+            <img src="~/Images/School-for-Peace-logo-no-words.png" style="width:50px;" />
+        </div>
+        <div style="width: 38%; text-align: right; ">
+            @if (SessionHelper.UserId != null)
+            {
+                string title = string.Empty;
+                string userid = string.Empty;
+                string userName = string.Empty;
+
+                title = SessionHelper.Title;
+                userid = SessionHelper.UserId.ToString();
+                userName = SessionHelper.Username;
+
+                @userid <span>-</span> @userName
+            }
+        </div>
+    </div>
+    <div>
+        <div id="_MenuPartial">
+            @if (SessionHelper.IsAuthenticated)
+            {
+                Html.RenderPartial("_MenuPartial");
+            }
+        </div>
+        <div>
+            @RenderBody()
+        </div>
+    </div>
+    @(Html.Telerik().ScriptRegistrar().DefaultGroup(group => group.DefaultPath("~/Scripts/2013.2.611")))
+    @*@Scripts.Render("~/bundles/jqueryui")*@
+    <script type="text/javascript">
+        function confirmDelete() {
+            return confirm(@myRes.ConformationBox_Delete);
+        }
+    </script>
+</body>
+</html>

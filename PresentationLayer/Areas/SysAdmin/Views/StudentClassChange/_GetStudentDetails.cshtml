@@ -1,0 +1,28 @@
+﻿@model Telerik.Web.Mvc.GridModel<PresentationLayer.Areas.SysAdmin.Models.StudentClassChangeSubVM>
+@using Telerik.Web.Mvc.UI;
+@{  System.Threading.Thread.CurrentThread.CurrentUICulture = new System.Globalization.CultureInfo(System.Configuration.ConfigurationManager.AppSettings["Culture"].ToString());
+  System.Threading.Thread.CurrentThread.CurrentCulture = System.Threading.Thread.CurrentThread.CurrentUICulture;}
+
+<div>
+    @(Html.Telerik().Grid<PresentationLayer.Areas.SysAdmin.Models.StudentClassChangeSubVM>(Model.Data)
+        .Name("Grid")
+        .DataKeys(keys => keys.Add(c => c.StudentId))
+        .EnableCustomBinding(true)
+        .Columns(columns =>
+        {
+            columns.Template(@<text><input class="box"  id="assignChkBx" name="assignChkBx" type="checkbox" value="@item.StudentId"/></text>)
+            .HeaderTemplate(@<text><input class="selectAll" type="checkbox" id="allBox" onclick="toggleSelection()"/></text>).Width(20);
+            columns.Bound(p => p.StudentId).Hidden(true);
+            columns.Bound(p => p.RegisterId).Width(100);
+            columns.Bound(p => p.StudentFullNameWithTitle).Width(300);
+        })
+                                .Reorderable(command => command.Columns(true))
+            .Sortable()
+                .Resizable(command => command.Columns(true))
+                                 .Pageable(paging => paging.Style(GridPagerStyles.NextPreviousAndNumeric | GridPagerStyles.PageInput | GridPagerStyles.PageSizeDropDown))
+                                              .Scrollable(paging => paging.Height(300))
+                                        .Filterable()
+                //.Scrollable() ---befor only this 
+                //pagable and scroabble added here
+    )
+</div>

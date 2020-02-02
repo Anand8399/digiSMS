@@ -1,0 +1,53 @@
+﻿@model Telerik.Web.Mvc.GridModel<PresentationLayer.Areas.SysAdmin.Models.EmployeeVM>
+@using Telerik.Web.Mvc.UI
+@using myRes = PresentationLayer.LocalResource.Resource;
+@{  System.Threading.Thread.CurrentThread.CurrentUICulture = new System.Globalization.CultureInfo(System.Configuration.ConfigurationManager.AppSettings["Culture"].ToString());
+  System.Threading.Thread.CurrentThread.CurrentCulture = System.Threading.Thread.CurrentThread.CurrentUICulture;}
+@{
+    ViewBag.Title = myRes.index;
+}
+
+<h2>@myRes.index-@myRes.Employee</h2>
+
+@(Html.Telerik().Grid<PresentationLayer.Areas.SysAdmin.Models.EmployeeVM>(Model.Data)
+        .Name("Grid")
+            .DataKeys(keys => keys.Add(c => c.EmployeeId))
+                    .ToolBar(commands => commands.Custom().Action("Create", "Employee", new { area = "SysAdmin" }).ImageHtmlAttributes(new { @class = "t-add" }).ButtonType(GridButtonType.Image).HtmlAttributes(new { title = "Add", id = "Add", @class = "RightAlign" }))
+
+        .DataBinding(dataBinding =>
+            dataBinding.Ajax()
+                                                        .Select("Select", "Employee", new { area = "SysAdmin", GridButtonType.Text })
+                                                    .Update("Edit", "Employee", new { area = "SysAdmin", GridButtonType.Text }))
+        .Columns(columns =>
+        {
+            columns.Command(commands =>
+            {
+                commands.Custom("Edit").Action("Edit", "Employee", new { area = "SysAdmin" }).ImageHtmlAttributes(new { @class = "t-edit" }).ButtonType(GridButtonType.Image).HtmlAttributes(new { title = "Edit" });
+            }).Width(50).Title(myRes.Update);
+
+            //columns.Command(commands =>
+            //{
+            //    commands.Custom("Delete").Action("Delete", "District", new { area = "SysAdmin" }).ImageHtmlAttributes(new { @onclick = "return confirmDelete()", @class = "t-delete" }).ButtonType(GridButtonType.Image).HtmlAttributes(new { title = "Delete", @class = "RightAlign" });
+            //}).Width(50).Title("Delete");
+
+            columns.Bound(p => p.EmployeeCode);
+            columns.Bound(p => p.FirstName);
+            columns.Bound(p => p.MiddleName);
+            columns.Bound(p => p.LastName);
+            columns.Bound(p => p.Category);
+            columns.Bound(p => p.Address);
+            columns.Bound(p => p.ContactNo);
+            columns.Bound(p => p.DOB).Format("{0:dd-MM-yyyy}").Width(100);
+            columns.Bound(p => p.JoiningDate).Format("{0:dd-MM-yyyy}").Width(100);
+        })
+            .Pageable(paging => paging.Style(GridPagerStyles.NextPreviousAndNumeric | GridPagerStyles.PageInput | GridPagerStyles.PageSizeDropDown))
+                      .Scrollable(paging => paging.Height(300))
+                                .Reorderable(command => command.Columns(true))
+            .Sortable()
+                .Filterable()
+                .Resizable(command => command.Columns(true))
+)
+
+
+
+

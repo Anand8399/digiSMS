@@ -1,0 +1,133 @@
+﻿@model PresentationLayer.Areas.SysAdmin.Models.FeeClassDivisionVM
+@using Telerik.Web.Mvc.UI;
+@using myRes=PresentationLayer.LocalResource.Resource;
+@using PresentationLayer.Other;
+@{  System.Threading.Thread.CurrentThread.CurrentUICulture = new System.Globalization.CultureInfo(System.Configuration.ConfigurationManager.AppSettings["Culture"].ToString());
+  System.Threading.Thread.CurrentThread.CurrentCulture = System.Threading.Thread.CurrentThread.CurrentUICulture;}
+@{
+    ViewBag.Title = myRes.Create;
+}
+
+@section Scripts {
+    <script type="text/javascript">
+        $(document).ready(function () {
+            //$("#Show").addClass('t-button');
+        })@* End document ready *@
+
+        function ddlDivisionChange(e) {
+            var ddlDivision = $(this).data('tDropDownList'); // $(this) is equivalent to $('#ComboBox')
+
+
+            $.ajax({
+                dataType: "json",
+                url: '@Url.Action("GetFeeHeadList")',
+                success: function (feeHeadData) {
+                    var ddlFeeHead = $("#FeeHeadId").data('tDropDownList');
+                    ddlFeeHead.dataBind(feeHeadData);
+                    ddlFeeHead.select(0);
+                }
+            });
+        }@* End onLoad *@
+    </script>
+}
+
+<style>
+    table {
+        width: 100%;
+        /*background-color: gray;*/
+    }
+    /*table tr td{
+        width: 16.66%;
+    }*/
+
+    .tdfirst {
+        text-align: right;
+        width: 13%;
+    }
+
+    .tdthird {
+        text-align: right;
+        width: 10%;
+    }
+
+    .tdfive {
+        text-align: right;
+        width: 10%;
+    }
+
+    .backgrounddiv {
+        background-color: lightgray;
+        border-radius: 25px;
+        margin: 5px;
+        padding: 5px;
+    }
+</style>
+
+@using (Html.BeginForm())
+{
+    @Html.AntiForgeryToken()
+
+    <div class="form-horizontal">
+        <h4>@myRes.Create- @myRes.FeeClassandDivisionWise</h4>
+        <hr />
+        
+        @Html.ValidationSummary(true)
+
+        <div class="backgrounddiv">
+            <table>
+                <tr>
+                    <td class="tdfirst">@Html.LabelForRequired(model => model.ClassId)</td>
+                    <td>
+                        @Html.Telerik().DropDownListFor(model => model.ClassId).BindTo(Model.Classes).CascadeTo("DivisionId").Placeholder(myRes.SelectClass)
+                        @Html.ValidationMessageFor(model => model.ClassId)
+                    </td>
+                </tr>
+                <tr>
+                    <td class="tdfirst">@Html.LabelForRequired(model => model.DivisionId)</td>
+                    <td>
+                        @Html.Telerik().DropDownListFor(model => model.DivisionId).DataBinding(binding => binding.Ajax().Select("GetDivisionsList", "Student")).ClientEvents(events => events.OnChange("ddlDivisionChange")).Placeholder(myRes.SelectDivision)
+                        @Html.ValidationMessageFor(model => model.DivisionId)
+                    </td>
+                </tr>
+                <tr>
+                    <td class="tdfirst">@Html.LabelForRequired(model => model.FeeHeadId)</td>
+                    <td>
+                        @Html.Telerik().DropDownListFor(model => model.FeeHeadId).Placeholder(myRes.Select )
+                        @*.BindTo(Model.Fees)*@
+                        @Html.ValidationMessageFor(model => model.FeeHeadId)
+                    </td>
+                </tr>
+                <tr>
+                    <td class="tdfirst">@Html.LabelForRequired(model => model.AmountInYearly)</td>
+                    <td>
+                        @Html.TextBoxFor(model => model.AmountInYearly, new { @type = "number" })
+                        @Html.ValidationMessageFor(model => model.AmountInYearly)
+                    </td>
+                </tr>
+                <tr>
+                    <td class="tdfirst">@Html.LabelForRequired(model => model.Status)</td>
+                    <td>
+                        @Html.EditorFor(model => model.Status)
+                        @Html.ValidationMessageFor(model => model.Status)
+                    </td>
+                </tr>
+                <tr>
+                    <td class="tdfirst">@Html.LabelForRequired(model => model.Remark)</td>
+                    <td>
+                        @Html.EditorFor(model => model.Remark)
+                        @Html.ValidationMessageFor(model => model.Remark)
+                    </td>
+                </tr>
+                <tr><td class="tdfirst"></td><td></td></tr>
+            </table>
+        </div>
+
+        <div class="form-group">
+            <div class="col-md-offset-2 col-md-10">
+                <input type="submit" value=@myRes.Create class="btn btn-success" />
+                @Html.ActionLink(myRes.BackToList, "Index", new { }, new { @class = "btn btn-default" })
+            </div>
+        </div>
+        
+    </div>
+}

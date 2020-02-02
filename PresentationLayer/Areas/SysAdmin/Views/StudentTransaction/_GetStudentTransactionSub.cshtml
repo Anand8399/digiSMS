@@ -1,0 +1,69 @@
+﻿@model IEnumerable<PresentationLayer.Areas.SysAdmin.Models.StudentTransactionSubVM>
+@using Telerik.Web.Mvc.UI;
+@using myRes=PresentationLayer.LocalResource.Resource;
+@{  System.Threading.Thread.CurrentThread.CurrentUICulture = new System.Globalization.CultureInfo(System.Configuration.ConfigurationManager.AppSettings["Culture"].ToString());
+  System.Threading.Thread.CurrentThread.CurrentCulture = System.Threading.Thread.CurrentThread.CurrentUICulture;}
+@section Scripts {
+    <script type="text/javascript">
+        $(document).ready(function () {
+
+        })</script>}
+
+<table class="table">
+    <tr style="background-color:skyblue">
+
+        <th>
+            @Html.DisplayNameFor(model => model.FeeHeadName)
+        </th>
+
+        <th>
+            @Html.DisplayNameFor(model => model.Cr)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.Dr)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.Balance)
+        </th>
+
+    </tr>
+
+    @foreach (var item in Model)
+{
+    <tr style="background-color:lightblue;">
+        <td>
+            @Html.HiddenFor(modelItem => item.StudentTransactionId)
+            @Html.HiddenFor(modelItem => item.FeeHeadId)
+            @Html.TextBoxFor(modelItem => item.FeeHeadName, new { @readonly = "readonly", @Style = "width:100px;" })
+            @*@Html.Telerik().DropDownListFor(modelItem => item.FeeHeadId).BindTo(item.Fees).Placeholder("Select Fee Head")*@
+        </td>
+
+        <td>
+            @Html.TextBoxFor(modelItem => item.Cr, new { @Style = "width:100px;", @onblur = "checkNumeric(this)" })
+            @*@Html.Telerik().NumericTextBoxFor(modelItem => item.Cr).HtmlAttributes(new { @Style = "width:100px;" })*@
+        </td>
+        <td>
+            @Html.TextBoxFor(modelItem => item.Dr, new { @Style = "width:100px;", @onblur = "checkNumeric(this)" })
+        </td>
+        <td>
+            @Html.TextBoxFor(modelItem => item.Balance, new { @readonly = "readonly", @Style = "width:100px;" })
+        </td>
+
+    </tr>
+}
+
+    <tr>
+        <td>
+            <input type="button" value=@myRes.Calculate id="Calculate" class="t-button" title="Click on Calculate button" /> Total
+        </td>
+
+        <td>
+            @Html.TextBox("txtTotalCr", 0, new { @readonly = "readonly", @Style = "width:100px;" })
+        </td>
+        <td>
+            @Html.TextBox("txtTotalDr", 0, new { @readonly = "readonly", @Style = "width:100px;" })
+        </td>
+        <td></td>
+
+    </tr>
+</table>

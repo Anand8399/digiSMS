@@ -1,0 +1,56 @@
+﻿@model Telerik.Web.Mvc.GridModel<PresentationLayer.Areas.SysAdmin.Models.StudentAddressVM>
+@using Telerik.Web.Mvc.UI
+@using myRes = PresentationLayer.LocalResource.Resource;
+
+@{  System.Threading.Thread.CurrentThread.CurrentUICulture = new System.Globalization.CultureInfo(System.Configuration.ConfigurationManager.AppSettings["Culture"].ToString());
+  System.Threading.Thread.CurrentThread.CurrentCulture = System.Threading.Thread.CurrentThread.CurrentUICulture;}
+@{
+    ViewBag.Title = myRes.index;
+}
+
+
+<h2>@myRes.DetailsStudentAddress</h2>
+
+@(Html.Telerik().Grid<PresentationLayer.Areas.SysAdmin.Models.StudentAddressVM>(Model.Data)
+        .Name("Grid")
+        .DataKeys(keys => keys.Add(c => c.StudentId))
+                    .ToolBar(commands => commands.Custom().Action("Create", "StudentAddress", new { area = "SysAdmin" }).ImageHtmlAttributes(new { @class = "t-add" }).ButtonType(GridButtonType.Image).HtmlAttributes(new { title = "Add", id = "Add", @class = "RightAlign" }))
+
+        .DataBinding(dataBinding =>
+            dataBinding.Ajax()
+                                                    .Select("Select", "StudentAddress", new { area = "SysAdmin", GridButtonType.Text })
+                                                .Update("Edit", "StudentAddress", new { area = "SysAdmin", GridButtonType.Text }))
+        .Columns(columns =>
+        {
+            columns.Command(commands =>
+            {
+                commands.Custom("Edit").Action("Edit", "StudentAddress", new { area = "SysAdmin" }).ImageHtmlAttributes(new { @class = "t-edit" }).ButtonType(GridButtonType.Image).HtmlAttributes(new { title = "Edit" });
+            }).Width(40).Title("Edit");
+
+            columns.Command(commands =>
+            {
+                commands.Custom("Delete").Action("Delete", "StudentAddress", new { area = "SysAdmin" }).ImageHtmlAttributes(new { @onclick = "return confirmDelete()", @class = "t-delete" }).ButtonType(GridButtonType.Image).HtmlAttributes(new { title = "Delete", @class = "RightAlign" });
+            }).Width(50).Title("Delete");
+
+            columns.Bound(p => p.StudentId);
+            columns.Bound(p => p.StudentFullNameWithTitle);
+            columns.Bound(p => p.CurrentAddress);
+            columns.Bound(p => p.CurrentCountryName);
+            columns.Bound(p => p.CurrentStateName);
+            columns.Bound(p => p.CurrentDistrictName);
+            columns.Bound(p => p.CurrentCityName);
+            columns.Bound(p => p.PermentAddress);
+            columns.Bound(p => p.PermentCountryName);
+            columns.Bound(p => p.PermentStateName);
+            columns.Bound(p => p.PermentDistrictName);
+            columns.Bound(p => p.PermentCityName); 
+            columns.Bound(p => p.Status);
+            columns.Bound(p => p.Remark);
+        })
+            .Pageable(paging => paging.Style(GridPagerStyles.NextPreviousAndNumeric | GridPagerStyles.PageInput | GridPagerStyles.PageSizeDropDown))
+                      .Scrollable(paging => paging.Height(300))
+                                .Reorderable(command => command.Columns(true))
+            .Sortable()
+                .Filterable()
+                .Resizable(command => command.Columns(true))
+)
